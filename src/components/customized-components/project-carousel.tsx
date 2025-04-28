@@ -14,8 +14,29 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) =>
     const [currentPage, setCurrentPage] = useState(0);
     const [active, setActive] = useState<ProjectType | null>(null);
     const [currentImage, setCurrentImage] = useState<string | null>(null);
+    const [projectsPerPage, setProjectsPerPage] = useState(8);
     const id = useId();
     const ref = useRef<HTMLDivElement>(null);
+
+    // Responsive grid calculation
+    useEffect(() => {
+        const calculateProjectsPerPage = () => {
+            const width = window.innerWidth;
+            if (width >= 1920) return 8; // HD and larger
+            if (width >= 1280) return 6; // Large screens
+            if (width >= 1024) return 4; // Medium screens
+            return 3; // Mobile and small screens
+        };
+
+        setProjectsPerPage(calculateProjectsPerPage());
+
+        const handleResize = () => {
+            setProjectsPerPage(calculateProjectsPerPage());
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     // Reset current image when active project changes
     useEffect(() => {
@@ -41,20 +62,6 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) =>
 
     // Outside click handler for modal
     useOutsideClick(ref, () => setActive(null));
-
-    // Responsive grid calculation
-    const getProjectsPerPage = () => {
-        if (typeof window === "undefined") return 8; // Default for SSR
-
-        const width = window.innerWidth;
-        if (width >= 1920) return 8; // HD and larger
-        if (width >= 1280) return 6; // Large screens
-        if (width >= 1024) return 4; // Medium screens
-        return 3; // Mobile and small screens
-    };
-
-    // Memoize the projects per page to avoid unnecessary recalculations
-    const projectsPerPage = useMemo(getProjectsPerPage, []);
 
     // Calculate total pages
     const totalPages = Math.ceil(projects.length / projectsPerPage);
