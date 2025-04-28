@@ -1,51 +1,64 @@
 "use client";
+
 import React, { useState } from "react";
-import { Sidebar, SidebarBody, SidebarLink } from "../ui/sidebar";
-import { IconArrowLeft, IconBrandTabler, IconSettings, IconUserBolt } from "@tabler/icons-react";
+import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
+import { IconBriefcase, IconAddressBook, IconSchool, IconListCheck, IconStar, IconFlask } from "@tabler/icons-react";
 import { motion } from "motion/react";
-import { cn } from "@/lib/utils";
 
 export function MainSidebar() {
     const links = [
         {
-            label: "Dashboard",
-            href: "#",
-            icon: <IconBrandTabler className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />,
+            label: "About",
+            href: "/about",
+            icon: <IconAddressBook className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />,
         },
         {
-            label: "Profile",
-            href: "#",
-            icon: <IconUserBolt className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />,
+            label: "Contact",
+            href: "/contact",
+            icon: <IconListCheck className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />,
         },
         {
-            label: "Settings",
-            href: "#",
-            icon: <IconSettings className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />,
+            label: "Experience",
+            href: "/experience",
+            icon: <IconBriefcase className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />,
         },
         {
-            label: "Logout",
-            href: "#",
-            icon: <IconArrowLeft className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />,
+            label: "Projects",
+            href: "/projects",
+            icon: <IconStar className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />,
+        },
+        {
+            label: "Skills",
+            href: "/skills",
+            icon: <IconSchool className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />,
+        },
+        {
+            label: "Testing",
+            href: "/testing",
+            icon: <IconFlask className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />,
         },
     ];
+
     const [open, setOpen] = useState(false);
+
     return (
-        <Sidebar open={open} setOpen={setOpen} animate={false}>
+        <Sidebar open={open} setOpen={setOpen}>
             <SidebarBody className="justify-between gap-10">
+                {/* Top: Logo + Navigation */}
                 <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
-                    <>
-                        <Logo />
-                    </>
+                    <Logo />
                     <div className="mt-8 flex flex-col gap-2">
                         {links.map((link, idx) => (
                             <SidebarLink key={idx} link={link} />
                         ))}
                     </div>
                 </div>
+
+                {/* Bottom: Avatar */}
                 <div>
                     <SidebarLink
                         link={{
-                            label: "Manu Arora",
+                            label: "Malcolm",
                             href: "#",
                             icon: (
                                 <img
@@ -63,20 +76,14 @@ export function MainSidebar() {
         </Sidebar>
     );
 }
+
 export const Logo = () => {
     return (
-        <a href="#" className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black">
+        <a href="/" className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black">
             <div className="h-5 w-6 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-black dark:bg-white" />
             <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="font-medium whitespace-pre text-black dark:text-white">
-                Acet Labs
+                Malcolm
             </motion.span>
-        </a>
-    );
-};
-export const LogoIcon = () => {
-    return (
-        <a href="#" className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black">
-            <div className="h-5 w-6 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-black dark:bg-white" />
         </a>
     );
 };
