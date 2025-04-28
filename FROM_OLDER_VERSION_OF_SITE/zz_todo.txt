@@ -1,0 +1,39 @@
+portfolio to do:
+
+react-icons
+
+Home:
+    - fill out
+    - edit photo
+    - make text type/animate text
+
+About:
+    - Fill content
+    - Add pics
+
+Navbar:
+    - Styling
+    - Mobile burger menu
+    - Change hover: to color of page
+    - Change Selected navbar item to unique color
+
+All: *
+    - Find text/font to use
+    - Transition between screens
+    - Color palate
+
+Experience:
+    - Add: Trello, Agile Methodologies, Unit Testing, Pair programming, Ubuntu, OSX, Windows, PyCharm,
+CLion, VSCode, IntelliJ, VS, MATLAB, MATLAB and RobotC for an EV3 platform, JQuery, Node.js, Express, Mongoose, Bootstrap, Firebase, MongoDB, RESTful APIs, Figma
+
+
+* Need to add education to it, as well
+
+
+	- Site: Load up pics, load up resume, load up fonts and color palate, load up general layout and remove styles for site. 
+    Also, use gpt to write stuff for the intro and about me page and to edit all stuff. Also, load up/collect links for three.js icons and stuff
+
+
+- Load pics
+- Load fonts
+- Get gpt to help write pages
