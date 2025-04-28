@@ -1,19 +1,15 @@
-// import { useEffect } from "react"
-import { experienceData } from "../data/data";
+"use client";
+
+import React from "react";
+import { experienceData } from "@/data/data";
 
 const ExperienceItems = () => {
     return (
         <div className="flex flex-wrap gap-8 justify-center">
             {experienceData.map((job) => (
-                <div
-                    key={job.id}
-                    className=" text-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow flex items-center">
+                <div key={job.id} className=" text-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow flex items-center">
                     {/* Company Logo */}
-                    <img
-                        src={job.logo}
-                        alt={`${job.company} logo`}
-                        className="w-24 h-24 rounded-full mr-6"
-                    />
+                    <img src={job.logo} alt={`${job.company} logo`} className="w-24 h-24 rounded-full mr-6" />
 
                     {/* Job Details */}
                     <div>
@@ -37,19 +33,13 @@ const ExperienceItems = () => {
     );
 };
 
-const Experience = () => {
-    // useEffect(() => {
-    //     if (window.updateVantaColor) {
-    //         window.updateVantaColor(0x9370db)
-    //     }
-    // }, [])
-
+const ExperiencePage = () => {
     return (
         <section className="min-h-screen">
             {/* Section Title */}
             <div className="container mx-auto text-center">
                 <h1>Experience</h1>
-                <p>Here’s a summary of my professional experience.</p>
+                <p>Here&apos;s a summary of my professional experience.</p>
             </div>
 
             {/* Experience Items */}
@@ -60,4 +50,4 @@ const Experience = () => {
     );
 };
 
-export default Experience;
+export default ExperiencePage;

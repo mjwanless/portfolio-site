@@ -1,12 +1,3 @@
-export const navLinks = [
-    { id: 1, name: "Home", href: "/" },
-    { id: 2, name: "About", href: "/about" },
-    { id: 3, name: "Projects", href: "/projects" },
-    { id: 4, name: "Skills", href: "/skills" },
-    { id: 5, name: "Experience", href: "/experience" },
-    { id: 6, name: "Contact", href: "/contact" },
-]
-
 export const projects = [
     {
         id: 1,
@@ -228,7 +219,7 @@ export const projects = [
     
     This prototype demonstrates the potential of hyper-local food production by creating a climate-controlled growing environment that mimics large-scale agricultural practices. The project was inspired by smart farming concepts and aims to make farming more precise and efficient at the household level. Future enhancements include adding air humidity and temperature sensors, as well as integrating Bluetooth or Wi-Fi connectivity for app-based monitoring and control.`,
     },
-]
+];
 
 export const techStack = [
     // Python Section
@@ -408,7 +399,7 @@ export const techStack = [
         ],
         icon: "https://upload.wikimedia.org/wikipedia/commons/5/55/Generic_development_tools.svg",
     },
-]
+];
 
 export const experienceData = [
     {
@@ -485,4 +476,4 @@ export const experienceData = [
             "Ensured compliance with safety and security protocols, including coordinating full ship personnel evacuation drills.",
         ],
     },
-]
+];

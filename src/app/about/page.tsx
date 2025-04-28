@@ -1,10 +1,10 @@
+"use client";
+
 import React from "react";
 
-const About = () => {
+const AboutPage = () => {
     return (
-        <section
-            id="about"
-            className="py-20 dark:bg-gray-900">
+        <section id="about" className="py-20 dark:bg-gray-900">
             <div className="container mx-auto px-4">
                 <h2 className="text-3xl font-bold mb-8 text-center">About Me</h2>
 
@@ -12,20 +12,20 @@ const About = () => {
                     {/* Left side content */}
                     <div className="w-full md:w-2/3 space-y-6">
                         <div className="prose prose-lg max-w-none dark:prose-invert">
-                            <p className="leading-relaxed">Well, why don't I give you a quick rundown on what I do/who I am...</p>
+                            <p className="leading-relaxed">Well, why don&apos;t I give you a quick rundown on what I do/who I am...</p>
 
                             <p className="leading-relaxed">
-                                I was that kid with the Lego and K'nex; building things has always been my favorite thing to do. It's always exciting
-                                to figure out new ways of putting familiar things together. As I got older, I started enjoying taking apart
+                                I was that kid with the Lego and K&apos;nex; building things has always been my favorite thing to do. It&apos;s always
+                                exciting to figure out new ways of putting familiar things together. As I got older, I started enjoying taking apart
                                 electronics and trying to figure out what happened when you switched wires around or swapped parts.
                             </p>
 
                             <p className="leading-relaxed">
                                 Eventually, I got into music in a big way; I still love it, and practice regularly to this day. I learned how to build
                                 instruments and do repair work and, for a while, I did some work as a luthier. During this whole time, I was busy
-                                playing with building websites and learning how the internet worked. I can't tell you how many mini-courses,
-                                tutorials, and other guided learning opportunities I've gone through and broken down. For the longest time, I just
-                                kind of played with code.
+                                playing with building websites and learning how the internet worked. I can&apos;t tell you how many mini-courses,
+                                tutorials, and other guided learning opportunities I&apos;ve gone through and broken down. For the longest time, I
+                                just kind of played with code.
                             </p>
 
                             <p className="leading-relaxed">
@@ -34,15 +34,15 @@ const About = () => {
                                 expensive. I was able to build a Raspberry Pi server to store math and coding tutorials, and I ended up studying
                                 enough to be able to get into VCC for their Software Systems Certificate. After completing the entire program, COVID
                                 hit. I ended up working and taking some time to determine where I wanted to go. After determining that I wanted to get
-                                more fluent in my coding skills and develop in a more practical way, I enrolled in BCIT's CST program.
+                                more fluent in my coding skills and develop in a more practical way, I enrolled in BCIT&apos;s CST program.
                             </p>
 
                             <p className="leading-relaxed">
-                                Over the last two years, I've gone from having a rudimentary understanding of general web dev and an interest in
+                                Over the last two years, I&apos;ve gone from having a rudimentary understanding of general web dev and an interest in
                                 technology to someone who has built multiple full-stack apps, programmed in more languages than I can remember,
                                 developed an appreciation for how the world connects, and a much stronger drive to see projects impact people in a
-                                much more positive way. I'm driven by the desire to take the potential we have for change and apply it, even in small
-                                ways, to make the internet a better place.
+                                much more positive way. I&apos;m driven by the desire to take the potential we have for change and apply it, even in
+                                small ways, to make the internet a better place.
                             </p>
 
                             <p className="leading-relaxed">
@@ -53,7 +53,8 @@ const About = () => {
                             </p>
 
                             <p className="leading-relaxed">
-                                Enjoy what I've built! If you've got questions or want to get in touch, feel free to contact me; I'd love to chat.
+                                Enjoy what I&apos;ve built! If you&apos;ve got questions or want to get in touch, feel free to contact me; I&apos;d
+                                love to chat.
                             </p>
 
                             <p className="font-medium">- Malcolm</p>
@@ -110,7 +111,7 @@ const About = () => {
                     <div className="w-full md:w-1/3 flex flex-col items-center sticky top-24">
                         <div className="relative overflow-hidden rounded-lg shadow-xl mb-4 w-full max-w-md">
                             <img
-                                src="https://via.placeholder.com/400x500"
+                                src="/images/malcolm-profile.jpg"
                                 alt="Malcolm working on a project"
                                 className="w-full h-auto object-cover transition-transform duration-500 hover:scale-105"
                             />
@@ -125,4 +126,4 @@ const About = () => {
     );
 };
 
-export default About;
+export default AboutPage;

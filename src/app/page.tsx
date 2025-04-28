@@ -1,30 +1,22 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-
 export default function Home() {
     return (
-        <main className="flex min-h-screen items-center justify-center flex-col space-y-4 p-4">
-            <h1 className="text-4xl font-bold text-blue-600">Hello World</h1>
-
-            <div className="flex space-x-4">
-                <Button>Click me</Button>
-                <Button variant="secondary">Secondary Button</Button>
-                <Button variant="outline">Outline Button</Button>
+        <section>
+            <div className="container mx-auto flex flex-col md:flex-row justify-between items-center min-h-screen px-4">
+                {/* Left-hand text container for hero/intro section */}
+                <div className="mb-8 md:mb-0">
+                    <h1 className="text-4xl font-bold mb-4">Hello, I&apos;m Malcolm!</h1>
+                    <p className="text-xl mb-2">I&apos;m a full-stack developer based in Vancouver.</p>
+                    <p className="text-lg">Take a look around.</p>
+                </div>
+                {/* Image for hero section */}
+                <div className="flex justify-center">
+                    <img
+                        src="/images/profile_pics/_HEN5909.jpg"
+                        alt="Malcolm profile picture"
+                        className="w-48 h-48 rounded-full object-cover shadow-lg"
+                    />
+                </div>
             </div>
-
-            <Card className="w-[350px]">
-                <CardHeader>
-                    <CardTitle>Project Portfolio</CardTitle>
-                    <CardDescription>Explore my latest projects and skills</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <p>I'm a passionate developer creating innovative web solutions.</p>
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                    <Button variant="outline">Learn More</Button>
-                    <Button>Contact</Button>
-                </CardFooter>
-            </Card>
-        </main>
+        </section>
     );
 }

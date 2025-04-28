@@ -1,12 +1,8 @@
-// import { useEffect } from "react"
+"use client";
 
-const Contact = () => {
-    // useEffect(() => {
-    //     if (window.updateVantaColor) {
-    //         window.updateVantaColor(0x0)
-    //     }
-    // }, [])
+import React from "react";
 
+const ContactPage = () => {
     return (
         <section className="min-h-screen py-12 flex">
             {/* Section Title */}
@@ -45,37 +41,21 @@ const Contact = () => {
             <div className="container mx-auto max-w-lg p-8 rounded-lg shadow-lg">
                 <form className="flex flex-col gap-4">
                     <div>
-                        <label
-                            htmlFor="name"
-                            className="block text-white font-semibold text-lg">
+                        <label htmlFor="name" className="block text-white font-semibold text-lg">
                             Name
                         </label>
-                        <input
-                            type="text"
-                            id="name"
-                            placeholder="Enter your name"
-                            className="w-full p-3 bg-gray-700 text-white rounded text-lg"
-                        />
+                        <input type="text" id="name" placeholder="Enter your name" className="w-full p-3 bg-gray-700 text-white rounded text-lg" />
                     </div>
 
                     <div>
-                        <label
-                            htmlFor="email"
-                            className="block text-white font-semibold text-lg">
+                        <label htmlFor="email" className="block text-white font-semibold text-lg">
                             Email
                         </label>
-                        <input
-                            type="email"
-                            id="email"
-                            placeholder="Enter your email"
-                            className="w-full p-3 bg-gray-700 text-white rounded text-lg"
-                        />
+                        <input type="email" id="email" placeholder="Enter your email" className="w-full p-3 bg-gray-700 text-white rounded text-lg" />
                     </div>
 
                     <div>
-                        <label
-                            htmlFor="subject"
-                            className="block text-white font-semibold text-lg">
+                        <label htmlFor="subject" className="block text-white font-semibold text-lg">
                             Subject
                         </label>
                         <input
@@ -87,9 +67,7 @@ const Contact = () => {
                     </div>
 
                     <div>
-                        <label
-                            htmlFor="message"
-                            className="block text-white font-semibold text-lg">
+                        <label htmlFor="message" className="block text-white font-semibold text-lg">
                             Message
                         </label>
                         <textarea
@@ -99,9 +77,7 @@ const Contact = () => {
                             className="w-full p-3 bg-gray-700 text-white rounded text-lg"></textarea>
                     </div>
 
-                    <button
-                        type="submit"
-                        className="bg-blue-500 text-white py-3 px-6 rounded hover:bg-blue-600 transition text-lg">
+                    <button type="submit" className="bg-blue-500 text-white py-3 px-6 rounded hover:bg-blue-600 transition text-lg">
                         Send Message
                     </button>
                 </form>
@@ -110,4 +86,4 @@ const Contact = () => {
     );
 };
 
-export default Contact;
+export default ContactPage;

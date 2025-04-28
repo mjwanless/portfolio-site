@@ -1,21 +1,22 @@
-// import { useEffect } from "react"
-import { projects } from "../data/data"
-import { useState } from "react"
+"use client";
+
+import React, { useState } from "react";
+import { projects } from "@/data/data";
 
 const ProjectItems = () => {
-    const [selectedProject, setSelectedProject] = useState(null)
-    const [isModalOpen, setIsModalOpen] = useState(false)
-    const [currentImage, setCurrentImage] = useState(null)
+    const [selectedProject, setSelectedProject] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentImage, setCurrentImage] = useState(null);
 
     const handleOpenModal = (project) => {
-        setSelectedProject(project)
-        setIsModalOpen(true)
-    }
+        setSelectedProject(project);
+        setIsModalOpen(true);
+    };
 
     const handleCloseModal = () => {
-        setSelectedProject(null)
-        setIsModalOpen(false)
-    }
+        setSelectedProject(null);
+        setIsModalOpen(false);
+    };
 
     return (
         <div>
@@ -27,11 +28,7 @@ const ProjectItems = () => {
                         className="flex flex-col items-center bg-gray-800 rounded-lg shadow-lg p-4 hover:shadow-xl transition-shadow cursor-pointer"
                         onClick={() => handleOpenModal(project)}>
                         {/* Image */}
-                        <img
-                            src={project.example_img}
-                            alt={project.title}
-                            className="w-full h-48 object-cover rounded-t-md"
-                        />
+                        <img src={project.example_img} alt={project.title} className="w-full h-48 object-cover rounded-t-md" />
 
                         {/* Title */}
                         <h2 className="mt-4 text-white text-xl font-bold">{project.title}</h2>
@@ -39,9 +36,7 @@ const ProjectItems = () => {
                         {/* Stack Tags */}
                         <div className="flex flex-wrap gap-2 mt-2">
                             {project.stack_tags.map((tag) => (
-                                <span
-                                    key={tag}
-                                    className="bg-blue-500 text-white text-sm px-2 py-1 rounded">
+                                <span key={tag} className="bg-blue-500 text-white text-sm px-2 py-1 rounded">
                                     {tag}
                                 </span>
                             ))}
@@ -60,7 +55,9 @@ const ProjectItems = () => {
                         {/* Close Button */}
                         <button
                             className="absolute top-4 right-4 text-white bg-red-500 hover:bg-red-700 rounded-full w-8 h-8 flex justify-center items-center"
-                            onClick={handleCloseModal}></button>
+                            onClick={handleCloseModal}>
+                            X
+                        </button>
 
                         <div className="flex flex-col md:flex-row gap-6">
                             {/* Left Section */}
@@ -77,9 +74,7 @@ const ProjectItems = () => {
                                 </h2>
                                 <div className="flex flex-wrap gap-2 mt-4">
                                     {selectedProject.stack_tags.map((tag) => (
-                                        <span
-                                            key={tag}
-                                            className="bg-blue-500 text-white text-sm px-2 py-1 rounded">
+                                        <span key={tag} className="bg-blue-500 text-white text-sm px-2 py-1 rounded">
                                             {tag}
                                         </span>
                                     ))}
@@ -115,19 +110,13 @@ const ProjectItems = () => {
                 </div>
             )}
         </div>
-    )
-}
+    );
+};
 
-const Projects = () => {
-    // useEffect(() => {
-    //     if (window.updateVantaColor) {
-    //         window.updateVantaColor(0x00aa6b)
-    //     }
-    // }, [])
-
+const ProjectsPage = () => {
     return (
         <section>
-            {/*We need a space for text */}
+            {/* We need a space for text */}
             <div className="container mx-auto">
                 <h1 className="text-white text-3xl font-bold">Check out some of the things that I&apos;ve worked on:</h1>
                 <div>
@@ -135,24 +124,7 @@ const Projects = () => {
                 </div>
             </div>
         </section>
-    )
-}
+    );
+};
 
-export default Projects
-
-// title:
-//     - title of the project
-// stack_tags:
-//     - list of tags of the stack used (Html, css, Etc...)
-// quick_description:
-//     - 1 small blurb about what the project is
-// github_href:
-//     - link to the github repo
-// example_img:
-//     - This will be the image that is shown in the projects section square
-// project_imgs:
-//     - This will have the image of the project and a carousel underneath
-// full_description:
-//     - 2-3 sentences about the project
-
-// // Don't forget that the modal should blur the background when it pops up
+export default ProjectsPage;
