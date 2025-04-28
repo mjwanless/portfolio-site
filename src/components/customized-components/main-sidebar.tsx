@@ -38,7 +38,7 @@ export function MainSidebar() {
     const [open, setOpen] = useState(false);
 
     return (
-        <Sidebar open={open} setOpen={setOpen}>
+        <Sidebar open={open} setOpen={setOpen} animate={false}>
             <SidebarBody className="justify-between gap-10">
                 {/* Top: Logo + Navigation */}
                 <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
