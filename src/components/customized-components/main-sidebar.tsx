@@ -13,16 +13,6 @@ export function MainSidebar() {
             icon: <IconAddressBook className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />,
         },
         {
-            label: "Contact",
-            href: "/contact",
-            icon: <IconListCheck className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />,
-        },
-        {
-            label: "Experience",
-            href: "/experience",
-            icon: <IconBriefcase className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />,
-        },
-        {
             label: "Projects",
             href: "/projects",
             icon: <IconStar className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />,
@@ -32,10 +22,16 @@ export function MainSidebar() {
             href: "/skills",
             icon: <IconSchool className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />,
         },
+        // Let's skip this for now; I might update this later, if it makes sense.
+        // {
+        //     label: "Experience",
+        //     href: "/experience",
+        //     icon: <IconBriefcase className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />,
+        // },
         {
-            label: "Testing",
-            href: "/testing",
-            icon: <IconFlask className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />,
+            label: "Contact",
+            href: "/contact",
+            icon: <IconListCheck className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />,
         },
     ];
 
@@ -53,9 +49,7 @@ export function MainSidebar() {
                         ))}
                     </div>
                 </div>
-
-                {/* Bottom: Avatar */}
-                <div>
+                {/* <div>
                     <SidebarLink
                         link={{
                             label: "Malcolm",
@@ -71,7 +65,7 @@ export function MainSidebar() {
                             ),
                         }}
                     />
-                </div>
+                </div> */}
             </SidebarBody>
         </Sidebar>
     );

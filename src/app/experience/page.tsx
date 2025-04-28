@@ -1,3 +1,5 @@
+// This page is not being used right now. If I choose to, I will leave this here in order to make my life easier in the future.
+
 "use client";
 
 import React from "react";
