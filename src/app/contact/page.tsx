@@ -2,6 +2,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import { IconBrandGithub, IconBrandLinkedin, IconFileDownload } from "@tabler/icons-react";
+// import styles from "./page.module.css";
 
 export default function ContactPage() {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -80,6 +81,8 @@ export default function ContactPage() {
                 {/* Connect With Me */}
                 <div className="text-center mb-4">
                     <h3 className="text-lg font-medium text-neutral-800 dark:text-neutral-200">Connect With Me</h3>
+                    {/* The below is here for reference */}
+                    {/* <p className={styles.test}>Feel free to reach out through my social media channels.</p> */}
                 </div>
 
                 <div className="flex flex-col space-y-4">
