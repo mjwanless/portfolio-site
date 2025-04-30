@@ -15,8 +15,25 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) =>
     const [active, setActive] = useState<ProjectType | null>(null);
     const [currentImage, setCurrentImage] = useState<string | null>(null);
     const [projectsPerPage, setProjectsPerPage] = useState(8);
+    const [isMobile, setIsMobile] = useState(false);
     const id = useId();
     const ref = useRef<HTMLDivElement>(null);
+
+    // Check if device is mobile
+    useEffect(() => {
+        const checkIfMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+
+        // Initial check
+        checkIfMobile();
+
+        // Add event listener for window resize
+        window.addEventListener("resize", checkIfMobile);
+
+        // Clean up event listener
+        return () => window.removeEventListener("resize", checkIfMobile);
+    }, []);
 
     // Responsive grid calculation
     useEffect(() => {
@@ -25,7 +42,7 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) =>
             if (width >= 1920) return 8; // HD and larger
             if (width >= 1280) return 6; // Large screens
             if (width >= 1024) return 4; // Medium screens
-            return 3; // Mobile and small screens
+            return 2; // Mobile and small screens (reduced from 3 to 2 for better visibility)
         };
 
         setProjectsPerPage(calculateProjectsPerPage());
@@ -39,14 +56,23 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) =>
     }, []);
 
     // Reset current image when active project changes
+    // FIXED: Only set overflow:hidden on desktop
     useEffect(() => {
         if (active) {
             setCurrentImage(active.example_img);
-            document.body.style.overflow = "hidden";
+            // Only apply overflow: hidden on desktop to avoid layout issues on mobile
+            if (!isMobile) {
+                document.body.style.overflow = "hidden";
+            }
         } else {
             document.body.style.overflow = "auto";
         }
-    }, [active]);
+
+        // Ensure we reset overflow when component unmounts
+        return () => {
+            document.body.style.overflow = "auto";
+        };
+    }, [active, isMobile]);
 
     // Handle escape key for closing modal
     useEffect(() => {
@@ -91,9 +117,9 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) =>
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="fixed inset-0 bg-black/20 h-full w-full z-10"
+                            className="fixed inset-0 bg-black/50 h-full w-full z-10"
                         />
-                        <div className="fixed inset-0 grid place-items-center z-[100]">
+                        <div className="fixed inset-0 grid place-items-center z-[100] p-4">
                             <motion.button
                                 key={`button-${active.title}-${id}`}
                                 layout
@@ -103,23 +129,23 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) =>
                                     opacity: 0,
                                     transition: { duration: 0.05 },
                                 }}
-                                className="flex absolute top-2 right-2 lg:hidden items-center justify-center bg-white dark:bg-neutral-800 rounded-full h-6 w-6"
+                                className="flex absolute top-4 right-4 items-center justify-center bg-white dark:bg-neutral-800 rounded-full h-8 w-8"
                                 onClick={() => setActive(null)}>
-                                <IconX className="h-4 w-4 text-black dark:text-white" />
+                                <IconX className="h-5 w-5 text-black dark:text-white" />
                             </motion.button>
 
                             <motion.div
                                 ref={ref}
                                 layoutId={`card-${active.id}-${id}`}
-                                className="w-full max-w-[700px] h-full md:h-fit md:max-h-[90%] flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden">
+                                className="w-full max-w-[700px] h-[80vh] md:h-auto max-h-[90vh] flex flex-col bg-white dark:bg-neutral-900 rounded-xl overflow-hidden overflow-y-auto">
                                 <motion.div layoutId={`image-${active.id}-${id}`}>
-                                    <div className="w-full h-64 bg-neutral-100 dark:bg-neutral-800 flex justify-center items-center overflow-hidden">
+                                    <div className="w-full h-48 md:h-64 bg-neutral-100 dark:bg-neutral-800 flex justify-center items-center overflow-hidden">
                                         <img src={currentImage || active.example_img} alt={active.title} className="w-full h-full object-cover" />
                                     </div>
                                 </motion.div>
 
                                 <div className="p-6">
-                                    <div className="flex justify-between items-start mb-4">
+                                    <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-4">
                                         <div>
                                             <motion.h3
                                                 layoutId={`title-${active.id}-${id}`}
@@ -127,13 +153,18 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) =>
                                                 {active.title}
                                             </motion.h3>
                                             <motion.div layoutId={`tags-${active.id}-${id}`} className="flex flex-wrap gap-2 mb-4">
-                                                {active.stack_tags.map((tag) => (
+                                                {active.stack_tags.slice(0, isMobile ? 3 : undefined).map((tag) => (
                                                     <span
                                                         key={tag}
                                                         className="bg-neutral-100 dark:bg-neutral-800 rounded-full px-3 py-1 text-xs text-neutral-700 dark:text-neutral-300">
                                                         {tag}
                                                     </span>
                                                 ))}
+                                                {isMobile && active.stack_tags.length > 3 && (
+                                                    <span className="bg-neutral-100 dark:bg-neutral-800 rounded-full px-3 py-1 text-xs text-neutral-700 dark:text-neutral-300">
+                                                        +{active.stack_tags.length - 3} more
+                                                    </span>
+                                                )}
                                             </motion.div>
                                         </div>
                                         <a
@@ -156,7 +187,7 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) =>
                                     {active.project_imgs.length > 0 && (
                                         <div className="pt-4">
                                             <h4 className="text-neutral-800 dark:text-neutral-200 font-medium mb-3">Project Images</h4>
-                                            <div className="grid grid-cols-3 gap-3 w-full">
+                                            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 w-full">
                                                 {active.project_imgs.map((img, index) => (
                                                     <div
                                                         key={index}
@@ -167,7 +198,7 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) =>
                                                         <img
                                                             src={img}
                                                             alt={`${active.title} screenshot ${index + 1}`}
-                                                            className="w-full h-24 object-cover"
+                                                            className="w-full h-16 md:h-24 object-cover"
                                                         />
                                                     </div>
                                                 ))}
@@ -182,18 +213,17 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) =>
             </AnimatePresence>
 
             {/* Carousel Container */}
-            <div className="relative">
-                {/* Navigation Left */}
+            <div className="relative px-6 md:px-0">
+                {/* Navigation buttons - hidden on smallest screens */}
                 <button
                     onClick={handlePrev}
-                    className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-neutral-100 dark:bg-neutral-800 p-2 rounded-full shadow-md hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors">
+                    className="hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-neutral-100 dark:bg-neutral-800 p-2 rounded-full shadow-md hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors">
                     <IconChevronLeft className="text-neutral-800 dark:text-neutral-200" />
                 </button>
 
-                {/* Navigation Right */}
                 <button
                     onClick={handleNext}
-                    className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-neutral-100 dark:bg-neutral-800 p-2 rounded-full shadow-md hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors">
+                    className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-neutral-100 dark:bg-neutral-800 p-2 rounded-full shadow-md hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors">
                     <IconChevronRight className="text-neutral-800 dark:text-neutral-200" />
                 </button>
 
@@ -201,11 +231,11 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) =>
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={currentPage}
-                        initial={{ opacity: 0, x: 50 }}
+                        initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -50 }}
+                        exit={{ opacity: 0, x: -20 }}
                         transition={{ duration: 0.3 }}
-                        className="max-w-6xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-start gap-6">
+                        className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 py-4 md:py-8">
                         {currentProjects.map((project) => (
                             <motion.div
                                 layoutId={`card-${project.id}-${id}`}
@@ -217,7 +247,7 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) =>
                                         <img
                                             src={project.example_img}
                                             alt={project.title}
-                                            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+                                            className="w-full h-36 md:h-48 object-cover transition-transform duration-500"
                                         />
                                     </motion.div>
                                     <div className="flex flex-col">
@@ -264,6 +294,20 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) =>
                             }`}
                         />
                     ))}
+                </div>
+
+                {/* Mobile navigation buttons (bottom of carousel) */}
+                <div className="sm:hidden flex justify-center gap-4 mt-4">
+                    <button
+                        onClick={handlePrev}
+                        className="bg-neutral-100 dark:bg-neutral-800 p-2 rounded-full shadow-md hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors">
+                        <IconChevronLeft className="text-neutral-800 dark:text-neutral-200" />
+                    </button>
+                    <button
+                        onClick={handleNext}
+                        className="bg-neutral-100 dark:bg-neutral-800 p-2 rounded-full shadow-md hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors">
+                        <IconChevronRight className="text-neutral-800 dark:text-neutral-200" />
+                    </button>
                 </div>
             </div>
         </>
