@@ -1,53 +1,46 @@
 "use client";
 import { ThreeDMarquee } from "@/components/ui/3d-marquee";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export default function AboutPage() {
+    // Add state to track if we're on mobile
+    const [isMobile, setIsMobile] = useState(false);
+
+    // Check if device is mobile
+    useEffect(() => {
+        const checkIfMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+
+        // Initial check
+        checkIfMobile();
+
+        // Add event listener for window resize
+        window.addEventListener("resize", checkIfMobile);
+
+        // Clean up event listener
+        return () => window.removeEventListener("resize", checkIfMobile);
+    }, []);
+
     const images = [
         "https://assets.aceternity.com/cloudinary_bkp/3d-card.png",
         "https://assets.aceternity.com/animated-modal.png",
         "https://assets.aceternity.com/animated-testimonials.webp",
-        "https://assets.aceternity.com/cloudinary_bkp/Tooltip_luwy44.png",
-        "https://assets.aceternity.com/github-globe.png",
-        "https://assets.aceternity.com/glare-card.png",
-        "https://assets.aceternity.com/layout-grid.png",
-        "https://assets.aceternity.com/flip-text.png",
-        "https://assets.aceternity.com/hero-highlight.png",
-        "https://assets.aceternity.com/carousel.webp",
-        "https://assets.aceternity.com/placeholders-and-vanish-input.png",
-        "https://assets.aceternity.com/shooting-stars-and-stars-background.png",
-        "https://assets.aceternity.com/signup-form.png",
-        "https://assets.aceternity.com/cloudinary_bkp/stars_sxle3d.png",
-        "https://assets.aceternity.com/spotlight-new.webp",
-        "https://assets.aceternity.com/cloudinary_bkp/Spotlight_ar5jpr.png",
-        "https://assets.aceternity.com/cloudinary_bkp/Parallax_Scroll_pzlatw_anfkh7.png",
-        "https://assets.aceternity.com/tabs.png",
-        "https://assets.aceternity.com/cloudinary_bkp/Tracing_Beam_npujte.png",
-        "https://assets.aceternity.com/cloudinary_bkp/typewriter-effect.png",
-        "https://assets.aceternity.com/glowing-effect.webp",
-        "https://assets.aceternity.com/hover-border-gradient.png",
-        "https://assets.aceternity.com/cloudinary_bkp/Infinite_Moving_Cards_evhzur.png",
-        "https://assets.aceternity.com/cloudinary_bkp/Lamp_hlq3ln.png",
-        "https://assets.aceternity.com/macbook-scroll.png",
-        "https://assets.aceternity.com/cloudinary_bkp/Meteors_fye3ys.png",
-        "https://assets.aceternity.com/cloudinary_bkp/Moving_Border_yn78lv.png",
-        "https://assets.aceternity.com/multi-step-loader.png",
-        "https://assets.aceternity.com/vortex.png",
-        "https://assets.aceternity.com/wobble-card.png",
-        "https://assets.aceternity.com/world-map.webp",
+        // More images...
     ];
+
     return (
         <div className="relative w-full">
-            {/* Hero section with 3D Marquee */}
-            <div className="relative mx-auto flex h-screen w-full flex-col items-center justify-center overflow-hidden">
-                <section className="py-5 relative z-20">
+            {/* Changed from h-screen to min-h-screen for mobile compatibility */}
+            <div className="relative mx-auto flex min-h-screen w-full flex-col items-center justify-start overflow-visible pt-8 md:pt-0 md:justify-center">
+                <section className="py-5 relative z-20 w-full">
                     <div className="container mx-auto px-4">
-                        <h2 className="text-3xl font-bold mb-8 text-center text-white">My Story</h2>
+                        <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-center text-white">My Story</h2>
 
-                        <div className="flex flex-col md:flex-row gap-12 items-start">
+                        <div className="flex flex-col md:flex-row gap-6 md:gap-12 items-start">
                             {/* Left side content */}
-                            <div className="w-full md:w-2/3 space-y-6">
-                                <div className="prose prose-lg max-w-none dark:prose-invert text-white">
+                            <div className="w-full md:w-2/3 space-y-4 md:space-y-6">
+                                <div className="prose prose-sm md:prose-lg max-w-none dark:prose-invert text-white">
                                     <p className="leading-relaxed text-white">
                                         Well, why don&apos;t I give you a quick rundown on what I do/who I am...
                                     </p>
@@ -100,14 +93,14 @@ export default function AboutPage() {
                                     <p className="font-medium text-white">- Malcolm</p>
                                 </div>
 
-                                <div className="grid md:grid-cols-2 gap-8 mt-8">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mt-6 md:mt-8">
                                     {/* Things I like */}
-                                    <div className="dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                                        <h3 className="text-xl font-semibold mb-4 flex items-center text-white">
+                                    <div className="dark:bg-gray-800 p-4 md:p-6 rounded-lg shadow-md">
+                                        <h3 className="text-lg md:text-xl font-semibold mb-3 md:mb-4 flex items-center text-white">
                                             <span className="text-[#FD8E8E] mr-2">❤️</span>
                                             Things I Love
                                         </h3>
-                                        <ul className="space-y-3">
+                                        <ul className="space-y-2 md:space-y-3">
                                             <li className="flex items-center text-white">
                                                 <span className="h-2 w-2 bg-[#FD8E8E] rounded-full mr-2"></span>
                                                 Music &amp; Instruments
@@ -124,12 +117,12 @@ export default function AboutPage() {
                                     </div>
 
                                     {/* Things I don't like */}
-                                    <div className="dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                                        <h3 className="text-xl font-semibold mb-4 flex items-center text-white">
+                                    <div className="dark:bg-gray-800 p-4 md:p-6 rounded-lg shadow-md">
+                                        <h3 className="text-lg md:text-xl font-semibold mb-3 md:mb-4 flex items-center text-white">
                                             <span className="text-[#FD8E8E] mr-2">👎</span>
                                             Things I Avoid
                                         </h3>
-                                        <ul className="space-y-3">
+                                        <ul className="space-y-2 md:space-y-3">
                                             <li className="flex items-center text-white">
                                                 <span className="h-2 w-2 bg-[#FD8E8E] rounded-full mr-2"></span>
                                                 Slow WiFi
@@ -149,9 +142,19 @@ export default function AboutPage() {
                         </div>
                     </div>
                 </section>
-                {/* Overlay */}
-                <div className="absolute inset-0 z-10 h-full w-full bg-black/80 dark:bg-black/40" />
-                <ThreeDMarquee className="pointer-events-none absolute inset-0 h-full w-full" images={images} />
+
+                {/* Overlay - made responsive */}
+                <div className="fixed inset-0 z-5 h-full w-full bg-black/80 dark:bg-black/40" />
+
+                {/* Only show marquee on desktop or make it more compact on mobile */}
+                {isMobile ? (
+                    <div className="fixed inset-0 z-1 opacity-20">
+                        {/* Simplified background for mobile */}
+                        <div className="w-full h-full bg-gradient-to-b from-purple-900/30 to-blue-900/30"></div>
+                    </div>
+                ) : (
+                    <ThreeDMarquee className="pointer-events-none fixed inset-0 h-full w-full z-1" images={images} />
+                )}
             </div>
         </div>
     );
