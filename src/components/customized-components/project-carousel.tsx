@@ -237,23 +237,32 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) =>
                         transition={{ duration: 0.3 }}
                         className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 py-4 md:py-8">
                         {currentProjects.map((project) => (
+                            // Within your ProjectCarousel component, modify the card styling:
+
                             <motion.div
                                 layoutId={`card-${project.id}-${id}`}
                                 key={project.id}
                                 onClick={() => setActive(project)}
-                                className="p-4 flex flex-col hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl cursor-pointer border border-neutral-200 dark:border-neutral-800 h-full">
+                                className="p-4 flex flex-col bg-white dark:bg-neutral-900 hover:bg-neutral-50 dark:hover:bg-neutral-800 
+               rounded-xl cursor-pointer border border-neutral-200 dark:border-neutral-800 h-full
+               shadow-md hover:shadow-lg transition-all duration-300" // Added shadow and transition effects
+                            >
                                 <div className="flex gap-4 flex-col w-full">
-                                    <motion.div layoutId={`image-${project.id}-${id}`} className="rounded-lg overflow-hidden">
+                                    <motion.div
+                                        layoutId={`image-${project.id}-${id}`}
+                                        className="rounded-lg overflow-hidden border border-neutral-100 dark:border-neutral-700" // Added border
+                                    >
                                         <img
                                             src={project.example_img}
                                             alt={project.title}
-                                            className="w-full h-36 md:h-48 object-cover transition-transform duration-500"
+                                            className="w-full h-36 md:h-48 object-cover hover:scale-105 transition-transform duration-500"
                                         />
                                     </motion.div>
                                     <div className="flex flex-col">
                                         <motion.h3
                                             layoutId={`title-${project.id}-${id}`}
-                                            className="font-medium text-neutral-800 dark:text-neutral-200 text-lg">
+                                            className="font-bold text-neutral-800 dark:text-neutral-200 text-lg" // Changed to font-bold
+                                        >
                                             {project.title}
                                         </motion.h3>
                                         <motion.p
@@ -267,12 +276,18 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) =>
                                         {project.stack_tags.slice(0, 3).map((tag) => (
                                             <span
                                                 key={tag}
-                                                className="bg-neutral-100 dark:bg-neutral-800 rounded-full px-2 py-1 text-xs text-neutral-700 dark:text-neutral-300">
+                                                className="bg-neutral-100 dark:bg-neutral-800 rounded-full px-2 py-1 text-xs 
+                              text-neutral-700 dark:text-neutral-300 border border-neutral-200 
+                              dark:border-neutral-700" // Added border for better visibility
+                                            >
                                                 {tag}
                                             </span>
                                         ))}
                                         {project.stack_tags.length > 3 && (
-                                            <span className="bg-neutral-100 dark:bg-neutral-800 rounded-full px-2 py-1 text-xs text-neutral-700 dark:text-neutral-300">
+                                            <span
+                                                className="bg-neutral-100 dark:bg-neutral-800 rounded-full px-2 py-1 text-xs 
+                                text-neutral-700 dark:text-neutral-300 border border-neutral-200 
+                                dark:border-neutral-700">
                                                 +{project.stack_tags.length - 3} more
                                             </span>
                                         )}

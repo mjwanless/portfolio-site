@@ -1,6 +1,6 @@
 import "./globals.css";
 import { MainSidebar } from "@/components/customized-components/main-sidebar";
-
+// import { MainSidebar } from "@/components/customized-components/generate-text-component";
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">

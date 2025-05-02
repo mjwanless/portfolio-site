@@ -6,28 +6,27 @@ import { IconBriefcase, IconAddressBook, IconSchool, IconListCheck, IconStar, Ic
 import { motion } from "motion/react";
 import Link from "next/link";
 
-// Change these for my own icons later
 export function MainSidebar() {
     const links = [
         {
             label: "About",
             href: "/about",
-            icon: <IconAddressBook className="h-5 w-5 shrink-0 text-sidebar-foreground group-hover/sidebar:text-sidebar-primary" />,
+            icon: <IconAddressBook className="h-6 w-6 shrink-0 text-sidebar-foreground group-hover/sidebar:text-sidebar-primary" />,
         },
         {
             label: "Projects",
             href: "/projects",
-            icon: <IconStar className="h-5 w-5 shrink-0 text-sidebar-foreground group-hover/sidebar:text-sidebar-primary" />,
+            icon: <IconStar className="h-6 w-6 shrink-0 text-sidebar-foreground group-hover/sidebar:text-sidebar-primary" />,
         },
         {
             label: "Skills",
             href: "/skills",
-            icon: <IconSchool className="h-5 w-5 shrink-0 text-sidebar-foreground group-hover/sidebar:text-sidebar-primary" />,
+            icon: <IconSchool className="h-6 w-6 shrink-0 text-sidebar-foreground group-hover/sidebar:text-sidebar-primary" />,
         },
         {
             label: "Contact",
             href: "/contact",
-            icon: <IconListCheck className="h-5 w-5 shrink-0 text-sidebar-foreground group-hover/sidebar:text-sidebar-primary" />,
+            icon: <IconListCheck className="h-6 w-6 shrink-0 text-sidebar-foreground group-hover/sidebar:text-sidebar-primary" />,
         },
     ];
 
@@ -39,7 +38,8 @@ export function MainSidebar() {
                 {/* Top: Logo + Navigation */}
                 <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
                     <Logo />
-                    <div className="mt-8 flex flex-col gap-2">
+                    {/* Added more top margin to push links further down */}
+                    <div className="mt-24 flex flex-col gap-6">
                         {links.map((link, idx) => (
                             <SidebarLink key={idx} link={link} />
                         ))}
@@ -50,12 +50,11 @@ export function MainSidebar() {
     );
 }
 
-// I should eliminate the animation portion of this; I'll end up putting my own logo in here later
 export const Logo = () => {
     return (
-        <Link href="/" className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-sidebar-foreground">
-            <div className="h-5 w-6 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-sidebar-primary" />
-            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="font-medium whitespace-pre text-sidebar-foreground">
+        <Link href="/" className="relative z-20 flex items-center space-x-3 py-4 px-4 text-sm font-normal text-sidebar-foreground">
+            <div className="h-8 w-10 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-sidebar-primary" />
+            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="font-medium whitespace-pre text-sidebar-foreground text-xl">
                 Malcolm
             </motion.span>
         </Link>

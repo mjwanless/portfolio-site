@@ -78,7 +78,7 @@ export const DesktopSidebar = ({ className, children, ...props }: React.Componen
     return (
         <>
             <motion.div
-                className={cn("h-full px-4 py-4 hidden md:flex md:flex-col bg-sidebar w-[300px] shrink-0", className)}
+                className={cn("h-full py-4 hidden md:flex md:flex-col bg-sidebar w-[300px] shrink-0", className)}
                 animate={{
                     width: animate ? (open ? "300px" : "60px") : "300px",
                 }}
@@ -127,15 +127,23 @@ export const SidebarLink = ({ link, className, ...props }: { link: Links; classN
     return (
         <Link
             href={link.href}
-            className={cn("flex items-center justify-start gap-2 group/sidebar py-2 hover:bg-sidebar-accent rounded-md px-2", className)}
+            // Remove mx-[-16px] and use -mx-4 instead which is more precise
+            // Use a slower transition with transition-all duration-300
+            className={cn(
+                "flex items-center justify-start gap-3 group/sidebar py-3 hover:bg-sidebar-accent -mx-4 px-4 w-[calc(100%+32px)] transition-all duration-150",
+                className
+            )}
             {...props}>
-            {link.icon}
+            {/* Adjust the padding to align with the screenshot */}
+            <div className="pl-4">{link.icon}</div>
+
             <motion.span
                 animate={{
                     display: animate ? (open ? "inline-block" : "none") : "inline-block",
                     opacity: animate ? (open ? 1 : 0) : 1,
                 }}
-                className="text-sidebar-foreground text-sm group-hover/sidebar:translate-x-1 group-hover/sidebar:text-sidebar-primary transition duration-150 whitespace-pre inline-block !p-0 !m-0">
+                // Increase duration for the translation effect
+                className="text-sidebar-foreground text-base font-medium group-hover/sidebar:translate-x-1 group-hover/sidebar:text-sidebar-primary transition-all duration-150 whitespace-pre inline-block !p-0 !m-0">
                 {link.label}
             </motion.span>
         </Link>
