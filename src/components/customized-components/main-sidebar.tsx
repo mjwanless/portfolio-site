@@ -12,22 +12,22 @@ export function MainSidebar() {
         {
             label: "About",
             href: "/about",
-            icon: <IconAddressBook className="h-5 w-5 shrink-0 text-sidebar-foreground" />,
+            icon: <IconAddressBook className="h-5 w-5 shrink-0 text-sidebar-foreground group-hover/sidebar:text-sidebar-primary" />,
         },
         {
             label: "Projects",
             href: "/projects",
-            icon: <IconStar className="h-5 w-5 shrink-0 text-sidebar-foreground" />,
+            icon: <IconStar className="h-5 w-5 shrink-0 text-sidebar-foreground group-hover/sidebar:text-sidebar-primary" />,
         },
         {
             label: "Skills",
             href: "/skills",
-            icon: <IconSchool className="h-5 w-5 shrink-0 text-sidebar-foreground" />,
+            icon: <IconSchool className="h-5 w-5 shrink-0 text-sidebar-foreground group-hover/sidebar:text-sidebar-primary" />,
         },
         {
             label: "Contact",
             href: "/contact",
-            icon: <IconListCheck className="h-5 w-5 shrink-0 text-sidebar-foreground" />,
+            icon: <IconListCheck className="h-5 w-5 shrink-0 text-sidebar-foreground group-hover/sidebar:text-sidebar-primary" />,
         },
     ];
 

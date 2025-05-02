@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import React, { useState, createContext, useContext } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { IconMenu2, IconX } from "@tabler/icons-react";
+import Link from "next/link";
 
 interface Links {
     label: string;
@@ -124,20 +125,19 @@ export const MobileSidebar = ({ className, children, ...props }: React.Component
 export const SidebarLink = ({ link, className, ...props }: { link: Links; className?: string }) => {
     const { open, animate } = useSidebar();
     return (
-        <a
+        <Link
             href={link.href}
             className={cn("flex items-center justify-start gap-2 group/sidebar py-2 hover:bg-sidebar-accent rounded-md px-2", className)}
             {...props}>
             {link.icon}
-
             <motion.span
                 animate={{
                     display: animate ? (open ? "inline-block" : "none") : "inline-block",
                     opacity: animate ? (open ? 1 : 0) : 1,
                 }}
-                className="text-sidebar-foreground text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0">
+                className="text-sidebar-foreground text-sm group-hover/sidebar:translate-x-1 group-hover/sidebar:text-sidebar-primary transition duration-150 whitespace-pre inline-block !p-0 !m-0">
                 {link.label}
             </motion.span>
-        </a>
+        </Link>
     );
 };
