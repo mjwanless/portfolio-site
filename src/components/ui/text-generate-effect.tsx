@@ -17,7 +17,7 @@ export const TextGenerateEffect = ({
     delay?: number;
 }) => {
     const [scope, animate] = useAnimate();
-    let wordsArray = words.split(" ");
+    const wordsArray = words.split(" ");
 
     useEffect(() => {
         animate(
@@ -57,7 +57,7 @@ export const TextGenerateEffect = ({
     return (
         <div className={cn("font-bold", className)}>
             <div className="mt-4">
-                <div className="dark:text-white text-black text-2xl leading-snug tracking-wide">{renderWords()}</div>
+                <div className="dark:text-white text-black text-4xl leading-snug tracking-wide">{renderWords()}</div>
             </div>
         </div>
     );
