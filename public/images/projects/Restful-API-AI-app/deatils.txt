@@ -1,0 +1,6 @@
+- Digital ocean LLM
+- huggingface model
+
+
+https://elegant-faun-14186b.netlify.app/
+- supabase
