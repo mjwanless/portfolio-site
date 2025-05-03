@@ -2,7 +2,7 @@
 
 import React from "react";
 import ProjectCarousel from "@/components/customized-components/project-carousel";
-import { projects } from "@/data/data";
+import { projects } from "@/data/data-projects";
 
 const ProjectsPage = () => {
     return (

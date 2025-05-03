@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { techStack } from "@/data/data";
+import { techStack } from "@/data/data-techstack";
 import SkillCard from "@/components/customized-components/skill-card";
 
 const SkillsPage = () => {
