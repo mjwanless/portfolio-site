@@ -1,202 +1,149 @@
-/**
- * Tailwind Config and Theme CSS
- * - Imports Tailwind core and animation plugin
- * - Declares custom dark variant
- * - Defines design tokens via @theme inline
- * - Sets root-level OKLCH theme variables and custom hex palette
- * - Provides dark mode overrides under .dark
- * - Applies base layer resets and default styles
- */
+@import "tailwindcss"; /* Core Tailwind styles */
+@import "tw-animate-css"; /* Animation utilities */
 
-/* ------------------------------
-   1. Tailwind & Plugin Imports
-   ------------------------------ */
-@import "tailwindcss"; /* Load Tailwind's core styles */
-@import "tw-animate-css"; /* Load animation utilities from tw-animate-css plugin */
+@custom-variant dark (&:is(.dark *)); /* Dark mode variant for layout.tsx and components */
 
-/* ---------------------------------
-      2. Custom Dark Mode Variant
-      --------------------------------- */
-@custom-variant dark (&:is(.dark *));
-/*
-     - Defines a `dark:` variant that activates when an element is inside a `.dark` ancestor.
-     - Replaces the need for `darkMode` config in tailwind.config.js.
-     - NOTE: Currently not activated in the site as there's no code that adds .dark class to html/body
-     - Used in component classes like: dark:bg-neutral-900, dark:text-neutral-200, etc.
-   */
-
-/* ------------------------------
-      4. Root-Level Theme Variables
-      ------------------------------ */
 :root {
-    /* Base radius - Controls overall roundness of UI elements */
-    --radius: 0.625rem; /* Used for card corners, buttons, and form elements */
+    /* Border radius for main-sidebar.tsx */
+    --radius: 0.625rem;
 
-    /* Core OKLCH theme colors for LIGHT MODE */
-    --background: oklch(1 0 0); /* White background - used throughout the site */
-    --foreground: oklch(0.145 0 0); /* Dark text - main text color throughout */
-    --card: oklch(1 0 0); /* White card backgrounds - used in project/skill cards */
-    --card-foreground: oklch(0.145 0 0); /* Dark text on cards */
-    --popover: oklch(1 0 0); /* White popover backgrounds - used in modals */
-    --popover-foreground: oklch(0.145 0 0); /* Dark text in popovers */
-    --primary: oklch(0.205 0 0); /* Primary UI color - buttons, links, emphasis */
-    --primary-foreground: oklch(0.985 0 0); /* Text on primary elements */
-    --secondary: oklch(0.97 0 0); /* Secondary UI elements - alternate buttons */
-    --secondary-foreground: oklch(0.205 0 0); /* Text on secondary elements */
-    --muted: oklch(0.97 0 0); /* Muted backgrounds - subdued UI areas */
-    --muted-foreground: oklch(0.556 0 0); /* Subdued text - helper text, descriptions */
-    --accent: oklch(0.97 0 0); /* Accent backgrounds - highlighted areas */
-    --accent-foreground: oklch(0.205 0 0); /* Text on accent backgrounds */
-    --destructive: oklch(0.577 0.245 27.325); /* Error/warning color - not heavily used */
-    --border: oklch(0.922 0 0); /* Border color - card borders, separators */
-    --input: oklch(0.922 0 0); /* Input field borders - used in contact form */
-    --ring: oklch(0.708 0 0); /* Focus ring color - used when elements receive focus */
+    /* Theme colors for light mode */
+    --background: oklch(1 0 0); /* layout.tsx, page.tsx files */
+    --foreground: oklch(0.145 0 0); /* layout.tsx, page.tsx files */
+    --card: oklch(1 0 0); /* project-card.tsx, skill-card.tsx, project-modal.tsx */
+    --card-foreground: oklch(0.145 0 0); /* project-card.tsx, skill-card.tsx */
+    --popover: oklch(1 0 0); /* animated-modal.tsx */
+    --popover-foreground: oklch(0.145 0 0); /* animated-modal.tsx */
+    --primary: oklch(0.205 0 0); /* contact page, signup-form-demo.tsx */
+    --primary-foreground: oklch(0.985 0 0); /* contact page, signup-form-demo.tsx */
+    --secondary: oklch(0.97 0 0); /* Used in various button styles */
+    --secondary-foreground: oklch(0.205 0 0); /* Used in various button styles */
+    --muted: oklch(0.97 0 0); /* signup-form-demo.tsx, contact page */
+    --muted-foreground: oklch(0.556 0 0); /* signup-form-demo.tsx, contact page */
+    --accent: oklch(0.97 0 0); /* project-card.tsx, sidebar.tsx */
+    --accent-foreground: oklch(0.205 0 0); /* project-card.tsx */
+    --destructive: oklch(0.577 0.245 27.325); /* Error states in forms */
+    --border: oklch(0.922 0 0); /* project-card.tsx, skill-card.tsx */
+    --input: oklch(0.922 0 0); /* contact page, signup-form-demo.tsx */
+    --ring: oklch(0.708 0 0); /* Focus states in inputs */
 
-    /* Chart colors - for data visualizations */
-    --chart-1: oklch(0.646 0.222 41.116); /* Blue-green */
-    --chart-2: oklch(0.6 0.118 184.704); /* Light blue */
-    --chart-3: oklch(0.398 0.07 227.392); /* Dark blue */
-    --chart-4: oklch(0.828 0.189 84.429); /* Gold */
-    --chart-5: oklch(0.769 0.188 70.08); /* Orange */
+    /* Chart colors for potential data visualizations */
+    --chart-1: oklch(0.646 0.222 41.116); /* Reserved for future charts */
+    --chart-2: oklch(0.6 0.118 184.704);
+    --chart-3: oklch(0.398 0.07 227.392);
+    --chart-4: oklch(0.828 0.189 84.429);
+    --chart-5: oklch(0.769 0.188 70.08);
 
-    /* Sidebar colors - used in MainSidebar component */
-    --sidebar: oklch(0.985 0 0); /* Light sidebar background */
-    --sidebar-foreground: oklch(0.145 0 0); /* Dark text in sidebar */
-    --sidebar-primary: oklch(0.205 0 0); /* Primary sidebar elements */
-    --sidebar-primary-foreground: oklch(0.985 0 0); /* Text on primary sidebar elements */
-    --sidebar-accent: oklch(0.97 0 0); /* Accent sidebar elements */
-    --sidebar-accent-foreground: oklch(0.205 0 0); /* Text on accent sidebar elements */
-    --sidebar-border: oklch(0.922 0 0); /* Sidebar borders */
-    --sidebar-ring: oklch(0.708 0 0); /* Sidebar focus rings */
+    /* Sidebar colors for main-sidebar.tsx */
+    --sidebar: oklch(0.985 0 0); /* main-sidebar.tsx */
+    --sidebar-foreground: oklch(0.145 0 0); /* main-sidebar.tsx */
+    --sidebar-primary: oklch(0.205 0 0); /* main-sidebar.tsx */
+    --sidebar-primary-foreground: oklch(0.985 0 0); /* main-sidebar.tsx */
+    --sidebar-accent: oklch(0.97 0 0); /* main-sidebar.tsx */
+    --sidebar-accent-foreground: oklch(0.205 0 0); /* main-sidebar.tsx */
+    --sidebar-border: oklch(0.922 0 0); /* main-sidebar.tsx */
+    --sidebar-ring: oklch(0.708 0 0); /* main-sidebar.tsx */
 
-    /* Custom hex color palette - used for specific UI elements */
-    --custom-cream: #f4f1de; /* Light neutral / cream */
-    --custom-peach: #eab69f; /* Soft peach */
-    --custom-coral: #e07a5f; /* Warm coral */
-    --custom-brick: #8f5d5d; /* Earthy brick */
-    --custom-navy: #3d405b; /* Deep navy */
-    --custom-teal: #5f797b; /* Muted teal */
-    --custom-seafoam: #81b29a; /* Seafoam green */
-    --custom-sage: #babf95; /* Soft sage */
-    --custom-gold: #f2cc8f; /* Warm gold */
-
-    /* Custom color usage examples:
-     - In about-page.tsx: <span className="text-[#FD8E8E] mr-2">❤️</span>
-     - In background-gradient.tsx: radial gradients using custom colors
-     - Buttons using gradient backgrounds with theme colors
-  */
+    /* Custom color palette - used across multiple components */
+    --custom-cream: #f4f1de; /* about page background, text */
+    --custom-peach: #eab69f; /* Potential accent color */
+    --custom-coral: #e07a5f; /* Sidebar accent, contact page */
+    --custom-brick: #8f5d5d; /* Potential text or accent color */
+    --custom-navy: #3d405b; /* Sidebar background, about page text */
+    --custom-teal: #5f797b; /* Potential accent color */
+    --custom-seafoam: #81b29a; /* Card backgrounds */
+    --custom-sage: #babf95; /* Potential accent color */
+    --custom-gold: #f2cc8f; /* Potential highlight color */
 }
 
-/* ---------------------------------
-      3. Design Tokens via @theme inline
-      --------------------------------- */
 @theme inline {
-    /* Border radius scales - Used for rounded corners throughout the UI */
-    --radius-sm: calc(var(--radius) - 4px); /* Smallest rounded corners */
-    --radius-md: calc(var(--radius) - 2px); /* Medium rounded corners */
-    --radius-lg: var(--radius); /* Default rounded corners */
-    --radius-xl: calc(var(--radius) + 4px); /* Extra large rounded corners */
-    /* Used in: buttons, cards, form inputs, modals with classes like rounded-md, rounded-lg, rounded-xl */
+    /* Border radius scales for UI elements */
+    --radius-sm: calc(var(--radius) - 4px); /* project-card.tsx, skill-card.tsx */
+    --radius-md: calc(var(--radius) - 2px); /* project-card.tsx, skill-card.tsx */
+    --radius-lg: var(--radius); /* project-card.tsx, skill-card.tsx */
+    --radius-xl: calc(var(--radius) + 4px); /* project-card.tsx, skill-card.tsx */
 
-    /* Semantic color tokens mapped from low-level vars */
-    /* These create a layer of abstraction for theme colors */
-    --color-background: var(--custom-cream); /* Main page background - used with bg-background */
-    --color-foreground: var(--custom-navy); /* Main text color - used with text-foreground */
-    --color-card: var(--custom-seafoam); /* Card backgrounds - used in project cards, skill cards */
+    /* Semantic color tokens */
+    --color-background: var(--custom-cream); /* Layout background color */
+    --color-foreground: var(--custom-navy); /* Primary text color */
+    --color-card: var(--custom-seafoam); /* project-card.tsx, skill-card.tsx */
     --color-card-foreground: var(--card-foreground); /* Text on cards */
-    --color-popover: var(--popover); /* Popover/dropdown backgrounds */
-    --color-popover-foreground: var(--popover-foreground); /* Text in popovers/dropdowns */
-    --color-primary: var(--primary); /* Primary interactive elements - buttons, links */
+    --color-popover: var(--popover); /* animated-modal.tsx */
+    --color-popover-foreground: var(--popover-foreground); /* Text in popovers */
+    --color-primary: var(--primary); /* Primary interactive elements */
     --color-primary-foreground: var(--primary-foreground); /* Text on primary elements */
     --color-secondary: var(--secondary); /* Secondary UI elements */
     --color-secondary-foreground: var(--secondary-foreground); /* Text on secondary elements */
-    --color-muted: var(--muted); /* Subdued backgrounds - used in neutral-100/200 areas */
-    --color-muted-foreground: var(--muted-foreground); /* Subdued text - used with text-neutral-600 */
+    --color-muted: var(--muted); /* Subdued backgrounds */
+    --color-muted-foreground: var(--muted-foreground); /* Subdued text */
     --color-accent: var(--accent); /* Accent/highlight elements */
     --color-accent-foreground: var(--accent-foreground); /* Text on accent elements */
-    --color-destructive: var(--destructive); /* Error/warning elements - not heavily used */
-    --color-border: var(--border); /* Border colors - used in card borders, separators */
-    --color-input: var(--input); /* Form input backgrounds and borders */
-    --color-ring: var(--ring); /* Focus rings - used in focus states */
+    --color-destructive: var(--destructive); /* Error/warning elements */
+    --color-border: var(--border); /* Border colors */
+    --color-input: var(--input); /* Form input colors */
+    --color-ring: var(--ring); /* Focus ring color */
 
     /* Chart and sidebar colors */
-    --color-chart-1: var(--chart-1); /* Chart color 1 - for data visualizations */
-    --color-chart-2: var(--chart-2); /* Chart color 2 */
-    --color-chart-3: var(--chart-3); /* Chart color 3 */
-    --color-chart-4: var(--chart-4); /* Chart color 4 */
-    --color-chart-5: var(--chart-5); /* Chart color 5 */
-    --color-sidebar: var(--custom-navy); /* Sidebar background - used in MainSidebar */
-    --color-sidebar-foreground: var(--custom-cream); /* Sidebar text */
+    --color-chart-1: var(--chart-1); /* Reserved for future charts */
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+    --color-sidebar: var(--custom-navy); /* main-sidebar.tsx */
+    --color-sidebar-foreground: var(--custom-cream); /* Text in sidebar */
     --color-sidebar-primary: var(--custom-coral); /* Primary sidebar elements */
     --color-sidebar-primary-foreground: var(--custom-coral); /* Text on primary sidebar elements */
     --color-sidebar-accent: var(--custom-cream); /* Accent sidebar elements */
     --color-sidebar-accent-foreground: var(--custom-navy); /* Text on accent sidebar elements */
-    --color-sidebar-border: var(--custom-coral); /* Sidebar borders */
-    --color-sidebar-ring: var(--custom-coral); /* Sidebar focus rings */
+    --color-sidebar-border: var(--custom-coral); /* Sidebar border color */
+    --color-sidebar-ring: var(--custom-coral); /* Sidebar focus ring */
 }
 
-/* ------------------------------
-      5. Dark Mode Overrides
-      ------------------------------ */
 .dark {
-    /* Reassign all core tokens for dark mode */
-    /* NOTE: Dark mode is defined but not currently activated in the application */
-    /* Would need to add a theme toggle and apply the .dark class to html or body */
+    /* Dark mode color overrides */
+    --background: oklch(0.145 0 0); /* Layout background */
+    --foreground: oklch(0.985 0 0); /* Primary text color */
+    --card: oklch(0.205 0 0); /* project-card.tsx, skill-card.tsx */
+    --card-foreground: oklch(0.985 0 0); /* Text on cards */
+    --popover: oklch(0.205 0 0); /* animated-modal.tsx */
+    --popover-foreground: oklch(0.985 0 0); /* Text in popovers */
+    --primary: oklch(0.922 0 0); /* Primary interactive elements */
+    --primary-foreground: oklch(0.205 0 0); /* Text on primary elements */
+    --secondary: oklch(0.269 0 0); /* Secondary UI elements */
+    --secondary-foreground: oklch(0.985 0 0); /* Text on secondary elements */
+    --muted: oklch(0.269 0 0); /* Subdued backgrounds */
+    --muted-foreground: oklch(0.708 0 0); /* Subdued text */
+    --accent: oklch(0.269 0 0); /* Accent/highlight elements */
+    --accent-foreground: oklch(0.985 0 0); /* Text on accent elements */
+    --destructive: oklch(0.704 0.191 22.216); /* Error/warning elements */
+    --border: oklch(1 0 0 / 10%); /* Border colors */
+    --input: oklch(1 0 0 / 15%); /* Form input colors */
+    --ring: oklch(0.556 0 0); /* Focus ring color */
 
-    --background: oklch(0.145 0 0); /* Dark background - would replace white bg */
-    --foreground: oklch(0.985 0 0); /* Light text - would replace dark text */
-    --card: oklch(0.205 0 0); /* Dark card backgrounds */
-    --card-foreground: oklch(0.985 0 0); /* Light text on cards */
-    --popover: oklch(0.205 0 0); /* Dark popover backgrounds */
-    --popover-foreground: oklch(0.985 0 0); /* Light text in popovers */
-    --primary: oklch(0.922 0 0); /* Light primary elements */
-    --primary-foreground: oklch(0.205 0 0); /* Dark text on primary elements */
-    --secondary: oklch(0.269 0 0); /* Dark secondary elements */
-    --secondary-foreground: oklch(0.985 0 0); /* Light text on secondary elements */
-    --muted: oklch(0.269 0 0); /* Dark muted backgrounds */
-    --muted-foreground: oklch(0.708 0 0); /* Medium-light text for muted elements */
-    --accent: oklch(0.269 0 0); /* Dark accent backgrounds */
-    --accent-foreground: oklch(0.985 0 0); /* Light text on accent backgrounds */
-    --destructive: oklch(0.704 0.191 22.216); /* Warmer destructive color for dark mode */
-    --border: oklch(1 0 0 / 10%); /* Subtle light borders on dark backgrounds */
-    --input: oklch(1 0 0 / 15%); /* Subtle light input borders on dark backgrounds */
-    --ring: oklch(0.556 0 0); /* Focus ring color for dark mode */
-
-    /* Dark mode chart colors - different from light mode */
-    --chart-1: oklch(0.488 0.243 264.376); /* Purple */
-    --chart-2: oklch(0.696 0.17 162.48); /* Teal */
-    --chart-3: oklch(0.769 0.188 70.08); /* Orange */
-    --chart-4: oklch(0.627 0.265 303.9); /* Pink */
-    --chart-5: oklch(0.645 0.246 16.439); /* Red */
+    /* Dark mode chart colors */
+    --chart-1: oklch(0.488 0.243 264.376); /* Reserved for future charts */
+    --chart-2: oklch(0.696 0.17 162.48);
+    --chart-3: oklch(0.769 0.188 70.08);
+    --chart-4: oklch(0.627 0.265 303.9);
+    --chart-5: oklch(0.645 0.246 16.439);
 
     /* Dark mode sidebar colors */
-    --sidebar: oklch(0.205 0 0); /* Dark sidebar background */
-    --sidebar-foreground: oklch(0.985 0 0); /* Light text in sidebar */
-    --sidebar-primary: oklch(0.488 0.243 264.376); /* Purple primary sidebar elements */
-    --sidebar-primary-foreground: oklch(0.985 0 0); /* Light text on primary sidebar elements */
-    --sidebar-accent: oklch(0.269 0 0); /* Dark accent sidebar elements */
-    --sidebar-accent-foreground: oklch(0.985 0 0); /* Light text on accent sidebar elements */
-    --sidebar-border: oklch(1 0 0 / 10%); /* Subtle light sidebar borders */
-    --sidebar-ring: oklch(0.556 0 0); /* Sidebar focus rings for dark mode */
-
-    /* Used in components with dark: variants like: 
-       - dark:bg-neutral-900
-       - dark:text-neutral-200
-       - dark:border-neutral-800
-    */
+    --sidebar: oklch(0.205 0 0); /* main-sidebar.tsx */
+    --sidebar-foreground: oklch(0.985 0 0); /* Text in sidebar */
+    --sidebar-primary: oklch(0.488 0.243 264.376); /* Primary sidebar elements */
+    --sidebar-primary-foreground: oklch(0.985 0 0); /* Text on primary sidebar elements */
+    --sidebar-accent: oklch(0.269 0 0); /* Accent sidebar elements */
+    --sidebar-accent-foreground: oklch(0.985 0 0); /* Text on accent sidebar elements */
+    --sidebar-border: oklch(1 0 0 / 10%); /* Sidebar border color */
+    --sidebar-ring: oklch(0.556 0 0); /* Sidebar focus ring */
 }
 
-/* ------------------------------
-      6. Base Layer Styles
-      ------------------------------ */
 @layer base {
-    /* Global reset for borders and outlines */
     * {
-        @apply border-border outline-ring/50; /* Applies default border color to all elements */
+        @apply border-border outline-ring/50; /* Global border and outline styles */
     }
 
-    /* Default page background and text color */
     body {
-        @apply bg-background text-foreground; /* Sets the main page background and text color */
+        @apply bg-background text-foreground; /* Default body background and text color */
     }
 }
