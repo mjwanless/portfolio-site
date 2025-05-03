@@ -1,0 +1,19 @@
+export const aboutText = {
+    intro: "Well, why don't I give you a quick rundown on what I do/who I am...",
+
+    paragraphs: [
+        "I was that kid with the Lego and K'nex; building things has always been my favorite thing to do. It's always exciting to figure out new ways of putting familiar things together. As I got older, I started enjoying taking apart electronics and trying to figure out what happened when you switched wires around or swapped parts.",
+
+        "Eventually, I got into music in a big way; I still love it, and practice regularly to this day. I learned how to build instruments and do repair work and, for a while, I did some work as a luthier. During this whole time, I was busy playing with building websites and learning how the internet worked. I can't tell you how many mini-courses, tutorials, and other guided learning opportunities I've gone through and broken down. For the longest time, I just kind of played with code.",
+
+        "However, one day, while working onboard a ship, I realized that I could build my own tools for practice. As I looked into it, I realized that I was going to be unable to develop onboard the ships as WiFi was scarce, slow, and expensive. I was able to build a Raspberry Pi server to store math and coding tutorials, and I ended up studying enough to be able to get into VCC for their Software Systems Certificate. After completing the entire program, COVID hit. I ended up working and taking some time to determine where I wanted to go. After determining that I wanted to get more fluent in my coding skills and develop in a more practical way, I enrolled in BCIT's CST program.",
+
+        "Over the last two years, I've gone from having a rudimentary understanding of general web dev and an interest in technology to someone who has built multiple full-stack apps, programmed in more languages than I can remember, developed an appreciation for how the world connects, and a much stronger drive to see projects impact people in a much more positive way. I'm driven by the desire to take the potential we have for change and apply it, even in small ways, to make the internet a better place.",
+
+        "I feel lucky that I got to travel for work for years; I was able to take my love of music and perform for a living in so many different situations, and learn a lot about people and how connected the world is. I am currently developing a platform of tools for creating and practicing music, and I hope that I will be able to assist people in their own educational journeys.",
+
+        "Enjoy what I've built! If you've got questions or want to get in touch, feel free to contact me; I'd love to chat.",
+    ],
+
+    signature: "- Malcolm",
+};
