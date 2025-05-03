@@ -1,36 +1,39 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
-import { IconBriefcase, IconAddressBook, IconSchool, IconListCheck, IconStar, IconFlask } from "@tabler/icons-react";
-import { motion } from "motion/react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-export function MainSidebar() {
+interface MainSidebarProps {
+    open?: boolean;
+    setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export function MainSidebar({ open, setOpen }: MainSidebarProps) {
+    const pathname = usePathname();
     const links = [
         {
             label: "About",
             href: "/about",
-            icon: <IconAddressBook className="h-6 w-6 shrink-0 text-sidebar-foreground group-hover/sidebar:text-sidebar-primary" />,
+            icon: null,
         },
         {
             label: "Projects",
             href: "/projects",
-            icon: <IconStar className="h-6 w-6 shrink-0 text-sidebar-foreground group-hover/sidebar:text-sidebar-primary" />,
+            icon: null,
         },
         {
             label: "Skills",
             href: "/skills",
-            icon: <IconSchool className="h-6 w-6 shrink-0 text-sidebar-foreground group-hover/sidebar:text-sidebar-primary" />,
+            icon: null,
         },
         {
             label: "Contact",
             href: "/contact",
-            icon: <IconListCheck className="h-6 w-6 shrink-0 text-sidebar-foreground group-hover/sidebar:text-sidebar-primary" />,
+            icon: null,
         },
     ];
-
-    const [open, setOpen] = useState(false);
 
     return (
         <Sidebar open={open} setOpen={setOpen} animate={false}>
@@ -38,10 +41,12 @@ export function MainSidebar() {
                 {/* Top: Logo + Navigation */}
                 <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
                     <Logo />
-                    {/* Added more top margin to push links further down */}
-                    <div className="mt-24 flex flex-col gap-6">
+                    {/* Navigation links with consistent vertical spacing */}
+                    <div className="mt-24 flex flex-col gap-10">
                         {links.map((link, idx) => (
-                            <SidebarLink key={idx} link={link} />
+                            <div key={idx} className="flex justify-center">
+                                <SidebarLink link={link} className={pathname === link.href ? "bg-sidebar-accent bg-opacity-30" : ""} />
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -52,11 +57,13 @@ export function MainSidebar() {
 
 export const Logo = () => {
     return (
-        <Link href="/" className="relative z-20 flex items-center space-x-3 py-4 px-4 text-sm font-normal text-sidebar-foreground">
-            <div className="h-8 w-10 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-sidebar-primary" />
-            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="font-medium whitespace-pre text-sidebar-foreground text-xl">
-                Malcolm
-            </motion.span>
+        <Link href="/" className="relative z-20 flex justify-center items-center px-4 py-8 text-sidebar-foreground">
+            <div className="flex justify-center w-full">
+                {/* Make the logo a perfect circle */}
+                <div className="h-24 w-24 overflow-hidden rounded-full border-3 border-sidebar-primary">
+                    <img src="/images/logos/logo-dark-letters.png" alt="Malcolm Logo" className="h-full w-full object-cover" />
+                </div>
+            </div>
         </Link>
     );
 };

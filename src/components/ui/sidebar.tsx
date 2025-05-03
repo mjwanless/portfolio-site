@@ -78,7 +78,7 @@ export const DesktopSidebar = ({ className, children, ...props }: React.Componen
     return (
         <>
             <motion.div
-                className={cn("h-full py-4 hidden md:flex md:flex-col bg-sidebar w-[300px] shrink-0", className)}
+                className={cn("h-full py-4 hidden md:flex md:flex-col bg-sidebar w-[300px] shrink-0 border-r-3 border-sidebar-primary", className)}
                 animate={{
                     width: animate ? (open ? "300px" : "60px") : "300px",
                 }}
@@ -95,7 +95,12 @@ export const MobileSidebar = ({ className, children, ...props }: React.Component
     const { open, setOpen } = useSidebar();
     return (
         <>
-            <div className={cn("h-10 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-sidebar w-full")} {...props}>
+            <div
+                className={cn(
+                    "h-10 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-sidebar w-full border-b-3 border-sidebar-primary",
+                    className
+                )}
+                {...props}>
                 <div className="flex justify-end z-20 w-full">
                     <IconMenu2 className="text-sidebar-foreground" onClick={() => setOpen(!open)} />
                 </div>
@@ -109,7 +114,10 @@ export const MobileSidebar = ({ className, children, ...props }: React.Component
                                 duration: 0.3,
                                 ease: "easeInOut",
                             }}
-                            className={cn("fixed h-full w-full inset-0 bg-sidebar p-10 z-[100] flex flex-col justify-between", className)}>
+                            className={cn(
+                                "fixed h-full w-full inset-0 bg-sidebar p-10 z-[100] flex flex-col justify-between border-r-3 border-sidebar-primary",
+                                className
+                            )}>
                             <div className="absolute right-10 top-10 z-50 text-sidebar-foreground" onClick={() => setOpen(!open)}>
                                 <IconX />
                             </div>
@@ -127,25 +135,16 @@ export const SidebarLink = ({ link, className, ...props }: { link: Links; classN
     return (
         <Link
             href={link.href}
-            // Remove mx-[-16px] and use -mx-4 instead which is more precise
-            // Use a slower transition with transition-all duration-300
             className={cn(
-                "flex items-center justify-start gap-3 group/sidebar py-3 hover:bg-sidebar-accent -mx-4 px-4 w-[calc(100%+32px)] transition-all duration-150",
+                "flex items-center justify-center py-5 px-6 -mx-4 w-[calc(100%+32px)] transition-colors duration-100 group hover:bg-sidebar-accent hover:border-y-3 hover:border-sidebar-primary border-transparent",
                 className
             )}
             {...props}>
-            {/* Adjust the padding to align with the screenshot */}
-            <div className="pl-4">{link.icon}</div>
+            {link.icon && <div className="mr-4">{link.icon}</div>}
 
-            <motion.span
-                animate={{
-                    display: animate ? (open ? "inline-block" : "none") : "inline-block",
-                    opacity: animate ? (open ? 1 : 0) : 1,
-                }}
-                // Increase duration for the translation effect
-                className="text-sidebar-foreground text-base font-medium group-hover/sidebar:translate-x-1 group-hover/sidebar:text-sidebar-primary transition-all duration-150 whitespace-pre inline-block !p-0 !m-0">
+            <span className="text-sidebar-foreground text-2xl font-medium group-hover:text-sidebar-primary transition-colors duration-100 whitespace-pre inline-block">
                 {link.label}
-            </motion.span>
+            </span>
         </Link>
     );
 };
