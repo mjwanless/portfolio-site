@@ -69,30 +69,6 @@ export default function SkillCard({ techStackData }: SkillCardProps) {
 
     useOutsideClick(ref, () => setActive(null));
 
-    // Convert techStack data to the format expected by the card component
-    const cards = techStackData.map((tech) => ({
-        id: tech.id,
-        title: tech.name,
-        description: tech.description,
-        src: tech.icon,
-        relatedTech: tech.relatedTech,
-        ctaText: "Learn More",
-        ctaLink: "#",
-        content: () => (
-            <div className="space-y-4">
-                <h4 className="text-foreground font-medium">Related Technologies</h4>
-                <div className="grid grid-cols-2 gap-3">
-                    {tech.relatedTech.map((related) => (
-                        <div key={related.id} className="flex items-center p-2 bg-card-background/10 dark:bg-card-background/20 rounded-lg">
-                            <img src={related.icon} alt={related.name} className="w-6 h-6 mr-2" />
-                            <span className="text-sm text-foreground/70">{related.name}</span>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        ),
-    }));
-
     return (
         <>
             <AnimatePresence>
@@ -101,7 +77,7 @@ export default function SkillCard({ techStackData }: SkillCardProps) {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 bg-foreground/50 h-full w-full z-10"
+                        className="fixed inset-0 bg-black/50 backdrop-blur-sm h-full w-full z-10"
                     />
                 )}
             </AnimatePresence>
@@ -117,54 +93,54 @@ export default function SkillCard({ techStackData }: SkillCardProps) {
                                 opacity: 0,
                                 transition: { duration: 0.05 },
                             }}
-                            className="flex absolute top-4 right-4 items-center justify-center bg-background dark:bg-background/80 rounded-full h-8 w-8"
+                            className="flex absolute top-4 right-4 items-center justify-center bg-[#f4f1de] rounded-full h-8 w-8 shadow-md"
                             onClick={() => setActive(null)}>
                             <CloseIcon />
                         </motion.button>
                         <motion.div
                             layoutId={`card-${active.name}-${id}`}
                             ref={ref}
-                            className="w-full max-w-[500px] h-[90vh] md:h-auto md:max-h-[90%] flex flex-col bg-card-background dark:bg-card-background/10 rounded-xl overflow-hidden overflow-y-auto">
+                            className="w-full max-w-[500px] h-[90vh] md:h-auto md:max-h-[90%] flex flex-col bg-[#3d405b] rounded-xl overflow-hidden overflow-y-auto shadow-xl border-3 border-[#e07a5f]">
                             <motion.div layoutId={`image-${active.name}-${id}`}>
-                                <div className="w-full h-40 md:h-52 bg-card-background/20 dark:bg-card-background/10 flex justify-center items-center">
+                                <div className="w-full h-40 md:h-52 bg-[#3d405b]/80 flex justify-center items-center">
                                     <img
                                         width={80}
                                         height={80}
                                         src={active.icon}
                                         alt={active.name}
-                                        className="h-20 w-20 md:h-24 md:w-24 object-contain"
+                                        className="h-20 w-20 md:h-24 md:w-24 object-contain drop-shadow-md"
                                     />
                                 </div>
                             </motion.div>
 
-                            <div className="p-4 md:p-6">
+                            <div className="p-6">
                                 <div className="flex justify-between items-start">
-                                    <div>
-                                        <motion.h3 layoutId={`title-${active.name}-${id}`} className="font-medium text-foreground text-lg md:text-xl">
+                                    <div className="">
+                                        <motion.h3 layoutId={`title-${active.name}-${id}`} className="font-bold text-[#f4f1de] text-xl md:text-2xl">
                                             {active.name}
                                         </motion.h3>
                                         <motion.p
                                             layoutId={`description-${active.description}-${id}`}
-                                            className="text-foreground/70 text-sm md:text-base mt-2">
+                                            className="text-[#f4f1de]/90 text-sm md:text-base mt-2">
                                             {active.description}
                                         </motion.p>
                                     </div>
                                 </div>
-                                <div className="mt-6">
+                                <div className="mt-8">
                                     <motion.div
                                         layout
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         exit={{ opacity: 0 }}
-                                        className="text-foreground/70">
-                                        <h4 className="text-foreground font-medium mb-4">Related Technologies</h4>
-                                        <div className="grid grid-cols-2 gap-3 w-full">
+                                        className="text-[#f4f1de]/90">
+                                        <h4 className="text-[#f4f1de] font-medium mb-4 text-lg">Related Technologies</h4>
+                                        <div className="grid grid-cols-2 gap-3">
                                             {active.relatedTech.map((tech) => (
                                                 <div
                                                     key={tech.id}
-                                                    className="flex items-center p-2 bg-card-background/10 dark:bg-card-background/20 rounded-lg">
-                                                    <img src={tech.icon} alt={tech.name} className="w-6 h-6 mr-2" />
-                                                    <span className="text-sm text-foreground/70">{tech.name}</span>
+                                                    className="flex items-center p-3 bg-[#3d405b]/50 rounded-lg border-3 border-[#e07a5f]/80 transition-all hover:bg-[#3d405b]/70">
+                                                    <img src={tech.icon} alt={tech.name} className="w-6 h-6 mr-3" />
+                                                    <span className="text-[#f4f1de]">{tech.name}</span>
                                                 </div>
                                             ))}
                                         </div>
@@ -175,35 +151,44 @@ export default function SkillCard({ techStackData }: SkillCardProps) {
                     </div>
                 ) : null}
             </AnimatePresence>
-            <ul className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 px-4 sm:px-0">
-                {cards.map((card) => (
+            <ul className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                {techStackData.map((tech) => (
                     <motion.div
-                        layoutId={`card-${card.title}-${id}`}
-                        key={card.title}
-                        onClick={() => setActive(techStackData.find((tech) => tech.name === card.title) || null)}
-                        className="p-4 flex flex-col hover:bg-card-background/50 dark:hover:bg-card-background/20 rounded-xl cursor-pointer border border-border">
-                        <div className="flex gap-4 flex-col w-full">
-                            <motion.div layoutId={`image-${card.title}-${id}`} className="flex justify-center items-center">
-                                <img width={60} height={60} src={card.src} alt={card.title} className="h-16 w-16 object-contain" />
+                        layoutId={`card-${tech.name}-${id}`}
+                        key={tech.name}
+                        onClick={() => setActive(tech)}
+                        className="p-5 flex flex-col bg-[#3d405b] hover:bg-[#3d405b]/90
+                            rounded-xl cursor-pointer border-3 border-[#e07a5f] h-full
+                            shadow-sm hover:shadow-md transition-all duration-300">
+                        <div className="flex gap-4 flex-col w-full h-full">
+                            <motion.div layoutId={`image-${tech.name}-${id}`} className="flex justify-center items-center">
+                                <img width={60} height={60} src={tech.icon} alt={tech.name} className="h-16 w-16 object-contain" />
                             </motion.div>
-                            <div className="flex justify-center items-center flex-col">
-                                <motion.h3 layoutId={`title-${card.title}-${id}`} className="font-medium text-foreground text-center text-base">
-                                    {card.title}
+                            <div className="flex justify-center items-center flex-col flex-1">
+                                <motion.h3 layoutId={`title-${tech.name}-${id}`} className="font-semibold text-[#f4f1de] text-center text-lg">
+                                    {tech.name}
                                 </motion.h3>
-                                <motion.p layoutId={`description-${card.description}-${id}`} className="text-foreground/70 text-center text-sm mt-2">
-                                    {card.description}
+                                <motion.p
+                                    layoutId={`description-${tech.description}-${id}`}
+                                    className="text-[#f4f1de]/90 text-center text-sm mt-2 line-clamp-3">
+                                    {tech.description}
                                 </motion.p>
                             </div>
 
-                            <div className="flex flex-wrap gap-2 justify-center mt-2">
-                                {card.relatedTech.slice(0, 3).map((tech) => (
-                                    <div key={tech.id} className="bg-card-background/10 rounded-full px-2 py-1 text-xs text-foreground/70">
-                                        {tech.name}
+                            <div className="flex flex-wrap gap-2 justify-center mt-auto pt-4">
+                                {tech.relatedTech.slice(0, 3).map((relatedTech) => (
+                                    <div
+                                        key={relatedTech.id}
+                                        className="bg-[#3d405b]/70 rounded-full px-3 py-1 text-xs 
+                                        text-[#f4f1de] border-2 border-[#e07a5f]/80">
+                                        {relatedTech.name}
                                     </div>
                                 ))}
-                                {card.relatedTech.length > 3 && (
-                                    <div className="bg-card-background/10 rounded-full px-2 py-1 text-xs text-foreground/70">
-                                        +{card.relatedTech.length - 3} more
+                                {tech.relatedTech.length > 3 && (
+                                    <div
+                                        className="bg-[#3d405b]/70 rounded-full px-3 py-1 text-xs 
+                                        text-[#f4f1de] border-2 border-[#e07a5f]/80">
+                                        +{tech.relatedTech.length - 3} more
                                     </div>
                                 )}
                             </div>
@@ -233,7 +218,7 @@ export const CloseIcon = () => {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="h-5 w-5 text-foreground">
+            className="h-5 w-5 text-[#3d405b]">
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <path d="M18 6l-12 12" />
             <path d="M6 6l12 12" />
