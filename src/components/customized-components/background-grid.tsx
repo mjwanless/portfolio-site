@@ -3,19 +3,19 @@
 import React, { useEffect, useState } from "react";
 
 export default function BackgroundGrid() {
-    // Size of each grid cell in pixels
-    const boxSize = 48;
+    // Size of each grid cell in pixels - MUCH SMALLER NOW
+    const boxSize = 18; // Reduced from 48px to 24px
 
     // Color palette for cell hover effects - using your custom CSS variables
     const colors = [
-        "var(--custom-seafoam)", // #81b29a - Card backgrounds
-        "var(--custom-peach)", // #eab69f - Potential accent color
+        // "var(--custom-seafoam)", // #81b29a - Card backgrounds
+        // "var(--custom-peach)", // #eab69f - Potential accent color
         "var(--custom-coral)", // #e07a5f - Sidebar accent, contact page
-        "var(--custom-gold)", // #f2cc8f - Potential highlight color
-        "var(--custom-sage)", // #babf95 - Potential accent color
-        "var(--custom-teal)", // #5f797b - Potential accent color
-        "var(--custom-navy)", // #3d405b - Sidebar background, about page text
-        "var(--custom-brick)", // #8f5d5d - Potential text or accent color
+        // "var(--custom-gold)", // #f2cc8f - Potential highlight color
+        // "var(--custom-sage)", // #babf95 - Potential accent color
+        // "var(--custom-teal)", // #5f797b - Potential accent color
+        // "var(--custom-navy)", // #3d405b - Sidebar background, about page text
+        // "var(--custom-brick)", // #8f5d5d - Potential text or accent color
     ];
 
     // State for storing grid dimensions
@@ -96,8 +96,9 @@ export default function BackgroundGrid() {
                                 width: boxSize,
                                 height: boxSize,
                                 boxSizing: "border-box",
-                                // GRIDLINES REMOVED
-                                transition: "background-color 0.3s",
+                                // GRIDLINES ADDED BACK
+                                // border: "1px solid rgba(100,100,100,0.45)",
+                                transition: "background-color 0.2s",
                             }}
                         />
                     );
@@ -124,7 +125,7 @@ export default function BackgroundGrid() {
                         // "black 90%" - How gradual the blur is (bigger gap between percentages = more gradual)
 
                         backgroundColor: "var(--custom-cream)",
-                        opacity: 0.8, // MAIN BLUR INTENSITY: Higher = stronger blur (0-1 scale)
+                        opacity: 0.9, // MAIN BLUR INTENSITY: Higher = stronger blur (0-1 scale)
                     }}
                 />
 

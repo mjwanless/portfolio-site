@@ -28,7 +28,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <div className="relative z-40">
                         <MainSidebar open={sidebarOpen} setOpen={setSidebarOpen} />
                     </div>
-
                     <div className="relative flex-1 w-full">
                         <div className="h-12 md:h-0 block md:hidden" />
                         <main className="relative z-10 flex-1 w-full overflow-y-auto">{children}</main>
