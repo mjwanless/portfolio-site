@@ -136,7 +136,7 @@ export const SidebarLink = ({ link, className, ...props }: { link: Links; classN
         <Link
             href={link.href}
             className={cn(
-                "flex items-center justify-center py-5 px-6 -mx-4 w-[calc(100%+32px)] transition-colors duration-100 group hover:bg-sidebar-accent hover:border-y-3 hover:border-sidebar-primary border-transparent",
+                "flex items-center justify-center py-5 px-6 -mx-4 w-[calc(100%+32px)] transition-colors duration-100 group hover:bg-sidebar-accent hover:border-y-3 hover:border-sidebar-primary border-transparent relative",
                 className
             )}
             {...props}>
@@ -145,6 +145,9 @@ export const SidebarLink = ({ link, className, ...props }: { link: Links; classN
             <span className="text-sidebar-foreground text-2xl font-medium group-hover:text-sidebar-primary transition-colors duration-100 whitespace-pre inline-block">
                 {link.label}
             </span>
+
+            {/* Cream overlay on right side when hovered */}
+            <div className="absolute right-[-3px] top-0 bottom-0 w-[3px] group-hover:bg-[#f4f1de] transition-colors duration-100 z-10"></div>
         </Link>
     );
 };

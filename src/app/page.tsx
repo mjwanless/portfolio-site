@@ -11,7 +11,7 @@ export default function Home() {
                     {/* Override the hard-coded styles with !important classes */}
                     <TextGenerateEffect
                         words="Hey, I'm Malcolm."
-                        className="!text-7xl md:!text-8xl lg:!text-9xl !mb-8 !text-custom-navy !leading-tight"
+                        className="!text-6xl md:!text-7xl lg:!text-8xl !mb-8 !text-custom-navy !leading-tight"
                         filter={true}
                         duration={0.5}
                         delay={0}
@@ -19,7 +19,7 @@ export default function Home() {
 
                     <TextGenerateEffect
                         words="I'm a developer who loves building useful, usable things for the web."
-                        className="!text-xl md:!text-2xl !mb-4 !text-custom-navy/80 !font-normal !leading-normal"
+                        className="!text-base md:!text-lg !mb-4 !text-custom-navy/80 !font-normal !leading-normal"
                         filter={true}
                         duration={0.5}
                         delay={0.5}
@@ -27,7 +27,7 @@ export default function Home() {
 
                     <TextGenerateEffect
                         words="Always learning, occasionally debugging, usually caffeinated."
-                        className="!text-lg md:!text-xl !mb-6 !text-custom-navy/70 !font-normal !leading-normal"
+                        className="!text-base md:!text-lg !mb-6 !text-custom-navy/70 !font-normal !leading-normal"
                         filter={true}
                         duration={0.5}
                         delay={1}
@@ -35,7 +35,7 @@ export default function Home() {
                 </div>
 
                 {/* Middle: Vertical divider (hidden on mobile) */}
-                <div className="hidden md:block h-80 border-l-4 border-custom-gold"></div>
+                <div className="hidden md:block h-[500px] border-l-4 border-[#e07a5f]"></div>
 
                 {/* Right side: Image */}
                 <div className="flex justify-center w-full md:w-1/3">
@@ -44,7 +44,7 @@ export default function Home() {
                         alt="Malcolm cartoon avatar"
                         width={320}
                         height={320}
-                        className="object-contain rounded-2xl"
+                        className="object-contain rounded-full border-4 border-[#e07a5f]"
                         priority
                     />
                 </div>

@@ -11,7 +11,7 @@ export default function ContactPage() {
     };
 
     return (
-        <div className="min-h-screen py-12 md:py-16 bg-gradient-to-b from-background to-background/90">
+        <div className="min-h-screen py-12 md:py-16">
             <div className="mx-auto w-full max-w-4xl p-4 flex flex-col items-center">
                 {/* Header */}
                 <div className="w-full text-center mb-12">

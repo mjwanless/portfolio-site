@@ -41,11 +41,14 @@ export function MainSidebar({ open, setOpen }: MainSidebarProps) {
                 {/* Top: Logo + Navigation */}
                 <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
                     <Logo />
-                    {/* Navigation links with consistent vertical spacing */}
-                    <div className="mt-24 flex flex-col gap-10">
+                    {/* Navigation links with tighter vertical spacing */}
+                    <div className="mt-16 flex flex-col gap-4">
                         {links.map((link, idx) => (
                             <div key={idx} className="flex justify-center">
-                                <SidebarLink link={link} className={pathname === link.href ? "bg-sidebar-accent bg-opacity-30" : ""} />
+                                <SidebarLink
+                                    link={link}
+                                    className={pathname === link.href ? "bg-sidebar-primary/10 hover:bg-sidebar-primary/10 !border-transparent" : ""}
+                                />
                             </div>
                         ))}
                     </div>
