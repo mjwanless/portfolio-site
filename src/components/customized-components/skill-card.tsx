@@ -3,6 +3,7 @@
 import React, { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useOutsideClick } from "@/hooks/use-outside-click";
+import { Icon } from "@iconify/react";
 
 interface RelatedTech {
     id: number;
@@ -104,12 +105,11 @@ export default function SkillCard({ techStackData }: SkillCardProps) {
                             className="w-full max-w-[500px] h-[90vh] md:h-auto md:max-h-[90%] flex flex-col bg-[#3d405b] rounded-xl overflow-hidden overflow-y-auto shadow-xl border-3 border-[#e07a5f]">
                             <motion.div layoutId={`image-${active.id}-${id}`}>
                                 <div className="w-full h-40 md:h-52 bg-[#3d405b]/80 flex justify-center items-center">
-                                    <img
+                                    <Icon
+                                        icon={active.icon}
                                         width={80}
                                         height={80}
-                                        src={active.icon}
-                                        alt={active.name}
-                                        className="h-20 w-20 md:h-24 md:w-24 object-contain drop-shadow-md"
+                                        className="h-20 w-20 md:h-24 md:w-24 drop-shadow-md text-[#f4f1de]"
                                     />
                                 </div>
                             </motion.div>
@@ -139,7 +139,7 @@ export default function SkillCard({ techStackData }: SkillCardProps) {
                                                     <div
                                                         key={tech.id}
                                                         className="flex items-center p-3 bg-[#3d405b]/50 rounded-lg border-3 border-[#e07a5f]/80 transition-all hover:bg-[#3d405b]/70">
-                                                        <img src={tech.icon} alt={tech.name} className="w-6 h-6 mr-3" />
+                                                        <Icon icon={tech.icon} className="w-6 h-6 mr-3 text-[#f4f1de]" />
                                                         <span className="text-[#f4f1de]">{tech.name}</span>
                                                     </div>
                                                 ))
@@ -165,7 +165,7 @@ export default function SkillCard({ techStackData }: SkillCardProps) {
                             shadow-sm hover:shadow-md transition-all duration-300">
                         <div className="flex gap-4 flex-col w-full h-full">
                             <motion.div layoutId={`image-${tech.id}-${id}`} className="flex justify-center items-center">
-                                <img width={60} height={60} src={tech.icon} alt={tech.name} className="h-16 w-16 object-contain" />
+                                <Icon icon={tech.icon} width={60} height={60} className="h-16 w-16 text-[#f4f1de]" />
                             </motion.div>
                             <div className="flex justify-center items-center flex-col flex-1">
                                 <motion.h3 layoutId={`title-${tech.id}-${id}`} className="font-semibold text-[#f4f1de] text-center text-lg">
