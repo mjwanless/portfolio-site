@@ -1,6 +1,7 @@
 "use client";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import Image from "next/image";
+import { Icon } from "@iconify/react";
 
 export default function Home() {
     return (
