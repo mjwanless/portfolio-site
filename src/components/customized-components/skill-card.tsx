@@ -135,14 +135,18 @@ export default function SkillCard({ techStackData }: SkillCardProps) {
                                         className="text-[#f4f1de]/90">
                                         <h4 className="text-[#f4f1de] font-medium mb-4 text-lg">Related Technologies</h4>
                                         <div className="grid grid-cols-2 gap-3">
-                                            {active.relatedTech.map((tech) => (
-                                                <div
-                                                    key={tech.id}
-                                                    className="flex items-center p-3 bg-[#3d405b]/50 rounded-lg border-3 border-[#e07a5f]/80 transition-all hover:bg-[#3d405b]/70">
-                                                    <img src={tech.icon} alt={tech.name} className="w-6 h-6 mr-3" />
-                                                    <span className="text-[#f4f1de]">{tech.name}</span>
-                                                </div>
-                                            ))}
+                                            {active.relatedTech && active.relatedTech.length > 0 ? (
+                                                active.relatedTech.map((tech) => (
+                                                    <div
+                                                        key={tech.id}
+                                                        className="flex items-center p-3 bg-[#3d405b]/50 rounded-lg border-3 border-[#e07a5f]/80 transition-all hover:bg-[#3d405b]/70">
+                                                        <img src={tech.icon} alt={tech.name} className="w-6 h-6 mr-3" />
+                                                        <span className="text-[#f4f1de]">{tech.name}</span>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <div className="col-span-2 text-center text-[#f4f1de]/70">No related technologies available</div>
+                                            )}
                                         </div>
                                     </motion.div>
                                 </div>
@@ -176,22 +180,24 @@ export default function SkillCard({ techStackData }: SkillCardProps) {
                             </div>
 
                             <div className="flex flex-wrap gap-2 justify-center mt-auto pt-4">
-                                {tech.relatedTech.slice(0, 3).map((relatedTech) => (
-                                    <div
-                                        key={relatedTech.id}
-                                        className="bg-[#3d405b]/70 rounded-full px-3 py-1 text-xs 
-                                        text-[#f4f1de] border-2 border-[#e07a5f]/80">
-                                        {relatedTech.name}
-                                    </div>
-                                ))}
-                                {tech.relatedTech.length > 3 && (
-                                    <div
-                                        className="bg-[#3d405b]/70 rounded-full px-3 py-1 text-xs 
-                                        text-[#f4f1de] border-2 border-[#e07a5f]/80">
-                                        +{tech.relatedTech.length - 3} more
-                                    </div>
+                                {tech.relatedTech && tech.relatedTech.length > 0 ? (
+                                    tech.relatedTech.slice(0, 3).map((relatedTech) => (
+                                        <div key={relatedTech.id} className="bg-[#3d405b]/70 rounded-full px-3 py-1 text-xs text-[#f4f1de]">
+                                            {relatedTech.name}
+                                        </div>
+                                    ))
+                                ) : (
+                                    <span className="text-xs text-[#f4f1de]/50">No related tech</span>
                                 )}
                             </div>
+
+                            {tech.relatedTech && tech.relatedTech.length > 3 && (
+                                <div
+                                    className="bg-[#3d405b]/70 rounded-full px-3 py-1 text-xs 
+                                    text-[#f4f1de] border-2 border-[#e07a5f]/80 mt-2 mx-auto">
+                                    +{tech.relatedTech.length - 3} more
+                                </div>
+                            )}
                         </div>
                     </motion.div>
                 ))}

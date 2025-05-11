@@ -1,5 +1,4 @@
 export const projects = [
-    // All projects below are preserved and appended without overwriting
     {
         id: 1,
         title: "Trash to Treasure",
@@ -14,12 +13,12 @@ export const projects = [
             "/images/projects/trash-to-treasure/material.jpg",
         ],
         full_description:
-            "Trash to Treasure is a web app built to make recycling simpler. Users can search or browse common household materials to learn how to properly dispose of or recycle them. It uses the Mapbox API to show nearby depots based on the user’s location and provides helpful context for each item type. The app is fully client-side and powered by Firebase for storage and hosting. It was designed with sustainability in mind—making it easier for people to get recycling info without having to dig through government websites. Features include categorized material info, real-time location-based depot lookup, and a clean, responsive UI.",
+            "Trash to Treasure is a web app built to make recycling simpler. Users can search or browse common household materials to learn how to properly dispose of or recycle them. It uses the Mapbox API to show nearby depots based on the user's location and provides helpful context for each item type. The app is fully client-side and powered by Firebase for storage and hosting. The app was designed with sustainability in mind, making it easier for people to access recycling information without needing to navigate through multiple complex websites and resources. Features include categorized material info, real-time location-based depot lookup, and a clean, responsive UI.",
     },
     {
         id: 2,
         title: "Barcode Scanner Robot",
-        stack_tags: ["RobotC", "EV3", "MATLAB", "Data Processing"],
+        stack_tags: ["C", "EV3", "MATLAB"],
         quick_description:
             "An EV3 robot that scans barcodes using a color sensor, processes the data, and decodes characters through MATLAB analysis.",
         github_href: "https://github.com/mjwanless/Barcode_Scanner_Robot",
@@ -30,14 +29,13 @@ export const projects = [
             "/images/projects/barcode-scanner-robot/data-visualization.jpg",
         ],
         full_description:
-            "This project involved designing and programming an EV3 robot capable of scanning barcodes using a color sensor. As the robot traverses over a barcode, it records color intensity values, which are then saved to a text file. These values are converted into a CSV format and analyzed using MATLAB scripts to decode the corresponding characters. The integration of RobotC for controlling the robot and MATLAB for data processing demonstrates a practical application of robotics and signal analysis in interpreting visual data.",
+            "This project involved designing and programming an EV3 robot capable of scanning barcodes using a color sensor. As the robot moves over a barcode, it records color intensity values, which are then saved to a text file. These values are converted into a CSV format and analyzed using MATLAB scripts to decode the corresponding characters. The project uses C for robot control with MATLAB for signal processing and character recognition.",
     },
     {
         id: 3,
-        title: "Climate in a Box: Smart Planter Project",
-        stack_tags: ["Arduino", "C++", "Electronics", "IoT", "Sensors"],
-        quick_description:
-            "A smart planter system designed to automate plant care through controlled-environment agriculture using Arduino technology.",
+        title: "Climate in a Box",
+        stack_tags: ["Arduino", "C++", "Various Sensors"],
+        quick_description: "A smart planter system designed to automate plant care through a controlled environment using Arduino.",
         github_href: "https://github.com/mjwanless/Planter_Project",
         example_img: "/images/projects/planter-project/cover.jpg",
         project_imgs: [
@@ -46,7 +44,7 @@ export const projects = [
             "/images/projects/planter-project/image3.jpg",
         ],
         full_description:
-            "The Planter Project, also known as 'Climate in a Box,' is an innovative smart farming system designed to provide automated plant care in a controlled environment. The system uses an Arduino Uno to monitor and control key variables affecting plant growth, such as light timing and soil moisture. Users can set specific parameters, including light schedules and minimum soil moisture levels, and the system autonomously adjusts these conditions for optimal plant health.\n\nThis prototype demonstrates the potential of hyper-local food production by creating a climate-controlled growing environment that mimics large-scale agricultural practices. The project was inspired by smart farming concepts and aims to make farming more precise and efficient at the household level. Future enhancements include adding air humidity and temperature sensors, as well as integrating Bluetooth or Wi-Fi connectivity for app-based monitoring and control.",
+            '"Climate in a Box" is a smart farming system that provides automated plant care in a controlled environment. The system uses an Arduino Uno to monitor and control key variables affecting plant growth, such as light timing and soil moisture. Users can set parameters including light schedules and minimum soil moisture levels, and the system adjusts these conditions to maintain a good growth environment.',
     },
     {
         id: 4,
@@ -61,9 +59,8 @@ export const projects = [
             "/images/projects/maze-generator-robot/maze-solution.jpg",
         ],
         full_description:
-            "This project involves programming an EV3 robot to solve randomly generated mazes using pathfinding algorithms. The robot navigates through the maze by recognizing walls and applying maze-solving techniques. Developed with RobotC, the project emphasizes autonomous movement and decision-making in real-world scenarios.",
+            "This project is an EV3 robot that solves randomly generated mazes using pathfinding algorithms. The system includes a maze generation program that creates random mazes when physical mazes aren't available. The robot uses sensors to detect walls and navigate through the maze to find the exit. Developed with RobotC, the robot makes decisions autonomously based on its environment.",
     },
-
     {
         id: 5,
         title: "Colonel's Quest",
@@ -77,13 +74,13 @@ export const projects = [
             "/images/projects/colonels-quest/victory-screen.jpg",
         ],
         full_description:
-            "Colonel's Quest is a text-based adventure game developed as a term-end project for a Python course at BCIT. In this game, players embark on a quest to defeat Colonel Sanders and claim the powers of his 11 herbs and spices. The game features various spells and challenges, providing an engaging experience for players interested in interactive fiction.",
+            "Colonel's Quest is a text-based adventure game created in Python. Players navigate through a storyline where they confront Colonel Sanders to obtain his famous secret recipe. The game includes combat mechanics, inventory management, and decision-based gameplay that affects the story outcome. This project was developed for a Python programming course at BCIT.",
     },
     {
         id: 6,
-        title: "C Final Project: Hangman Game",
-        stack_tags: ["C", "Game Development", "Algorithms"],
-        quick_description: "A terminal-based Hangman game built from scratch using C for a final course project.",
+        title: "Hangman",
+        stack_tags: ["C", "Game Development"],
+        quick_description: "A terminal-based Hangman game built using C for a final course project.",
         github_href: "https://github.com/mjwanless/CFinalProjectHangman",
         example_img: "/images/projects/c-hangman-game/cover.jpg",
         project_imgs: [
@@ -92,7 +89,7 @@ export const projects = [
             "/images/projects/c-hangman-game/game-logic.jpg",
         ],
         full_description:
-            "This project is a command-line Hangman game developed as a final project for a C programming course. The game features a randomized word selection, letter-guessing mechanics, and a visual representation of the hangman progress. Built entirely in C, the project demonstrates a deep understanding of control flow, string manipulation, and basic algorithms.",
+            "This project is a command-line Hangman game developed as a final project for a C programming course. The game features a randomized word selection, letter-guessing mechanics, and a visual representation of the hangman using a GUI.",
     },
     {
         id: 7,
@@ -108,12 +105,12 @@ export const projects = [
             "/images/projects/freshplate/recipe-info-page.jpg",
         ],
         full_description:
-            "FreshPlate is a collaborative web application developed by Team DTC-13, comprising Malcolm Wanless, Xini Wang, Caroline Su, Flora Deng, and Joao Eduardo Santos Pollhuber. The application offers users a seamless experience for discovering and managing recipes, featuring personalized recommendations and a shopping cart for ingredients. Built with a frontend utilizing HTML, CSS, and EJS, and a backend powered by Node.js, Express, and MongoDB, FreshPlate aims to enhance culinary exploration and organization.",
+            "FreshPlate is a web application that helps users find and organize recipes. The app offers personalized recipe recommendations based on user preferences and dietary restrictions. Users can browse recipes, save favorites, and add ingredients to a shopping cart. The project was developed by a team of five developers, using HTML, CSS, and EJS for the frontend, with Node.js, Express, and MongoDB handling the backend and database functions.",
     },
     {
         id: 8,
-        title: "Dice Adventure 2",
-        stack_tags: ["Java", "LibGDX", "OOP", "Design Patterns"],
+        title: "Dice Adventure",
+        stack_tags: ["Java", "LibGDX"],
         quick_description: "A turn-based dice combat auto-battler game developed using Java and LibGDX.",
         github_href: "https://github.com/mjwanless/COMP-2522-202410-Term-Project-MH",
         example_img: "/images/projects/dice-adventure-2/cover.jpg",
@@ -123,28 +120,12 @@ export const projects = [
             "/images/projects/dice-adventure-2/uml-diagram.jpg",
         ],
         full_description:
-            "Dice Adventure 2 is a turn-based dice combat auto-battler game developed as a term project for the COMP 2522 course. The game allows players to choose two classes and engage in combat against enemies in various arenas. Players roll dice to attack, and enemies retaliate. The game features a storyline, multiple classes (currently with identical stats), and additional attacks per combat for strategic advantage. Developed using Java and the LibGDX framework, the project demonstrates object-oriented programming principles and the implementation of design patterns.",
+            "Dice Adventure is a turn-based combat game where players select character classes and battle against enemies using dice rolls. Each class has unique abilities that influence combat outcomes. The game features multiple arenas and a storyline. The game was built using Java and LibGDX for graphics and game mechanics.",
     },
     {
         id: 9,
-        title: "Big Data Assignment 1",
-        stack_tags: ["Python", "Pandas", "NumPy", "Matplotlib", "Data Analysis"],
-        quick_description:
-            "A Python-based project analyzing Bollywood and heart disease datasets using data cleaning, visualization, and statistical methods.",
-        github_href: "https://github.com/mjwanless/BigDataAssignment1",
-        example_img: "/images/projects/big-data-assignment-1/cover.jpg",
-        project_imgs: [
-            "/images/projects/big-data-assignment-1/bollywood-analysis.jpg",
-            "/images/projects/big-data-assignment-1/heart-disease-analysis.jpg",
-            "/images/projects/big-data-assignment-1/data-visualization.jpg",
-        ],
-        full_description:
-            "This project involves analyzing two datasets: one related to Bollywood movies and another concerning heart disease. Utilizing Python libraries such as Pandas, NumPy, and Matplotlib, the project performs data cleaning, exploratory data analysis, and visualization. Key tasks include calculating return on investment for movies, examining genre distributions, and exploring correlations in health data. The project demonstrates proficiency in data manipulation, statistical analysis, and the creation of insightful visualizations to interpret complex datasets.",
-    },
-    {
-        id: 10,
         title: "FridgeToFork",
-        stack_tags: ["Python", "Flask", "YOLO", "HTML", "CSS", "JavaScript", "Tailwind CSS", "PyTorch", "Spoonacular API"],
+        stack_tags: ["Python", "Flask", "YOLO", "HTML", "JavaScript", "Tailwind", "PyTorch", "Spoonacular API"],
         quick_description: "A web app that identifies ingredients from photos and suggests recipes you can make with them.",
         github_href: "https://github.com/mjwanless/BD-Food-Detection-App",
         example_img: "/images/projects/fridge-to-fork/cover.jpg",
@@ -154,13 +135,13 @@ export const projects = [
             "/images/projects/fridge-to-fork/recipe-details.jpg",
         ],
         full_description:
-            "FridgeToFork is a web application that helps users discover recipes based on ingredients they already have. By capturing ingredients using a webcam or uploading an image, the app utilizes a custom YOLO model for AI-powered ingredient detection. Users can manually edit or add ingredients, filter recipes by cuisine type and dietary restrictions, and view detailed recipe information with direct links to full instructions. The frontend is built with HTML, CSS (Tailwind CSS), and JavaScript, while the backend is powered by Flask (Python). The application integrates the Spoonacular API for recipe search and requires Python 3.8 or higher, Flask, and PyTorch.",
+            "FridgeToFork is a web application that helps users discover recipes based on ingredients they already have. By capturing ingredients using a webcam or uploading an image, the app uses a custom YOLO model for AI-powered ingredient detection. Users can manually edit or add ingredients, filter recipes by cuisine type and dietary restrictions, and view detailed recipe information with links to full instructions. The frontend is built with HTML, Tailwind CSS, and JavaScript, while the backend is powered by Flask.",
     },
     {
-        id: 11,
-        title: "IA RESTful AI Project",
-        stack_tags: ["JavaScript", "HTML", "REST API", "AI Integration"],
-        quick_description: "A web application integrating AI functionalities through a RESTful API interface.",
+        id: 10,
+        title: "AI Lyrics Generator",
+        stack_tags: ["JavaScript", "HTML", "Tailwind", "HuggingFace AI Models"],
+        quick_description: "A web application that generates song lyrics using AI through a RESTful API.",
         github_href: "https://github.com/mjwanless/IA-restful-AI-Project",
         example_img: "/images/projects/ia-restful-ai-project/cover.jpg",
         project_imgs: [
@@ -169,11 +150,11 @@ export const projects = [
             "/images/projects/ia-restful-ai-project/ai-integration.jpg",
         ],
         full_description:
-            "The IA RESTful AI Project is a web application that integrates artificial intelligence functionalities through a RESTful API interface. Developed using JavaScript and HTML, the project demonstrates how to build and consume RESTful APIs to incorporate AI features into web applications. The project structure includes separate backend and frontend directories, showcasing a modular approach to development. While specific AI functionalities are not detailed, the project serves as a foundation for integrating AI services via RESTful APIs.",
+            "This project is a web application that creates AI-generated song lyrics based on user inputs. It uses a RESTful API architecture to connect the frontend interface with HuggingFace's AI models, hosted on DigitalOcean. The application features a user interface built with HTML and styled with Tailwind, while JavaScript manages the API calls and response handling.",
     },
     {
-        id: 12,
-        title: "PML Assignment 2: Credit Default Prediction",
+        id: 11,
+        title: "AI/ML-based Credit Default Prediction",
         stack_tags: ["Python", "scikit-learn", "Pandas", "NumPy", "Matplotlib", "Machine Learning", "Ensemble Learning"],
         quick_description: "A machine learning project predicting credit defaults using ensemble models and feature engineering.",
         github_href: "https://github.com/mjwanless/PML-Assignment-2",
@@ -184,13 +165,13 @@ export const projects = [
             "/images/projects/pml-assignment-2/ensemble-architecture.jpg",
         ],
         full_description:
-            "PML Assignment 2 focuses on building, evaluating, and deploying multiple machine learning models to predict the likelihood of a customer defaulting on their credit payment. The workflow includes extensive feature engineering, model training, performance evaluation, hyperparameter tuning, and ensemble stacking. The dataset comprises historical credit data, demographic information, and bill/payment behavior. The project demonstrates proficiency in handling real-world data, implementing various machine learning algorithms, and optimizing model performance through ensemble techniques.",
+            "This project uses machine learning to predict whether customers will default on credit payments. It implements multiple models including random forests, gradient boosting, and neural networks, combining them through ensemble stacking for better accuracy. The process involves data preparation, feature engineering, model training, and performance evaluation. The dataset includes customer payment history, demographic details, and financial behavior patterns.",
     },
     {
-        id: 13,
-        title: "PML Assignment 1: Predicting Cat Shelter Outcomes",
-        stack_tags: ["Python", "Pandas", "scikit-learn", "Machine Learning", "Data Cleaning", "EDA"],
-        quick_description: "A supervised machine learning project predicting outcomes for shelter cats based on intake attributes.",
+        id: 12,
+        title: "Cat Shelter Outcomes Prediction",
+        stack_tags: ["Python", "Pandas", "scikit-learn", "Machine Learning"],
+        quick_description: "A machine learning project predicting outcomes for shelter cats based on intake attributes.",
         github_href: "https://github.com/mjwanless/PML_assignment_1",
         example_img: "/images/projects/pml-assignment-1/cover.jpg",
         project_imgs: [
@@ -199,13 +180,13 @@ export const projects = [
             "/images/projects/pml-assignment-1/prediction-results.jpg",
         ],
         full_description:
-            "This project applies supervised machine learning to predict outcomes for cats admitted to a shelter, utilizing features such as age, intake time, coat color, and spay/neuter status. The workflow encompasses data cleaning, feature engineering, exploratory data analysis (EDA), model evaluation, and ensemble learning. The dataset originates from animal shelter intake records, and the project demonstrates proficiency in handling real-world data, implementing machine learning algorithms, and optimizing model performance.",
+            "This project uses machine learning to predict what will likely happen to a cat after they enter an animal shelter. Using data like the cat's age, intake time, coat color, and whether they're spayed/neutered, the model can forecast if a cat will be adopted, returned to owner, or face other outcomes. The project involved cleaning the shelter's data, creating useful features, analyzing patterns, testing different models, and combining them for better results.",
     },
     {
-        id: 14,
-        title: "Personal Portfolio Site",
-        stack_tags: ["Next.js", "TypeScript", "Tailwind CSS", "React", "Vercel"],
-        quick_description: "A responsive developer portfolio built with Next.js and Tailwind CSS, showcasing projects and skills.",
+        id: 13,
+        title: "MalcolmWanless.com (This site!)",
+        stack_tags: ["Next.js", "TypeScript", "Tailwind", "React", "Vercel", "Aceternity UI", "shadcn/ui"],
+        quick_description: "My personal website where I showcase my coding projects and share a bit about myself.",
         github_href: "https://github.com/mjwanless/portfolio-site",
         example_img: "/images/projects/portfolio-site/cover.jpg",
         project_imgs: [
@@ -213,7 +194,6 @@ export const projects = [
             "/images/projects/portfolio-site/projects-section.jpg",
             "/images/projects/portfolio-site/contact-form.jpg",
         ],
-        full_description:
-            "This personal portfolio site is designed to showcase my projects, skills, and professional background. Built with Next.js and TypeScript, it leverages Tailwind CSS for responsive and modern styling. The site features a clean layout, interactive project cards, and a contact form, providing visitors with an engaging experience. Hosted on Vercel, it ensures fast load times and seamless deployment. The project demonstrates proficiency in modern web development practices and serves as a central hub for my professional presence.",
+        full_description: "A quick and easy way for me to show off some of my work and keep my info up-to-date. Enjoy!",
     },
 ];
