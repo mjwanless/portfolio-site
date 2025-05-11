@@ -1,3 +1,4 @@
+// /components/customized-components/skill-card.tsx
 "use client";
 import React, { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
@@ -98,10 +99,10 @@ export default function SkillCard({ techStackData }: SkillCardProps) {
                             <CloseIcon />
                         </motion.button>
                         <motion.div
-                            layoutId={`card-${active.name}-${id}`}
+                            layoutId={`card-${active.id}-${id}`}
                             ref={ref}
                             className="w-full max-w-[500px] h-[90vh] md:h-auto md:max-h-[90%] flex flex-col bg-[#3d405b] rounded-xl overflow-hidden overflow-y-auto shadow-xl border-3 border-[#e07a5f]">
-                            <motion.div layoutId={`image-${active.name}-${id}`}>
+                            <motion.div layoutId={`image-${active.id}-${id}`}>
                                 <div className="w-full h-40 md:h-52 bg-[#3d405b]/80 flex justify-center items-center">
                                     <img
                                         width={80}
@@ -116,12 +117,10 @@ export default function SkillCard({ techStackData }: SkillCardProps) {
                             <div className="p-6">
                                 <div className="flex justify-between items-start">
                                     <div className="">
-                                        <motion.h3 layoutId={`title-${active.name}-${id}`} className="font-bold text-[#f4f1de] text-xl md:text-2xl">
+                                        <motion.h3 layoutId={`title-${active.id}-${id}`} className="font-bold text-[#f4f1de] text-xl md:text-2xl">
                                             {active.name}
                                         </motion.h3>
-                                        <motion.p
-                                            layoutId={`description-${active.description}-${id}`}
-                                            className="text-[#f4f1de]/90 text-sm md:text-base mt-2">
+                                        <motion.p layoutId={`description-${active.id}-${id}`} className="text-[#f4f1de]/90 text-sm md:text-base mt-2">
                                             {active.description}
                                         </motion.p>
                                     </div>
@@ -158,22 +157,22 @@ export default function SkillCard({ techStackData }: SkillCardProps) {
             <ul className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                 {techStackData.map((tech) => (
                     <motion.div
-                        layoutId={`card-${tech.name}-${id}`}
-                        key={tech.name}
+                        layoutId={`card-${tech.id}-${id}`}
+                        key={tech.id}
                         onClick={() => setActive(tech)}
                         className="p-5 flex flex-col bg-[#3d405b] hover:bg-[#3d405b]/90
                             rounded-xl cursor-pointer border-3 border-[#e07a5f] h-full
                             shadow-sm hover:shadow-md transition-all duration-300">
                         <div className="flex gap-4 flex-col w-full h-full">
-                            <motion.div layoutId={`image-${tech.name}-${id}`} className="flex justify-center items-center">
+                            <motion.div layoutId={`image-${tech.id}-${id}`} className="flex justify-center items-center">
                                 <img width={60} height={60} src={tech.icon} alt={tech.name} className="h-16 w-16 object-contain" />
                             </motion.div>
                             <div className="flex justify-center items-center flex-col flex-1">
-                                <motion.h3 layoutId={`title-${tech.name}-${id}`} className="font-semibold text-[#f4f1de] text-center text-lg">
+                                <motion.h3 layoutId={`title-${tech.id}-${id}`} className="font-semibold text-[#f4f1de] text-center text-lg">
                                     {tech.name}
                                 </motion.h3>
                                 <motion.p
-                                    layoutId={`description-${tech.description}-${id}`}
+                                    layoutId={`description-${tech.id}-${id}`}
                                     className="text-[#f4f1de]/90 text-center text-sm mt-2 line-clamp-3">
                                     {tech.description}
                                 </motion.p>

@@ -1,318 +1,183 @@
 "use client";
 
-import React, { useState, useMemo, useEffect, useId, useRef } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { IconChevronLeft, IconChevronRight, IconBrandGithub, IconX } from "@tabler/icons-react";
-import { useOutsideClick } from "@/hooks/use-outside-click";
-import { ProjectType } from "@/data/data";
+import React, { useState } from "react";
+import Image from "next/image";
+import { IconBrandGithub, IconX } from "@tabler/icons-react";
+import { projects as projectsData } from "@/data/data-projects";
 
-interface ProjectCarouselProps {
-    projects: ProjectType[];
-}
+// Define the type explicitly to avoid TypeScript errors
+type Project = (typeof projectsData)[0];
 
-export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) => {
-    const [currentPage, setCurrentPage] = useState(0);
-    const [active, setActive] = useState<ProjectType | null>(null);
+// Use explicit typing for the props
+const ProjectGrid = ({ projects }: { projects: Project[] }) => {
+    // State to track which project is selected for the modal
+    const [selectedProject, setSelectedProject] = useState<Project | null>(null);
     const [currentImage, setCurrentImage] = useState<string | null>(null);
-    const [projectsPerPage, setProjectsPerPage] = useState(8);
-    const [isMobile, setIsMobile] = useState(false);
-    const id = useId();
-    const ref = useRef<HTMLDivElement>(null);
 
-    // Check if device is mobile
-    useEffect(() => {
-        const checkIfMobile = () => {
-            setIsMobile(window.innerWidth < 768);
-        };
-
-        // Initial check
-        checkIfMobile();
-
-        // Add event listener for window resize
-        window.addEventListener("resize", checkIfMobile);
-
-        // Clean up event listener
-        return () => window.removeEventListener("resize", checkIfMobile);
-    }, []);
-
-    // Responsive grid calculation
-    useEffect(() => {
-        const calculateProjectsPerPage = () => {
-            const width = window.innerWidth;
-            if (width >= 1920) return 8; // HD and larger
-            if (width >= 1280) return 6; // Large screens
-            if (width >= 1024) return 4; // Medium screens
-            return 2; // Mobile and small screens (reduced from 3 to 2 for better visibility)
-        };
-
-        setProjectsPerPage(calculateProjectsPerPage());
-
-        const handleResize = () => {
-            setProjectsPerPage(calculateProjectsPerPage());
-        };
-
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
-
-    // Reset current image when active project changes
-    // FIXED: Only set overflow:hidden on desktop
-    useEffect(() => {
-        if (active) {
-            setCurrentImage(active.example_img);
-            // Only apply overflow: hidden on desktop to avoid layout issues on mobile
-            if (!isMobile) {
-                document.body.style.overflow = "hidden";
-            }
-        } else {
-            document.body.style.overflow = "auto";
-        }
-
-        // Ensure we reset overflow when component unmounts
-        return () => {
-            document.body.style.overflow = "auto";
-        };
-    }, [active, isMobile]);
-
-    // Handle escape key for closing modal
-    useEffect(() => {
-        const handleKeyDown = (event: KeyboardEvent) => {
-            if (event.key === "Escape") {
-                setActive(null);
-            }
-        };
-
-        window.addEventListener("keydown", handleKeyDown);
-        return () => window.removeEventListener("keydown", handleKeyDown);
-    }, []);
-
-    // Outside click handler for modal
-    useOutsideClick(ref, () => setActive(null));
-
-    // Calculate total pages
-    const totalPages = Math.ceil(projects.length / projectsPerPage);
-
-    // Handle page navigation
-    const handleNext = () => {
-        setCurrentPage((prev) => (prev + 1) % totalPages);
+    // Open modal with project details
+    const openModal = (project: Project) => {
+        setSelectedProject(project);
+        setCurrentImage(project.example_img);
     };
 
-    const handlePrev = () => {
-        setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages);
+    // Close modal
+    const closeModal = () => {
+        setSelectedProject(null);
+        setCurrentImage(null);
     };
-
-    // Get projects for current page
-    const currentProjects = useMemo(() => {
-        const start = currentPage * projectsPerPage;
-        return projects.slice(start, start + projectsPerPage);
-    }, [currentPage, projects, projectsPerPage]);
 
     return (
         <>
-            {/* Modal */}
-            <AnimatePresence>
-                {active && (
-                    <>
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            className="fixed inset-0 bg-foreground/50 h-full w-full z-10"
-                        />
-                        <div className="fixed inset-0 grid place-items-center z-[100] p-4">
-                            <motion.button
-                                key={`button-${active.title}-${id}`}
-                                layout
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{
-                                    opacity: 0,
-                                    transition: { duration: 0.05 },
-                                }}
-                                className="flex absolute top-4 right-4 items-center justify-center bg-background dark:bg-background/80 rounded-full h-8 w-8"
-                                onClick={() => setActive(null)}>
-                                <IconX className="h-5 w-5 text-foreground" />
-                            </motion.button>
+            {/* Project Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-8">
+                {projects.map((project: Project) => (
+                    <div
+                        key={project.id}
+                        className="bg-white dark:bg-neutral-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
+                        onClick={() => openModal(project)}>
+                        {/* Project Image (if available) */}
+                        {project.example_img ? (
+                            <div className="relative w-full h-48">
+                                <Image
+                                    src={project.example_img}
+                                    alt={project.title}
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                />
+                            </div>
+                        ) : (
+                            <div className="h-48 bg-neutral-100 dark:bg-neutral-700 flex items-center justify-center">
+                                <span className="text-neutral-500 dark:text-neutral-400">No image available</span>
+                            </div>
+                        )}
 
-                            <motion.div
-                                ref={ref}
-                                layoutId={`card-${active.id}-${id}`}
-                                className="w-full max-w-[700px] h-[80vh] md:h-auto max-h-[90vh] flex flex-col bg-white dark:bg-neutral-900 rounded-xl overflow-hidden overflow-y-auto">
-                                <motion.div layoutId={`image-${active.id}-${id}`}>
-                                    <div className="w-full h-48 md:h-64 bg-neutral-100 dark:bg-neutral-800 flex justify-center items-center overflow-hidden">
-                                        <img src={currentImage || active.example_img} alt={active.title} className="w-full h-full object-cover" />
-                                    </div>
-                                </motion.div>
+                        {/* Project Content */}
+                        <div className="p-5">
+                            <h3 className="text-xl font-bold text-neutral-800 dark:text-white mb-2">{project.title}</h3>
 
-                                <div className="p-6">
-                                    <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-4">
-                                        <div>
-                                            <motion.h3
-                                                layoutId={`title-${active.id}-${id}`}
-                                                className="font-medium text-neutral-800 dark:text-neutral-200 text-xl mb-2">
-                                                {active.title}
-                                            </motion.h3>
-                                            <motion.div layoutId={`tags-${active.id}-${id}`} className="flex flex-wrap gap-2 mb-4">
-                                                {active.stack_tags.slice(0, isMobile ? 3 : undefined).map((tag) => (
-                                                    <span
-                                                        key={tag}
-                                                        className="bg-neutral-100 dark:bg-neutral-800 rounded-full px-3 py-1 text-xs text-neutral-700 dark:text-neutral-300">
-                                                        {tag}
-                                                    </span>
-                                                ))}
-                                                {isMobile && active.stack_tags.length > 3 && (
-                                                    <span className="bg-neutral-100 dark:bg-neutral-800 rounded-full px-3 py-1 text-xs text-neutral-700 dark:text-neutral-300">
-                                                        +{active.stack_tags.length - 3} more
-                                                    </span>
-                                                )}
-                                            </motion.div>
-                                        </div>
-                                        <a
-                                            href={active.github_href}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            onClick={(e) => e.stopPropagation()}
-                                            className="flex items-center gap-2 text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-200 transition-colors">
-                                            <IconBrandGithub className="h-5 w-5" />
-                                            <span className="text-sm">View Code</span>
-                                        </a>
-                                    </div>
+                            <p className="text-neutral-600 dark:text-neutral-300 text-sm mb-4">{project.quick_description}</p>
 
-                                    <motion.p
-                                        layoutId={`description-${active.id}-${id}`}
-                                        className="text-neutral-600 dark:text-neutral-400 text-base mb-6">
-                                        {active.full_description}
-                                    </motion.p>
+                            {/* Tech Stack Tags */}
+                            <div className="flex flex-wrap gap-2 mb-4">
+                                {project.stack_tags.slice(0, 3).map((tag: string) => (
+                                    <span
+                                        key={tag}
+                                        className="bg-neutral-100 dark:bg-neutral-700 rounded-full px-3 py-1 text-xs text-neutral-600 dark:text-neutral-300">
+                                        {tag}
+                                    </span>
+                                ))}
+                                {project.stack_tags.length > 3 && (
+                                    <span className="bg-neutral-100 dark:bg-neutral-700 rounded-full px-3 py-1 text-xs text-neutral-600 dark:text-neutral-300">
+                                        +{project.stack_tags.length - 3} more
+                                    </span>
+                                )}
+                            </div>
 
-                                    {active.project_imgs.length > 0 && (
-                                        <div className="pt-4">
-                                            <h4 className="text-neutral-800 dark:text-neutral-200 font-medium mb-3">Project Images</h4>
-                                            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 w-full">
-                                                {active.project_imgs.map((img, index) => (
-                                                    <div
-                                                        key={index}
-                                                        className={`cursor-pointer rounded-lg overflow-hidden border-2 ${
-                                                            img === currentImage ? "border-blue-500" : "border-transparent"
-                                                        }`}
-                                                        onClick={() => setCurrentImage(img)}>
-                                                        <img
-                                                            src={img}
-                                                            alt={`${active.title} screenshot ${index + 1}`}
-                                                            className="w-full h-16 md:h-24 object-cover"
-                                                        />
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            </motion.div>
+                            {/* GitHub Link */}
+                            <div onClick={(e) => e.stopPropagation()} className="inline-block">
+                                <a
+                                    href={project.github_href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:underline">
+                                    <IconBrandGithub className="h-4 w-4" />
+                                    <span className="text-sm">View on GitHub</span>
+                                </a>
+                            </div>
                         </div>
-                    </>
-                )}
-            </AnimatePresence>
+                    </div>
+                ))}
+            </div>
 
-            {/* Carousel Container */}
-            <div className="relative px-6 md:px-0">
-                {/* Navigation buttons - hidden on smallest screens */}
-                <button
-                    onClick={handlePrev}
-                    className="hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-neutral-100 dark:bg-neutral-800 p-2 rounded-full shadow-md hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors">
-                    <IconChevronLeft className="text-neutral-800 dark:text-neutral-200" />
-                </button>
+            {/* Modal */}
+            {selectedProject && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
+                    <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-neutral-800 rounded-lg shadow-xl">
+                        {/* Close button */}
+                        <button onClick={closeModal} className="absolute top-4 right-4 z-10 p-2 bg-white dark:bg-neutral-700 rounded-full shadow-md">
+                            <IconX className="h-5 w-5 text-neutral-700 dark:text-neutral-300" />
+                        </button>
 
-                <button
-                    onClick={handleNext}
-                    className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-neutral-100 dark:bg-neutral-800 p-2 rounded-full shadow-md hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors">
-                    <IconChevronRight className="text-neutral-800 dark:text-neutral-200" />
-                </button>
+                        {/* Main image */}
+                        {currentImage || selectedProject.example_img ? (
+                            <div className="relative w-full h-64 md:h-80">
+                                <Image
+                                    src={currentImage || selectedProject.example_img}
+                                    alt={selectedProject.title}
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 768px) 100vw, 800px"
+                                    priority
+                                />
+                            </div>
+                        ) : (
+                            <div className="w-full h-64 md:h-80 flex items-center justify-center bg-neutral-100 dark:bg-neutral-700">
+                                <span className="text-neutral-500 dark:text-neutral-400">No image available</span>
+                            </div>
+                        )}
 
-                <AnimatePresence mode="wait">
-                    <motion.div
-                        key={currentPage}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
-                        transition={{ duration: 0.3 }}
-                        className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 py-4 md:py-8">
-                        {currentProjects.map((project) => (
-                            <motion.div
-                                layoutId={`card-${project.id}-${id}`}
-                                key={project.id}
-                                onClick={() => setActive(project)}
-                                className="p-4 flex flex-col bg-background dark:bg-background/10 
-                hover:bg-background/50 dark:hover:bg-background/20 
-                rounded-xl cursor-pointer border border-border h-full
-                shadow-md hover:shadow-lg transition-all duration-300">
-                                <div className="flex gap-4 flex-col w-full">
-                                    <motion.div layoutId={`image-${project.id}-${id}`} className="rounded-lg overflow-hidden border border-border/20">
-                                        <img
-                                            src={project.example_img}
-                                            alt={project.title}
-                                            className="w-full h-36 md:h-48 object-cover hover:scale-105 transition-transform duration-500"
-                                        />
-                                    </motion.div>
-                                    <div className="flex flex-col">
-                                        <motion.h3 layoutId={`title-${project.id}-${id}`} className="font-bold text-foreground text-lg">
-                                            {project.title}
-                                        </motion.h3>
-                                        <motion.p layoutId={`description-${project.id}-${id}`} className="text-foreground/70 text-sm mt-2 mb-4">
-                                            {project.quick_description}
-                                        </motion.p>
-                                    </div>
+                        {/* Content */}
+                        <div className="p-6 md:p-8">
+                            <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-6">
+                                <div>
+                                    <h2 className="text-2xl md:text-3xl font-bold text-neutral-800 dark:text-white mb-3">{selectedProject.title}</h2>
 
-                                    <motion.div layoutId={`tags-${project.id}-${id}`} className="flex flex-wrap gap-2 mt-auto">
-                                        {project.stack_tags.slice(0, 3).map((tag) => (
+                                    <div className="flex flex-wrap gap-2 mb-4">
+                                        {selectedProject.stack_tags.map((tag: string) => (
                                             <span
                                                 key={tag}
-                                                className="bg-background/10 rounded-full px-2 py-1 text-xs 
-                                text-foreground/70 border border-border/30">
+                                                className="bg-neutral-100 dark:bg-neutral-700 rounded-full px-3 py-1 text-xs text-neutral-600 dark:text-neutral-300">
                                                 {tag}
                                             </span>
                                         ))}
-                                        {project.stack_tags.length > 3 && (
-                                            <span
-                                                className="bg-background/10 rounded-full px-2 py-1 text-xs 
-                                text-foreground/70 border border-border/30">
-                                                +{project.stack_tags.length - 3} more
-                                            </span>
-                                        )}
-                                    </motion.div>
+                                    </div>
                                 </div>
-                            </motion.div>
-                        ))}
-                    </motion.div>
-                </AnimatePresence>
 
-                {/* Page Indicators */}
-                <div className="flex justify-center mt-6">
-                    {Array.from({ length: totalPages }).map((_, index) => (
-                        <button
-                            key={index}
-                            onClick={() => setCurrentPage(index)}
-                            className={`w-2 h-2 rounded-full mx-1 ${
-                                currentPage === index ? "bg-neutral-800 dark:bg-neutral-200" : "bg-neutral-300 dark:bg-neutral-700"
-                            }`}
-                        />
-                    ))}
-                </div>
+                                <a
+                                    href={selectedProject.github_href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                    <IconBrandGithub className="h-5 w-5" />
+                                    <span>View on GitHub</span>
+                                </a>
+                            </div>
 
-                {/* Mobile navigation buttons (bottom of carousel) */}
-                <div className="sm:hidden flex justify-center gap-4 mt-4">
-                    <button
-                        onClick={handlePrev}
-                        className="bg-neutral-100 dark:bg-neutral-800 p-2 rounded-full shadow-md hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors">
-                        <IconChevronLeft className="text-neutral-800 dark:text-neutral-200" />
-                    </button>
-                    <button
-                        onClick={handleNext}
-                        className="bg-neutral-100 dark:bg-neutral-800 p-2 rounded-full shadow-md hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors">
-                        <IconChevronRight className="text-neutral-800 dark:text-neutral-200" />
-                    </button>
+                            <div className="prose prose-lg dark:prose-invert max-w-none mb-8">
+                                <p className="text-neutral-700 dark:text-neutral-300">{selectedProject.full_description}</p>
+                            </div>
+
+                            {/* Project images gallery */}
+                            {selectedProject.project_imgs && selectedProject.project_imgs.length > 0 && (
+                                <div className="mt-8">
+                                    <h3 className="text-xl font-semibold text-neutral-800 dark:text-white mb-4">Project Images</h3>
+                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                        {selectedProject.project_imgs.map((img: string, index: number) => (
+                                            <div
+                                                key={index}
+                                                className={`relative h-24 md:h-32 cursor-pointer rounded-lg overflow-hidden border-2 ${
+                                                    img === currentImage ? "border-blue-500" : "border-transparent"
+                                                }`}
+                                                onClick={() => setCurrentImage(img)}>
+                                                <Image
+                                                    src={img}
+                                                    alt={`${selectedProject.title} screenshot ${index + 1}`}
+                                                    fill
+                                                    className="object-cover"
+                                                    sizes="(max-width: 768px) 50vw, 25vw"
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
-            </div>
+            )}
         </>
     );
 };
 
-export default ProjectCarousel;
+export default ProjectGrid;
