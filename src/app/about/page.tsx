@@ -5,20 +5,18 @@ import { aboutText } from "@/data/data-about";
 export default function AboutPage() {
     return (
         <section className="min-h-screen py-12 md:py-16">
-            <div className="container mx-auto px-4 max-w-4xl">
-                <h1 className="text-foreground text-3xl md:text-4xl font-bold mb-6 text-center">About Me</h1>
+            <div className="container mx-auto px-4 max-w-4xl mt-8">
+                <div>
+                    {/* Intro text */}
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl mb-10 text-custom-navy leading-relaxed font-medium">{aboutText.intro}</h2>
 
-                <div className="bg-[#3d405b] rounded-xl shadow-lg p-6 md:p-8 border-3 border-[#e07a5f]">
+                    {/* Main content */}
                     <div className="prose prose-lg max-w-none">
-                        <p className="text-[#f4f1de] mb-6">{aboutText.intro}</p>
-
                         {aboutText.paragraphs.map((paragraph, index) => (
-                            <p key={index} className="text-[#f4f1de] mb-6">
+                            <p key={index} className="text-base md:text-lg mb-6 text-custom-navy font-normal leading-relaxed">
                                 {paragraph}
                             </p>
                         ))}
-
-                        <p className="text-[#f4f1de] font-medium mt-8">{aboutText.signature}</p>
                     </div>
                 </div>
             </div>
