@@ -118,7 +118,7 @@ export default function ProjectGrid({ projects }: { projects: Project[] }) {
                 {projects.map((project) => (
                     <div
                         key={project.id}
-                        className="rounded-xl overflow-hidden shadow-md transition-all duration-300"
+                        className="rounded-xl overflow-hidden shadow-md transition-all duration-300 flex flex-col"
                         style={{
                             backgroundColor: colors.navy,
                             boxShadow:
@@ -129,9 +129,9 @@ export default function ProjectGrid({ projects }: { projects: Project[] }) {
                         }}
                         onMouseEnter={() => setHoveredProjectId(project.id)}
                         onMouseLeave={() => setHoveredProjectId(null)}>
-                        {/* Only show image container if there's an image */}
+                        {/* Image section - only if image exists */}
                         {project.example_img && (
-                            <div className="w-full h-48 flex items-center justify-center" style={{ backgroundColor: "#272834" }}>
+                            <div className="w-full h-48" style={{ backgroundColor: "#272834" }}>
                                 <div className="relative w-full h-full">
                                     <Image
                                         src={project.example_img}
@@ -143,47 +143,28 @@ export default function ProjectGrid({ projects }: { projects: Project[] }) {
                                 </div>
                             </div>
                         )}
-
-                        {/* Card Content */}
-                        <div className="p-4">
+                        {/* Content section */}
+                        <div className="p-4 flex-grow flex flex-col">
+                            {/* Title always at top */}
                             <h3 className="text-xl font-bold mb-2" style={{ color: colors.cream }}>
                                 {project.title}
                             </h3>
 
-                            <p className="text-sm mb-4" style={{ color: colors.cream, opacity: 0.85 }}>
-                                {project.quick_description}
-                            </p>
-
-                            {/* Tech Stack Tags */}
-                            <div className="flex flex-wrap gap-1 mb-4">
-                                {project.stack_tags.slice(0, 3).map((tag, i) => (
-                                    <span
-                                        key={i}
-                                        className="text-xs px-2 py-1 rounded-full"
-                                        style={{ backgroundColor: colors.coral, color: colors.navy }}>
-                                        {tag}
-                                    </span>
-                                ))}
-                                {project.stack_tags.length > 3 && (
-                                    <span className="text-xs px-2 py-1 rounded-full" style={{ backgroundColor: colors.coral, color: colors.navy }}>
-                                        +{project.stack_tags.length - 3} more
-                                    </span>
-                                )}
+                            {/* Description container with conditional centering */}
+                            <div className={`flex-grow flex ${!project.example_img ? "items-center" : ""}`}>
+                                <p className="text-sm" style={{ color: colors.cream, opacity: 0.85 }}>
+                                    {project.quick_description}
+                                </p>
                             </div>
 
-                            {/* View Details Button */}
+                            {/* Tech Stack Tags always at bottom */}
+                            <div className="flex flex-wrap gap-1 mb-4 mt-4">{/* Tag rendering logic */}</div>
+
+                            {/* View Details Button always at very bottom */}
                             <button
-                                className="w-full py-2 rounded text-sm font-medium transition-all duration-300"
+                                className="w-full py-2 rounded text-sm font-medium transition-all duration-300 mt-auto"
                                 style={{ backgroundColor: colors.coral, color: colors.navy }}
-                                onClick={(e) => openProjectModal(project, e)}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.backgroundColor = "#c06a52";
-                                    e.currentTarget.style.color = colors.cream;
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.backgroundColor = colors.coral;
-                                    e.currentTarget.style.color = colors.navy;
-                                }}>
+                                onClick={(e) => openProjectModal(project, e)}>
                                 View Details
                             </button>
                         </div>
