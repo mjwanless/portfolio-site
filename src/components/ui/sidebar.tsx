@@ -4,6 +4,8 @@ import React, { useState, createContext, useContext } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { colors } from "@/lib/colors";
 
 interface Links {
     label: string;
@@ -78,10 +80,7 @@ export const DesktopSidebar = ({ className, children, ...props }: React.Componen
     return (
         <>
             <motion.div
-                className={cn(
-                    "h-screen py-4 hidden md:flex md:flex-col bg-sidebar w-[300px] shrink-0 border-r-3 border-sidebar-primary fixed",
-                    className
-                )}
+                className={cn("h-screen py-4 hidden md:flex md:flex-col bg-sidebar w-[300px] shrink-0", className)}
                 animate={{
                     width: animate ? (open ? "300px" : "60px") : "300px",
                 }}
@@ -96,35 +95,72 @@ export const DesktopSidebar = ({ className, children, ...props }: React.Componen
 
 export const MobileSidebar = ({ className, children, ...props }: React.ComponentProps<"div">) => {
     const { open, setOpen } = useSidebar();
+
+    // Function to handle closing with delay
+    const handleClose = () => {
+        // Use setTimeout to delay the actual state change
+        setTimeout(() => {
+            setOpen(false);
+        }, 500); // 500ms delay
+    };
+
     return (
         <>
             <div
-                className={cn(
-                    "h-10 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-sidebar w-full border-b-3 border-sidebar-primary",
-                    className
-                )}
+                className={cn("h-16 flex flex-row md:hidden items-center w-full", className)}
+                style={{
+                    backgroundColor: "#f4f1de", // cream background
+                    boxShadow: "none",
+                    padding: "0 1rem", // Even padding on both sides
+                }}
                 {...props}>
-                <div className="flex justify-end z-20 w-full">
-                    <IconMenu2 className="text-sidebar-foreground" onClick={() => setOpen(!open)} />
+                <div className="flex items-center justify-end w-full">
+                    <AnimatePresence initial={false} mode="wait">
+                        {!open ? (
+                            <motion.div
+                                key="hamburger"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.5 }}>
+                                <IconMenu2
+                                    style={{ color: "#3d405b" }} // navy color for the hamburger
+                                    className="h-8 w-8 cursor-pointer" // Larger hamburger icon
+                                    onClick={() => setOpen(true)}
+                                />
+                            </motion.div>
+                        ) : null}
+                    </AnimatePresence>
                 </div>
                 <AnimatePresence>
                     {open && (
                         <motion.div
-                            initial={{ x: "-100%", opacity: 0 }}
+                            initial={{ x: "-100%", opacity: 1 }}
                             animate={{ x: 0, opacity: 1 }}
-                            exit={{ x: "-100%", opacity: 0 }}
+                            exit={{ x: "-100%", opacity: 1 }}
                             transition={{
-                                duration: 0.3,
+                                duration: 0.5,
                                 ease: "easeInOut",
                             }}
-                            className={cn(
-                                "fixed h-full w-full inset-0 bg-sidebar p-10 z-[100] flex flex-col justify-between border-r-3 border-sidebar-primary",
-                                className
-                            )}>
-                            <div className="absolute right-10 top-10 z-50 text-sidebar-foreground" onClick={() => setOpen(!open)}>
-                                <IconX />
+                            className={cn("fixed h-full w-full inset-0 z-[100] flex flex-col", className)}
+                            style={{ backgroundColor: "#3d405b" }} // Navy background for open menu
+                        >
+                            <div className="p-10 flex flex-col flex-1">
+                                <div className="flex justify-end mb-8">
+                                    <motion.div
+                                        key="close"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ duration: 0.5, delay: 0.2 }}>
+                                        <IconX
+                                            style={{ color: "#f4f1de" }} // cream color for the X
+                                            className="h-8 w-8 cursor-pointer" // Match size with hamburger
+                                            onClick={handleClose} // Use delayed close handler
+                                        />
+                                    </motion.div>
+                                </div>
+                                <div className="flex-1">{children}</div>
                             </div>
-                            {children}
                         </motion.div>
                     )}
                 </AnimatePresence>
@@ -134,23 +170,52 @@ export const MobileSidebar = ({ className, children, ...props }: React.Component
 };
 
 export const SidebarLink = ({ link, className, ...props }: { link: Links; className?: string }) => {
-    const { open, animate } = useSidebar();
+    const { open, setOpen, animate } = useSidebar();
+    const pathname = usePathname(); // Get current pathname
+
+    // Check exact path match
+    const isActive = pathname === link.href;
+
+    const handleClick = () => {
+        // Close the sidebar on mobile when a link is clicked
+        if (window.innerWidth < 768) {
+            setOpen(false);
+        }
+    };
+
     return (
-        <Link
-            href={link.href}
-            className={cn(
-                "flex items-center justify-center py-5 px-6 -mx-4 w-[calc(100%+32px)] transition-colors duration-100 group hover:bg-sidebar-accent hover:border-y-3 hover:border-sidebar-primary border-transparent relative",
-                className
-            )}
-            {...props}>
-            {link.icon && <div className="mr-4">{link.icon}</div>}
+        <div className={cn("w-full", className)}>
+            <Link href={link.href} onClick={handleClick} className="block w-full" {...props}>
+                <div
+                    className="flex items-center justify-center py-5 px-6 transition-all duration-300 ease-in-out group relative"
+                    style={{
+                        backgroundColor: isActive ? "#f4f1de" : undefined,
+                        borderTop: isActive ? "3px solid #e07a5f" : "3px solid transparent",
+                        borderBottom: isActive ? "3px solid #e07a5f" : "3px solid transparent",
+                    }}>
+                    {link.icon && <div className="mr-4">{link.icon}</div>}
 
-            <span className="text-sidebar-foreground text-2xl font-medium group-hover:text-sidebar-primary transition-colors duration-100 whitespace-pre inline-block">
-                {link.label}
-            </span>
+                    <span
+                        className="text-2xl font-medium whitespace-pre inline-block transition-all duration-300 ease-in-out"
+                        style={{
+                            color: isActive ? "#e07a5f" : "#f4f1de",
+                        }}
+                        onMouseEnter={(e) => {
+                            if (!isActive) {
+                                e.currentTarget.style.color = "#e07a5f";
+                            }
+                        }}
+                        onMouseLeave={(e) => {
+                            if (!isActive) {
+                                e.currentTarget.style.color = "#f4f1de";
+                            }
+                        }}>
+                        {link.label}
+                    </span>
 
-            {/* Cream overlay on right side when hovered */}
-            <div className="absolute right-[-3px] top-0 bottom-0 w-[3px] group-hover:bg-[#f4f1de] transition-colors duration-100 z-10"></div>
-        </Link>
+                    {/* Right border indicator - removed for simplicity */}
+                </div>
+            </Link>
+        </div>
     );
 };
