@@ -5,7 +5,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { MainSidebar } from "@/components/customized-components/main-sidebar";
 import { useState } from "react";
-import BackgroundGrid from "@/components/customized-components/background-grid";
+// import BackgroundGrid from "@/components/customized-components/background-grid";
 
 const inter = Inter({
     subsets: ["latin"],
@@ -22,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </head>
             <body className={`${inter.className} bg-background text-foreground font-sans`}>
                 {/* full‑screen, interactive background grid */}
-                <BackgroundGrid />
+                {/* <BackgroundGrid /> */}
 
                 <div className="relative flex flex-col md:flex-row min-h-screen">
                     <div className="relative z-40">
