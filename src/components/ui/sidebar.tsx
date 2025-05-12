@@ -78,7 +78,10 @@ export const DesktopSidebar = ({ className, children, ...props }: React.Componen
     return (
         <>
             <motion.div
-                className={cn("h-full py-4 hidden md:flex md:flex-col bg-sidebar w-[300px] shrink-0 border-r-3 border-sidebar-primary", className)}
+                className={cn(
+                    "h-screen py-4 hidden md:flex md:flex-col bg-sidebar w-[300px] shrink-0 border-r-3 border-sidebar-primary fixed",
+                    className
+                )}
                 animate={{
                     width: animate ? (open ? "300px" : "60px") : "300px",
                 }}

@@ -25,10 +25,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 {/* <BackgroundGrid /> */}
 
                 <div className="relative flex flex-col md:flex-row min-h-screen">
-                    <div className="relative z-40">
+                    <div className="fixed top-0 left-0 h-screen z-40 md:relative">
                         <MainSidebar open={sidebarOpen} setOpen={setSidebarOpen} />
                     </div>
-                    <div className="relative flex-1 w-full">
+                    <div className="flex-1 w-full md:ml-[300px]">
+                        {" "}
+                        {/* Add margin-left on desktop to account for sidebar width */}
                         <div className="h-12 md:h-0 block md:hidden" />
                         <main className="relative z-10 flex-1 w-full overflow-y-auto">{children}</main>
                     </div>
