@@ -1,9 +1,8 @@
 // /components/customized-components/skill-card.tsx
 "use client";
-import React, { useEffect, useId, useRef, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
-import { useOutsideClick } from "@/hooks/use-outside-click";
+import React from "react";
 import { Icon } from "@iconify/react";
+import { colors } from "@/lib/colors";
 
 interface RelatedTech {
     id: number;
@@ -24,209 +23,70 @@ interface SkillCardProps {
 }
 
 export default function SkillCard({ techStackData }: SkillCardProps) {
-    const [active, setActive] = useState<TechStackItem | boolean | null>(null);
-    const [isMobile, setIsMobile] = useState(false);
-    const id = useId();
-    const ref = useRef<HTMLDivElement>(null);
-
-    // Check if device is mobile
-    useEffect(() => {
-        const checkIfMobile = () => {
-            setIsMobile(window.innerWidth < 768);
-        };
-
-        // Initial check
-        checkIfMobile();
-
-        // Add event listener for window resize
-        window.addEventListener("resize", checkIfMobile);
-
-        // Clean up event listener
-        return () => window.removeEventListener("resize", checkIfMobile);
-    }, []);
-
-    useEffect(() => {
-        function onKeyDown(event: KeyboardEvent) {
-            if (event.key === "Escape") {
-                setActive(false);
-            }
-        }
-
-        if (active && typeof active === "object") {
-            // Only apply overflow: hidden on desktop
-            if (!isMobile) {
-                document.body.style.overflow = "hidden";
-            }
-        } else {
-            document.body.style.overflow = "auto";
-        }
-
-        window.addEventListener("keydown", onKeyDown);
-        return () => {
-            // Make sure we clean up properly
-            document.body.style.overflow = "auto";
-            window.removeEventListener("keydown", onKeyDown);
-        };
-    }, [active, isMobile]);
-
-    useOutsideClick(ref, () => setActive(null));
-
     return (
-        <>
-            <AnimatePresence>
-                {active && typeof active === "object" && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 bg-black/50 backdrop-blur-sm h-full w-full z-10"
-                    />
-                )}
-            </AnimatePresence>
-            <AnimatePresence>
-                {active && typeof active === "object" ? (
-                    <div className="fixed inset-0 grid place-items-center z-[100] p-4">
-                        <motion.button
-                            key={`button-${active.name}-${id}`}
-                            layout
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{
-                                opacity: 0,
-                                transition: { duration: 0.05 },
-                            }}
-                            className="flex absolute top-4 right-4 items-center justify-center bg-[#f4f1de] rounded-full h-8 w-8 shadow-md"
-                            onClick={() => setActive(null)}>
-                            <CloseIcon />
-                        </motion.button>
-                        <motion.div
-                            layoutId={`card-${active.id}-${id}`}
-                            ref={ref}
-                            className="w-full max-w-[500px] h-[90vh] md:h-auto md:max-h-[90%] flex flex-col bg-[#3d405b] rounded-xl overflow-hidden overflow-y-auto shadow-xl border-3 border-[#e07a5f]">
-                            <motion.div layoutId={`image-${active.id}-${id}`}>
-                                <div className="w-full h-40 md:h-52 bg-[#3d405b]/80 flex justify-center items-center">
-                                    <Icon
-                                        icon={active.icon}
-                                        width={80}
-                                        height={80}
-                                        className="h-20 w-20 md:h-24 md:w-24 drop-shadow-md text-[#f4f1de]"
-                                    />
-                                </div>
-                            </motion.div>
+        <div
+            className="w-full grid gap-6"
+            style={{
+                gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+                justifyContent: "center",
+            }}>
+            {techStackData.map((tech) => (
+                <div
+                    key={tech.id}
+                    style={{
+                        backgroundColor: colors.navy,
+                        transform: "translateY(0)",
+                        transition: "all 300ms ease",
+                        boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+                        maxWidth: "400px",
+                        margin: "0 auto",
+                        width: "100%",
+                    }}
+                    className="p-6 flex flex-col rounded-xl hover:shadow-xl h-full"
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = "translateY(-6px)";
+                        e.currentTarget.style.boxShadow = "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)";
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = "translateY(0)";
+                        e.currentTarget.style.boxShadow = "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)";
+                    }}>
+                    <div className="flex flex-col gap-4 w-full h-full">
+                        <div className="flex justify-center items-center mt-1">
+                            <Icon icon={tech.icon} width={65} height={65} style={{ color: colors.cream }} className="h-16 w-16" />
+                        </div>
+                        <div className="flex justify-center items-center flex-col flex-1 mt-2">
+                            <h3 style={{ color: colors.cream }} className="font-semibold text-center text-2xl">
+                                {tech.name}
+                            </h3>
+                            <p style={{ color: `${colors.cream}e6` }} className="text-center text-base mt-3">
+                                {tech.description}
+                            </p>
+                        </div>
 
-                            <div className="p-6">
-                                <div className="flex justify-between items-start">
-                                    <div className="">
-                                        <motion.h3 layoutId={`title-${active.id}-${id}`} className="font-bold text-[#f4f1de] text-xl md:text-2xl">
-                                            {active.name}
-                                        </motion.h3>
-                                        <motion.p layoutId={`description-${active.id}-${id}`} className="text-[#f4f1de]/90 text-sm md:text-base mt-2">
-                                            {active.description}
-                                        </motion.p>
+                        <div className="flex flex-wrap gap-2 justify-center mt-auto pt-4">
+                            {tech.relatedTech && tech.relatedTech.length > 0 ? (
+                                tech.relatedTech.map((relatedTech) => (
+                                    <div
+                                        key={relatedTech.id}
+                                        style={{
+                                            backgroundColor: colors.coral,
+                                            color: colors.navy,
+                                            boxShadow: "0 1px 2px rgba(0,0,0,0.1)",
+                                        }}
+                                        className="rounded-full px-3 py-1 text-sm font-medium transition-all duration-300 hover:shadow-md">
+                                        {relatedTech.name}
                                     </div>
-                                </div>
-                                <div className="mt-8">
-                                    <motion.div
-                                        layout
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }}
-                                        className="text-[#f4f1de]/90">
-                                        <h4 className="text-[#f4f1de] font-medium mb-4 text-lg">Related Technologies</h4>
-                                        <div className="grid grid-cols-2 gap-3">
-                                            {active.relatedTech && active.relatedTech.length > 0 ? (
-                                                active.relatedTech.map((tech) => (
-                                                    <div
-                                                        key={tech.id}
-                                                        className="flex items-center p-3 bg-[#3d405b]/50 rounded-lg border-3 border-[#e07a5f]/80 transition-all hover:bg-[#3d405b]/70">
-                                                        <Icon icon={tech.icon} className="w-6 h-6 mr-3 text-[#f4f1de]" />
-                                                        <span className="text-[#f4f1de]">{tech.name}</span>
-                                                    </div>
-                                                ))
-                                            ) : (
-                                                <div className="col-span-2 text-center text-[#f4f1de]/70">No related technologies available</div>
-                                            )}
-                                        </div>
-                                    </motion.div>
-                                </div>
-                            </div>
-                        </motion.div>
-                    </div>
-                ) : null}
-            </AnimatePresence>
-            <ul className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-                {techStackData.map((tech) => (
-                    <motion.div
-                        layoutId={`card-${tech.id}-${id}`}
-                        key={tech.id}
-                        onClick={() => setActive(tech)}
-                        className="p-5 flex flex-col bg-[#3d405b] hover:bg-[#3d405b]/90
-                            rounded-xl cursor-pointer border-3 border-[#e07a5f] h-full
-                            shadow-sm hover:shadow-md transition-all duration-300">
-                        <div className="flex gap-4 flex-col w-full h-full">
-                            <motion.div layoutId={`image-${tech.id}-${id}`} className="flex justify-center items-center">
-                                <Icon icon={tech.icon} width={60} height={60} className="h-16 w-16 text-[#f4f1de]" />
-                            </motion.div>
-                            <div className="flex justify-center items-center flex-col flex-1">
-                                <motion.h3 layoutId={`title-${tech.id}-${id}`} className="font-semibold text-[#f4f1de] text-center text-lg">
-                                    {tech.name}
-                                </motion.h3>
-                                <motion.p
-                                    layoutId={`description-${tech.id}-${id}`}
-                                    className="text-[#f4f1de]/90 text-center text-sm mt-2 line-clamp-3">
-                                    {tech.description}
-                                </motion.p>
-                            </div>
-
-                            <div className="flex flex-wrap gap-2 justify-center mt-auto pt-4">
-                                {tech.relatedTech && tech.relatedTech.length > 0 ? (
-                                    tech.relatedTech.slice(0, 3).map((relatedTech) => (
-                                        <div key={relatedTech.id} className="bg-[#3d405b]/70 rounded-full px-3 py-1 text-xs text-[#f4f1de]">
-                                            {relatedTech.name}
-                                        </div>
-                                    ))
-                                ) : (
-                                    <span className="text-xs text-[#f4f1de]/50">No related tech</span>
-                                )}
-                            </div>
-
-                            {tech.relatedTech && tech.relatedTech.length > 3 && (
-                                <div
-                                    className="bg-[#3d405b]/70 rounded-full px-3 py-1 text-xs 
-                                    text-[#f4f1de] border-2 border-[#e07a5f]/80 mt-2 mx-auto">
-                                    +{tech.relatedTech.length - 3} more
-                                </div>
+                                ))
+                            ) : (
+                                <span style={{ color: `${colors.cream}80` }} className="text-sm">
+                                    No related tech
+                                </span>
                             )}
                         </div>
-                    </motion.div>
-                ))}
-            </ul>
-        </>
+                    </div>
+                </div>
+            ))}
+        </div>
     );
 }
-
-export const CloseIcon = () => {
-    return (
-        <motion.svg
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{
-                opacity: 0,
-                transition: { duration: 0.05 },
-            }}
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-5 w-5 text-[#3d405b]">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M18 6l-12 12" />
-            <path d="M6 6l12 12" />
-        </motion.svg>
-    );
-};
