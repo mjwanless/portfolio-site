@@ -25,10 +25,12 @@ interface SkillCardProps {
 export default function SkillCard({ techStackData }: SkillCardProps) {
     return (
         <div
-            className="w-full grid gap-6"
+            className="w-full"
             style={{
-                gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-                justifyContent: "center",
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                gap: "1.5rem",
+                justifyContent: "space-between",
             }}>
             {techStackData.map((tech) => (
                 <div
@@ -38,9 +40,6 @@ export default function SkillCard({ techStackData }: SkillCardProps) {
                         transform: "translateY(0)",
                         transition: "all 300ms ease",
                         boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
-                        maxWidth: "400px",
-                        margin: "0 auto",
-                        width: "100%",
                     }}
                     className="p-6 flex flex-col rounded-xl hover:shadow-xl h-full"
                     onMouseEnter={(e) => {
