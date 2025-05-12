@@ -35,10 +35,11 @@ export default function ProjectGrid({ projects }: { projects: Project[] }) {
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null);
-    const [expandedImage, setExpandedImage] = useState<string | null>(null);
+    const [isImageExpanded, setIsImageExpanded] = useState(false);
 
-    // Ref for modal for click-outside handling
+    // Refs for modal and expanded image
     const modalRef = useRef<HTMLDivElement>(null);
+    const expandedImageRef = useRef<HTMLDivElement>(null);
 
     // Handle opening modal
     const openProjectModal = (project: Project, e: React.MouseEvent) => {
@@ -51,45 +52,64 @@ export default function ProjectGrid({ projects }: { projects: Project[] }) {
     // Handle closing modal
     const closeProjectModal = () => {
         setSelectedProject(null);
+        setIsImageExpanded(false);
         document.body.style.overflow = ""; // Re-enable scrolling
     };
 
     // Handle image navigation
-    const nextImage = () => {
+    const nextImage = (e: React.MouseEvent) => {
+        e.stopPropagation();
         if (!selectedProject) return;
         setCurrentImageIndex((prev) => (prev === selectedProject.project_imgs.length - 1 ? 0 : prev + 1));
     };
 
-    const prevImage = () => {
+    const prevImage = (e: React.MouseEvent) => {
+        e.stopPropagation();
         if (!selectedProject) return;
-        setCurrentImageIndex((prev) => (prev === 0 ? selectedProject.project_imgs.length - 1 : prev));
+        setCurrentImageIndex((prev) => (prev === 0 ? selectedProject.project_imgs.length - 1 : prev + 1));
     };
 
     // Handle expanded image
-    const expandImage = (imageSrc: string) => {
-        setExpandedImage(imageSrc);
+    const expandImage = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setIsImageExpanded(true);
     };
 
     const closeExpandedImage = () => {
-        setExpandedImage(null);
+        setIsImageExpanded(false);
     };
 
     // Handle clicks outside modal
     useEffect(() => {
         const handleOutsideClick = (e: MouseEvent) => {
-            if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+            // Only close the modal if the click is outside the modal AND not in the expanded image view
+            if (modalRef.current && !modalRef.current.contains(e.target as Node) && !isImageExpanded) {
                 closeProjectModal();
+            }
+        };
+
+        // For expanded image, we want separate behavior
+        const handleExpandedImageClick = (e: MouseEvent) => {
+            // Don't close the whole modal, just close the expanded image view
+            if (isImageExpanded && expandedImageRef.current && !expandedImageRef.current.querySelector("img")?.contains(e.target as Node)) {
+                // Close just the expanded view, not the whole modal
+                e.stopPropagation();
+                closeExpandedImage();
             }
         };
 
         if (selectedProject) {
             document.addEventListener("mousedown", handleOutsideClick);
+            if (isImageExpanded) {
+                document.addEventListener("mousedown", handleExpandedImageClick);
+            }
         }
 
         return () => {
             document.removeEventListener("mousedown", handleOutsideClick);
+            document.removeEventListener("mousedown", handleExpandedImageClick);
         };
-    }, [selectedProject]);
+    }, [selectedProject, isImageExpanded]);
 
     return (
         <>
@@ -109,9 +129,9 @@ export default function ProjectGrid({ projects }: { projects: Project[] }) {
                         }}
                         onMouseEnter={() => setHoveredProjectId(project.id)}
                         onMouseLeave={() => setHoveredProjectId(null)}>
-                        {/* Project Image */}
-                        <div className="w-full h-48 flex items-center justify-center" style={{ backgroundColor: "#272834" }}>
-                            {project.example_img ? (
+                        {/* Only show image container if there's an image */}
+                        {project.example_img && (
+                            <div className="w-full h-48 flex items-center justify-center" style={{ backgroundColor: "#272834" }}>
                                 <div className="relative w-full h-full">
                                     <Image
                                         src={project.example_img}
@@ -121,17 +141,8 @@ export default function ProjectGrid({ projects }: { projects: Project[] }) {
                                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                     />
                                 </div>
-                            ) : (
-                                <div className="flex flex-col items-center justify-center h-full">
-                                    <h3 className="text-lg font-bold mb-2" style={{ color: colors.cream }}>
-                                        {project.title}
-                                    </h3>
-                                    <p className="text-xs text-center" style={{ color: colors.cream, opacity: 0.8 }}>
-                                        No image available
-                                    </p>
-                                </div>
-                            )}
-                        </div>
+                            </div>
+                        )}
 
                         {/* Card Content */}
                         <div className="p-4">
@@ -186,7 +197,8 @@ export default function ProjectGrid({ projects }: { projects: Project[] }) {
                     <div
                         ref={modalRef}
                         className="relative w-full max-w-4xl rounded-xl overflow-hidden shadow-lg"
-                        style={{ backgroundColor: colors.navy }}>
+                        style={{ backgroundColor: colors.navy }}
+                        onClick={(e) => e.stopPropagation()}>
                         {/* Close Button */}
                         <button
                             onClick={closeProjectModal}
@@ -230,7 +242,7 @@ export default function ProjectGrid({ projects }: { projects: Project[] }) {
                                                     fill
                                                     className="object-contain p-2"
                                                     sizes="(max-width: 768px) 100vw, 60vw"
-                                                    onClick={() => expandImage(selectedProject.project_imgs[currentImageIndex])}
+                                                    onClick={expandImage}
                                                     style={{ cursor: "pointer" }}
                                                 />
                                             </div>
@@ -317,15 +329,28 @@ export default function ProjectGrid({ projects }: { projects: Project[] }) {
                 </div>
             )}
 
-            {/* Expanded Image Viewer */}
-            {expandedImage && (
-                <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black bg-opacity-90" onClick={closeExpandedImage}>
-                    <div className="relative max-w-[90%] max-h-[90vh]">
-                        <img src={expandedImage} alt="Expanded view" className="max-w-full max-h-[90vh] object-contain" />
+            {/* Expanded Image Viewer - Separate from modal */}
+            {selectedProject && isImageExpanded && (
+                <div
+                    ref={expandedImageRef}
+                    className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-90"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        closeExpandedImage();
+                    }}>
+                    <div className="relative max-w-[90%] max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
+                        <img
+                            src={selectedProject.project_imgs[currentImageIndex]}
+                            alt="Expanded view"
+                            className="max-w-full max-h-[90vh] object-contain"
+                        />
                         <button
                             className="absolute top-4 right-4 p-2 rounded-full"
                             style={{ backgroundColor: colors.coral, color: colors.navy }}
-                            onClick={closeExpandedImage}>
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                closeExpandedImage();
+                            }}>
                             <X className="h-5 w-5" />
                         </button>
                     </div>
