@@ -1,183 +1,336 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { IconBrandGithub, IconX } from "@tabler/icons-react";
 import { projects as projectsData } from "@/data/data-projects";
+import { ArrowLeft, X, ChevronLeft, ChevronRight, Code, Github } from "lucide-react";
 
-// Define the type explicitly to avoid TypeScript errors
-type Project = (typeof projectsData)[0];
+// Define the Project type based on your actual data
+type Project = {
+    id: number;
+    title: string;
+    stack_tags: string[];
+    quick_description: string;
+    github_href: string;
+    example_img: string;
+    project_imgs: string[];
+    full_description: string;
+};
 
-// Use explicit typing for the props
-const ProjectGrid = ({ projects }: { projects: Project[] }) => {
-    // State to track which project is selected for the modal
+// Colors from your style guide
+const colors = {
+    navy: "#3d405b",
+    coral: "#e07a5f",
+    cream: "#f4f1de",
+    peach: "#eab69f",
+    brick: "#8f5d5d",
+    teal: "#5f797b",
+    seafoam: "#81b29a",
+    sage: "#babf95",
+    gold: "#f2cc8f",
+};
+
+export default function ProjectGrid({ projects }: { projects: Project[] }) {
+    // State management
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-    const [currentImage, setCurrentImage] = useState<string | null>(null);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null);
+    const [expandedImage, setExpandedImage] = useState<string | null>(null);
 
-    // Open modal with project details
-    const openModal = (project: Project) => {
+    // Ref for modal for click-outside handling
+    const modalRef = useRef<HTMLDivElement>(null);
+
+    // Handle opening modal
+    const openProjectModal = (project: Project, e: React.MouseEvent) => {
+        e.stopPropagation();
         setSelectedProject(project);
-        setCurrentImage(project.example_img);
+        setCurrentImageIndex(0);
+        document.body.style.overflow = "hidden"; // Prevent scrolling
     };
 
-    // Close modal
-    const closeModal = () => {
+    // Handle closing modal
+    const closeProjectModal = () => {
         setSelectedProject(null);
-        setCurrentImage(null);
+        document.body.style.overflow = ""; // Re-enable scrolling
     };
+
+    // Handle image navigation
+    const nextImage = () => {
+        if (!selectedProject) return;
+        setCurrentImageIndex((prev) => (prev === selectedProject.project_imgs.length - 1 ? 0 : prev + 1));
+    };
+
+    const prevImage = () => {
+        if (!selectedProject) return;
+        setCurrentImageIndex((prev) => (prev === 0 ? selectedProject.project_imgs.length - 1 : prev));
+    };
+
+    // Handle expanded image
+    const expandImage = (imageSrc: string) => {
+        setExpandedImage(imageSrc);
+    };
+
+    const closeExpandedImage = () => {
+        setExpandedImage(null);
+    };
+
+    // Handle clicks outside modal
+    useEffect(() => {
+        const handleOutsideClick = (e: MouseEvent) => {
+            if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+                closeProjectModal();
+            }
+        };
+
+        if (selectedProject) {
+            document.addEventListener("mousedown", handleOutsideClick);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleOutsideClick);
+        };
+    }, [selectedProject]);
 
     return (
         <>
-            {/* Project Grid */}
+            {/* Project Cards Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-8">
-                {projects.map((project: Project) => (
+                {projects.map((project) => (
                     <div
                         key={project.id}
-                        className="bg-white dark:bg-neutral-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
-                        onClick={() => openModal(project)}>
-                        {/* Project Image (if available) */}
-                        {project.example_img ? (
-                            <div className="relative w-full h-48">
-                                <Image
-                                    src={project.example_img}
-                                    alt={project.title}
-                                    fill
-                                    className="object-cover"
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                                />
-                            </div>
-                        ) : (
-                            <div className="h-48 bg-neutral-100 dark:bg-neutral-700 flex items-center justify-center">
-                                <span className="text-neutral-500 dark:text-neutral-400">No image available</span>
-                            </div>
-                        )}
+                        className="rounded-xl overflow-hidden shadow-md transition-all duration-300"
+                        style={{
+                            backgroundColor: colors.navy,
+                            boxShadow:
+                                hoveredProjectId === project.id
+                                    ? "0 20px 30px -10px rgba(61,64,91,0.2), 0 10px 15px -6px rgba(61,64,91,0.15)"
+                                    : "0 10px 15px -3px rgba(61,64,91,0.1), 0 4px 6px -2px rgba(61,64,91,0.05)",
+                            transform: hoveredProjectId === project.id ? "translateY(-5px)" : "translateY(0)",
+                        }}
+                        onMouseEnter={() => setHoveredProjectId(project.id)}
+                        onMouseLeave={() => setHoveredProjectId(null)}>
+                        {/* Project Image */}
+                        <div className="w-full h-48 flex items-center justify-center" style={{ backgroundColor: "#272834" }}>
+                            {project.example_img ? (
+                                <div className="relative w-full h-full">
+                                    <Image
+                                        src={project.example_img}
+                                        alt={project.title}
+                                        fill
+                                        className="object-contain p-1"
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                    />
+                                </div>
+                            ) : (
+                                <div className="flex flex-col items-center justify-center h-full">
+                                    <h3 className="text-lg font-bold mb-2" style={{ color: colors.cream }}>
+                                        {project.title}
+                                    </h3>
+                                    <p className="text-xs text-center" style={{ color: colors.cream, opacity: 0.8 }}>
+                                        No image available
+                                    </p>
+                                </div>
+                            )}
+                        </div>
 
-                        {/* Project Content */}
-                        <div className="p-5">
-                            <h3 className="text-xl font-bold text-neutral-800 dark:text-white mb-2">{project.title}</h3>
+                        {/* Card Content */}
+                        <div className="p-4">
+                            <h3 className="text-xl font-bold mb-2" style={{ color: colors.cream }}>
+                                {project.title}
+                            </h3>
 
-                            <p className="text-neutral-600 dark:text-neutral-300 text-sm mb-4">{project.quick_description}</p>
+                            <p className="text-sm mb-4" style={{ color: colors.cream, opacity: 0.85 }}>
+                                {project.quick_description}
+                            </p>
 
                             {/* Tech Stack Tags */}
-                            <div className="flex flex-wrap gap-2 mb-4">
-                                {project.stack_tags.slice(0, 3).map((tag: string) => (
+                            <div className="flex flex-wrap gap-1 mb-4">
+                                {project.stack_tags.slice(0, 3).map((tag, i) => (
                                     <span
-                                        key={tag}
-                                        className="bg-neutral-100 dark:bg-neutral-700 rounded-full px-3 py-1 text-xs text-neutral-600 dark:text-neutral-300">
+                                        key={i}
+                                        className="text-xs px-2 py-1 rounded-full"
+                                        style={{ backgroundColor: colors.coral, color: colors.navy }}>
                                         {tag}
                                     </span>
                                 ))}
                                 {project.stack_tags.length > 3 && (
-                                    <span className="bg-neutral-100 dark:bg-neutral-700 rounded-full px-3 py-1 text-xs text-neutral-600 dark:text-neutral-300">
+                                    <span className="text-xs px-2 py-1 rounded-full" style={{ backgroundColor: colors.coral, color: colors.navy }}>
                                         +{project.stack_tags.length - 3} more
                                     </span>
                                 )}
                             </div>
 
-                            {/* GitHub Link */}
-                            <div onClick={(e) => e.stopPropagation()} className="inline-block">
-                                <a
-                                    href={project.github_href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:underline">
-                                    <IconBrandGithub className="h-4 w-4" />
-                                    <span className="text-sm">View on GitHub</span>
-                                </a>
-                            </div>
+                            {/* View Details Button */}
+                            <button
+                                className="w-full py-2 rounded text-sm font-medium transition-all duration-300"
+                                style={{ backgroundColor: colors.coral, color: colors.navy }}
+                                onClick={(e) => openProjectModal(project, e)}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.backgroundColor = "#c06a52";
+                                    e.currentTarget.style.color = colors.cream;
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.backgroundColor = colors.coral;
+                                    e.currentTarget.style.color = colors.navy;
+                                }}>
+                                View Details
+                            </button>
                         </div>
                     </div>
                 ))}
             </div>
 
-            {/* Modal */}
+            {/* Project Detail Modal */}
             {selectedProject && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
-                    <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-neutral-800 rounded-lg shadow-xl">
-                        {/* Close button */}
-                        <button onClick={closeModal} className="absolute top-4 right-4 z-10 p-2 bg-white dark:bg-neutral-700 rounded-full shadow-md">
-                            <IconX className="h-5 w-5 text-neutral-700 dark:text-neutral-300" />
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}>
+                    <div
+                        ref={modalRef}
+                        className="relative w-full max-w-4xl rounded-xl overflow-hidden shadow-lg"
+                        style={{ backgroundColor: colors.navy }}>
+                        {/* Close Button */}
+                        <button
+                            onClick={closeProjectModal}
+                            className="absolute top-4 right-4 z-10 p-2 rounded-full"
+                            style={{ backgroundColor: colors.coral, color: colors.navy }}>
+                            <X className="h-5 w-5" />
                         </button>
 
-                        {/* Main image */}
-                        {currentImage || selectedProject.example_img ? (
-                            <div className="relative w-full h-64 md:h-80">
-                                <Image
-                                    src={currentImage || selectedProject.example_img}
-                                    alt={selectedProject.title}
-                                    fill
-                                    className="object-cover"
-                                    sizes="(max-width: 768px) 100vw, 800px"
-                                    priority
-                                />
-                            </div>
-                        ) : (
-                            <div className="w-full h-64 md:h-80 flex items-center justify-center bg-neutral-100 dark:bg-neutral-700">
-                                <span className="text-neutral-500 dark:text-neutral-400">No image available</span>
-                            </div>
-                        )}
+                        <div className="flex flex-col md:flex-row">
+                            {/* Left Column */}
+                            <div className="w-full md:w-3/5 p-5">
+                                <div className="flex items-center mb-4">
+                                    <button
+                                        className="flex items-center text-sm font-medium mr-3"
+                                        style={{ color: colors.coral }}
+                                        onClick={closeProjectModal}>
+                                        <ArrowLeft className="h-4 w-4 mr-1" />
+                                        Back
+                                    </button>
 
-                        {/* Content */}
-                        <div className="p-6 md:p-8">
-                            <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-6">
-                                <div>
-                                    <h2 className="text-2xl md:text-3xl font-bold text-neutral-800 dark:text-white mb-3">{selectedProject.title}</h2>
+                                    <h2 className="text-xl font-bold" style={{ color: colors.cream }}>
+                                        {selectedProject.title}
+                                    </h2>
+                                </div>
 
-                                    <div className="flex flex-wrap gap-2 mb-4">
-                                        {selectedProject.stack_tags.map((tag: string) => (
+                                {/* Section Title */}
+                                <div className="mb-4">
+                                    <h3 className="text-lg font-semibold" style={{ color: colors.coral }}>
+                                        Depot Information
+                                    </h3>
+                                </div>
+
+                                {/* Image Carousel */}
+                                {selectedProject.project_imgs && selectedProject.project_imgs.length > 0 && (
+                                    <div className="relative mb-6 rounded-lg border border-gray-700 overflow-hidden">
+                                        <div className="h-64 bg-gray-800 flex items-center justify-center">
+                                            <div className="relative w-full h-full">
+                                                <Image
+                                                    src={selectedProject.project_imgs[currentImageIndex]}
+                                                    alt={`${selectedProject.title} screenshot ${currentImageIndex + 1}`}
+                                                    fill
+                                                    className="object-contain p-2"
+                                                    sizes="(max-width: 768px) 100vw, 60vw"
+                                                    onClick={() => expandImage(selectedProject.project_imgs[currentImageIndex])}
+                                                    style={{ cursor: "pointer" }}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Carousel Navigation */}
+                                        <div className="absolute inset-0 flex items-center justify-between pointer-events-none">
+                                            <button
+                                                className="pointer-events-auto ml-2 h-8 w-8 rounded-full flex items-center justify-center"
+                                                style={{ backgroundColor: colors.coral, color: colors.navy }}
+                                                onClick={prevImage}>
+                                                <ChevronLeft className="h-5 w-5" />
+                                            </button>
+
+                                            <button
+                                                className="pointer-events-auto mr-2 h-8 w-8 rounded-full flex items-center justify-center"
+                                                style={{ backgroundColor: colors.coral, color: colors.navy }}
+                                                onClick={nextImage}>
+                                                <ChevronRight className="h-5 w-5" />
+                                            </button>
+                                        </div>
+
+                                        {/* Image Counter */}
+                                        <div
+                                            className="absolute bottom-2 right-2 px-2 py-1 rounded-md text-xs"
+                                            style={{ backgroundColor: colors.coral, color: colors.navy }}>
+                                            {currentImageIndex + 1} / {selectedProject.project_imgs.length}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Project Description */}
+                                <div className="text-sm" style={{ color: colors.cream }}>
+                                    <p>{selectedProject.full_description}</p>
+                                </div>
+                            </div>
+
+                            {/* Right Column */}
+                            <div className="w-full md:w-2/5 p-5 md:border-l flex flex-col" style={{ borderColor: "rgba(224, 122, 95, 0.2)" }}>
+                                {/* Technologies Section */}
+                                <div className="mb-4">
+                                    <div className="flex items-center mb-3">
+                                        <Code className="h-5 w-5 mr-2" style={{ color: colors.coral }} />
+                                        <span className="text-base font-medium" style={{ color: colors.cream }}>
+                                            Technologies
+                                        </span>
+                                    </div>
+
+                                    <div className="flex flex-wrap gap-2 mt-2">
+                                        {selectedProject.stack_tags.map((tag, i) => (
                                             <span
-                                                key={tag}
-                                                className="bg-neutral-100 dark:bg-neutral-700 rounded-full px-3 py-1 text-xs text-neutral-600 dark:text-neutral-300">
+                                                key={i}
+                                                className="px-3 py-1 rounded-full text-sm"
+                                                style={{ backgroundColor: colors.coral, color: colors.navy }}>
                                                 {tag}
                                             </span>
                                         ))}
                                     </div>
                                 </div>
 
-                                <a
-                                    href={selectedProject.github_href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                                    <IconBrandGithub className="h-5 w-5" />
-                                    <span>View on GitHub</span>
-                                </a>
-                            </div>
-
-                            <div className="prose prose-lg dark:prose-invert max-w-none mb-8">
-                                <p className="text-neutral-700 dark:text-neutral-300">{selectedProject.full_description}</p>
-                            </div>
-
-                            {/* Project images gallery */}
-                            {selectedProject.project_imgs && selectedProject.project_imgs.length > 0 && (
-                                <div className="mt-8">
-                                    <h3 className="text-xl font-semibold text-neutral-800 dark:text-white mb-4">Project Images</h3>
-                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                        {selectedProject.project_imgs.map((img: string, index: number) => (
-                                            <div
-                                                key={index}
-                                                className={`relative h-24 md:h-32 cursor-pointer rounded-lg overflow-hidden border-2 ${
-                                                    img === currentImage ? "border-blue-500" : "border-transparent"
-                                                }`}
-                                                onClick={() => setCurrentImage(img)}>
-                                                <Image
-                                                    src={img}
-                                                    alt={`${selectedProject.title} screenshot ${index + 1}`}
-                                                    fill
-                                                    className="object-cover"
-                                                    sizes="(max-width: 768px) 50vw, 25vw"
-                                                />
-                                            </div>
-                                        ))}
-                                    </div>
+                                {/* GitHub Button - at bottom */}
+                                <div className="mt-auto pt-4">
+                                    <a
+                                        href={selectedProject.github_href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex justify-center items-center gap-2 py-3 rounded-md text-sm font-medium w-full transition-all duration-300"
+                                        style={{ backgroundColor: colors.coral, color: colors.navy }}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.backgroundColor = "#c06a52";
+                                            e.currentTarget.style.color = colors.cream;
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.backgroundColor = colors.coral;
+                                            e.currentTarget.style.color = colors.navy;
+                                        }}>
+                                        <Github className="h-5 w-5" />
+                                        <span>View on GitHub</span>
+                                    </a>
                                 </div>
-                            )}
+                            </div>
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Expanded Image Viewer */}
+            {expandedImage && (
+                <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black bg-opacity-90" onClick={closeExpandedImage}>
+                    <div className="relative max-w-[90%] max-h-[90vh]">
+                        <img src={expandedImage} alt="Expanded view" className="max-w-full max-h-[90vh] object-contain" />
+                        <button
+                            className="absolute top-4 right-4 p-2 rounded-full"
+                            style={{ backgroundColor: colors.coral, color: colors.navy }}
+                            onClick={closeExpandedImage}>
+                            <X className="h-5 w-5" />
+                        </button>
                     </div>
                 </div>
             )}
         </>
     );
-};
-
-export default ProjectGrid;
+}
