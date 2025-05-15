@@ -3,6 +3,7 @@
 import React from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSidebar } from "@/components/ui/sidebar";
 
@@ -71,10 +72,14 @@ export const LogoWithClose = () => {
 
     return (
         <Link href="/" className="relative z-20 flex justify-center items-center px-4 py-8 text-sidebar-foreground" onClick={handleClick}>
-            <div className="flex justify-center w-full">
-                <div className="h-24 w-24 overflow-hidden rounded-full border-3 border-sidebar-primary">
-                    <img src="/images/logos/logo-dark-letters.png" alt="Malcolm Logo" className="h-full w-full object-cover" />
-                </div>
+            <div className="h-24 w-24 overflow-hidden rounded-full border-3 border-sidebar-primary relative">
+                <Image
+                    src="/images/logos/logo-dark-letters.png"
+                    alt="Malcolm Logo"
+                    fill
+                    sizes="(max-width: 768px) 24vw, 96px"
+                    className="object-cover"
+                />
             </div>
         </Link>
     );

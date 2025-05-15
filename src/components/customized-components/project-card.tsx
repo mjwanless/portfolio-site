@@ -4,6 +4,7 @@ import React, { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import { IconBrandGithub } from "@tabler/icons-react";
+import Image from "next/image";
 
 interface ProjectType {
     id: number;
@@ -85,12 +86,18 @@ export default function ProjectCard({ projectsData }: ProjectCardProps) {
                             ref={ref}
                             className="w-full max-w-[700px] h-full md:h-fit md:max-h-[90%] flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden">
                             <motion.div layoutId={`image-${active.id}-${id}`}>
-                                <div className="w-full h-64 bg-neutral-100 dark:bg-neutral-800 flex justify-center items-center overflow-hidden">
-                                    <img src={currentImage || active.example_img} alt={active.title} className="w-full h-full object-cover" />
+                                <div className="w-full h-64 bg-neutral-100 dark:bg-neutral-800 flex justify-center items-center overflow-hidden relative">
+                                    <Image
+                                        src={currentImage || active.example_img}
+                                        alt={active.title}
+                                        fill
+                                        className="object-cover"
+                                        sizes="(max-width: 768px) 100vw, 700px"
+                                    />
                                 </div>
                             </motion.div>
 
-                            <div className="p-6">
+                            <motion.div className="p-6">
                                 <div className="flex justify-between items-start mb-4">
                                     <div>
                                         <motion.h3
@@ -108,11 +115,12 @@ export default function ProjectCard({ projectsData }: ProjectCardProps) {
                                             ))}
                                         </motion.div>
                                     </div>
+
                                     <a
                                         href={active.github_href}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        onClick={(e) => e.stopPropagation()}
+                                        onClick={(e: React.MouseEvent) => e.stopPropagation()}
                                         className="flex items-center gap-2 text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-200 transition-colors">
                                         <IconBrandGithub className="h-5 w-5" />
                                         <span className="text-sm">View Code</span>
@@ -134,19 +142,21 @@ export default function ProjectCard({ projectsData }: ProjectCardProps) {
                                                     key={index}
                                                     className={`cursor-pointer rounded-lg overflow-hidden border-2 ${
                                                         img === currentImage ? "border-blue-500" : "border-transparent"
-                                                    }`}
+                                                    } relative h-24`}
                                                     onClick={() => setCurrentImage(img)}>
-                                                    <img
+                                                    <Image
                                                         src={img}
                                                         alt={`${active.title} screenshot ${index + 1}`}
-                                                        className="w-full h-24 object-cover"
+                                                        fill
+                                                        className="object-cover"
+                                                        sizes="(max-width: 768px) 33vw, 150px"
                                                     />
                                                 </div>
                                             ))}
                                         </div>
                                     </div>
                                 )}
-                            </div>
+                            </motion.div>
                         </motion.div>
                     </div>
                 ) : null}
@@ -159,11 +169,13 @@ export default function ProjectCard({ projectsData }: ProjectCardProps) {
                         onClick={() => setActive(project)}
                         className="p-4 flex flex-col hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl cursor-pointer border border-neutral-200 dark:border-neutral-800 h-full">
                         <div className="flex gap-4 flex-col w-full">
-                            <motion.div layoutId={`image-${project.id}-${id}`} className="rounded-lg overflow-hidden">
-                                <img
+                            <motion.div layoutId={`image-${project.id}-${id}`} className="rounded-lg overflow-hidden relative h-48">
+                                <Image
                                     src={project.example_img}
                                     alt={project.title}
-                                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+                                    fill
+                                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                 />
                             </motion.div>
                             <div className="flex flex-col">

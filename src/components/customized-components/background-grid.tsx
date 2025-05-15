@@ -7,6 +7,7 @@ export default function BackgroundGrid() {
     const boxSize = 18; // Reduced from 48px to 24px
 
     // Color palette for cell hover effects - using your custom CSS variables
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const colors = [
         // "var(--custom-seafoam)", // #81b29a - Card backgrounds
         // "var(--custom-peach)", // #eab69f - Potential accent color
@@ -72,7 +73,7 @@ export default function BackgroundGrid() {
         // Set up and clean up event listener
         window.addEventListener("mousemove", handleMouseMove);
         return () => window.removeEventListener("mousemove", handleMouseMove);
-    }, [cols, rows]);
+    }, [colors, cols, rows]);
 
     return (
         <div className="fixed inset-0 z-0 overflow-hidden bg-custom-cream pointer-events-none">

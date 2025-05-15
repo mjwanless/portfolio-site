@@ -36,4 +36,12 @@ module.exports = {
         },
     },
     plugins: [],
+    rules: {
+        "at-rule-no-unknown": [
+            true,
+            {
+                ignoreAtRules: ["tailwind", "apply", "variants", "responsive", "screen", "theme", "custom-variant"],
+            },
+        ],
+    },
 };
