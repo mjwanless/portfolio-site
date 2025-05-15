@@ -72,12 +72,12 @@ export const projects = [
         stack_tags: ["JavaScript", "HTML", "Tailwind", "HuggingFace AI Models"],
         quick_description: "A web application that generates song lyrics using AI through a RESTful API.",
         github_href: "https://github.com/mjwanless/IA-restful-AI-Project",
-        example_img: "/images/projects/Restful-api-ai-app/1.png",
+        example_img: "/images/projects/Restful-API-AI-app/1.png",
         project_imgs: [
-            "/images/projects/Restful-api-ai-app/1.png",
-            "/images/projects/Restful-api-ai-app/2.png",
-            "/images/projects/Restful-api-ai-app/3.png",
-            "/images/projects/Restful-api-ai-app/4.png",
+            "/images/projects/Restful-API-AI-app/1.png",
+            "/images/projects/Restful-API-AI-app/2.png",
+            "/images/projects/Restful-API-AI-app/3.png",
+            "/images/projects/Restful-API-AI-app/4.png",
         ],
         full_description:
             "This project is a web application that creates AI-generated song lyrics based on user inputs. It uses a RESTful API architecture to connect the frontend interface with HuggingFace's AI models, hosted on DigitalOcean. The application features a user interface built with HTML and styled with Tailwind, while JavaScript manages the API calls and response handling.",
