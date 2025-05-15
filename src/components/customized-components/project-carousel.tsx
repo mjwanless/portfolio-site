@@ -2,7 +2,6 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { projects as projectsData } from "@/data/data-projects";
 import { ArrowLeft, X, ChevronLeft, ChevronRight, Code, Github } from "lucide-react";
 
 // Define the Project type based on your actual data

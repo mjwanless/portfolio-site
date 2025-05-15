@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
-import { Modal, ModalBody, ModalContent } from "../ui/animated-modal";
+import React, { useState, useEffect } from "react";
+import { Modal, ModalBody, ModalContent, useModal } from "../ui/animated-modal";
 import { IconBrandGithub, IconX } from "@tabler/icons-react";
 import { motion } from "motion/react";
+import Image from "next/image";
 
 interface ProjectModalProps {
     project: {
@@ -22,9 +23,15 @@ interface ProjectModalProps {
 
 export default function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
     const [currentImage, setCurrentImage] = useState<string | null>(project ? project.example_img : null);
+    const { setOpen } = useModal();
+
+    // Sync the external isOpen state with the modal's internal state
+    useEffect(() => {
+        setOpen(isOpen);
+    }, [isOpen, setOpen]);
 
     // Update current image when project changes
-    React.useEffect(() => {
+    useEffect(() => {
         if (project) {
             setCurrentImage(project.example_img);
         }
@@ -33,7 +40,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
     if (!project) return null;
 
     return (
-        <Modal open={isOpen} onOpenChange={onClose}>
+        <Modal>
             <ModalBody>
                 <ModalContent className="max-w-4xl w-full">
                     {/* Close button */}
@@ -48,12 +55,13 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
                         <div className="flex-1">
                             <h2 className="text-2xl font-bold text-neutral-800 dark:text-neutral-100 flex items-center gap-2">
                                 {project.title}
+                                {/* MISSING <a> TAG HERE - Adding it back */}
                                 <a
                                     href={project.github_href}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors flex items-center gap-1 text-sm"
-                                    onClick={(e) => e.stopPropagation()}>
+                                    onClick={(e: React.MouseEvent) => e.stopPropagation()}>
                                     <IconBrandGithub className="h-4 w-4" />
                                     <span>View on GitHub</span>
                                 </a>
@@ -77,8 +85,14 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
                         {/* Right Section with images */}
                         <div className="flex-1">
                             {/* Main Image */}
-                            <div className="rounded-lg overflow-hidden bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 mb-4">
-                                <img src={currentImage || project.example_img} alt={project.title} className="w-full h-64 object-cover" />
+                            <div className="rounded-lg overflow-hidden bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 mb-4 relative h-64">
+                                <Image
+                                    src={currentImage || project.example_img}
+                                    alt={project.title}
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 768px) 100vw, 50vw"
+                                />
                             </div>
 
                             {/* Thumbnail Images */}
@@ -89,9 +103,15 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
                                         whileHover={{ scale: 1.05 }}
                                         className={`rounded-md overflow-hidden cursor-pointer border-2 ${
                                             img === currentImage ? "border-blue-500 dark:border-blue-400" : "border-transparent"
-                                        }`}
+                                        } relative h-24`}
                                         onClick={() => setCurrentImage(img)}>
-                                        <img src={img} alt={`Project Image ${index + 1}`} className="w-full h-24 object-cover" />
+                                        <Image
+                                            src={img}
+                                            alt={`Project Image ${index + 1}`}
+                                            fill
+                                            className="object-cover"
+                                            sizes="(max-width: 768px) 30vw, 150px"
+                                        />
                                     </motion.div>
                                 ))}
                             </div>

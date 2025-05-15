@@ -5,7 +5,6 @@ import { AnimatePresence, motion } from "motion/react";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { colors } from "@/lib/colors";
 
 interface Links {
     label: string;
@@ -170,7 +169,7 @@ export const MobileSidebar = ({ className, children, ...props }: React.Component
 };
 
 export const SidebarLink = ({ link, className, ...props }: { link: Links; className?: string }) => {
-    const { open, setOpen, animate } = useSidebar();
+    const { setOpen } = useSidebar();
     const pathname = usePathname(); // Get current pathname
 
     // Check exact path match
