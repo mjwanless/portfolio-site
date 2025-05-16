@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { colors } from "@/lib/colors"; // Import your colors
-import { IconBrandGithub, IconBrandLinkedin, IconFileDownload } from "@tabler/icons-react";
+import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react";
 
 export default function ContactPage() {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -20,7 +20,7 @@ export default function ContactPage() {
                         Contact Me
                     </h1>
                     <p className="mt-2 max-w-2xl mx-auto" style={{ color: colors.navy }}>
-                        Get in touch with me through the form or social links.
+                        Get in touch with me through the form or check out my Github/Linkedin below.
                     </p>
                 </div>
 
@@ -167,7 +167,7 @@ export default function ContactPage() {
 
                             <div className="flex flex-col space-y-4">
                                 <Link
-                                    href="https://github.com/yourusername"
+                                    href="https://github.com/mjwanless"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="flex h-12 w-full items-center justify-start space-x-3 
@@ -190,7 +190,7 @@ export default function ContactPage() {
                                 </Link>
 
                                 <Link
-                                    href="https://www.linkedin.com/in/your-profile"
+                                    href="https://www.linkedin.com/in/malcolm-wanless/"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="flex h-12 w-full items-center justify-start space-x-3 
@@ -210,28 +210,6 @@ export default function ContactPage() {
                                     }}>
                                     <IconBrandLinkedin className="h-6 w-6" />
                                     <span>LinkedIn</span>
-                                </Link>
-
-                                <Link
-                                    href="/Malcolm_Wanless_Resume.pdf"
-                                    download
-                                    className="flex h-12 w-full items-center justify-start space-x-3 
-                                    rounded-md px-4 font-medium transition-all duration-300"
-                                    style={{
-                                        backgroundColor: colors.coral,
-                                        color: colors.navy,
-                                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.06)",
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        e.currentTarget.style.backgroundColor = "#c06a52";
-                                        e.currentTarget.style.color = colors.cream;
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.currentTarget.style.backgroundColor = colors.coral;
-                                        e.currentTarget.style.color = colors.navy;
-                                    }}>
-                                    <IconFileDownload className="h-6 w-6" />
-                                    <span>Download Resume</span>
                                 </Link>
                             </div>
                         </div>

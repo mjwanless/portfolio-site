@@ -30,11 +30,6 @@ export function MainSidebar({ open, setOpen }: MainSidebarProps) {
             href: "/skills",
             icon: null,
         },
-        {
-            label: "Contact",
-            href: "/contact",
-            icon: null,
-        },
     ];
 
     return (
