@@ -9,7 +9,7 @@ export default function AboutPage() {
     const [copied, setCopied] = useState(false);
 
     const copyEmailToClipboard = () => {
-        navigator.clipboard.writeText("malcolm@malcolmwanless.ca");
+        navigator.clipboard.writeText("mjwanless@gmail.com");
         setCopied(true);
 
         // Reset the copied state after 2 seconds
@@ -85,7 +85,7 @@ export default function AboutPage() {
                             </Link>
 
                             <Link
-                                href="mailto:malcolm@malcolmwanless.ca"
+                                href="mailto:mjwanless@gmail.com"
                                 className="flex h-12 items-center justify-center sm:justify-start space-x-3 
                                 rounded-md px-6 font-medium transition-all duration-300"
                                 style={{
