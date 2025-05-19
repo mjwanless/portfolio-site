@@ -2,7 +2,6 @@
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import Image from "next/image";
 
-// Import colors directly as specified in style guide
 const colors = {
     navy: "#3d405b",
     coral: "#e07a5f",
@@ -31,7 +30,7 @@ export default function Home() {
                     />
 
                     <TextGenerateEffect
-                        words="I'm a developer who loves building useful, usable things for the web."
+                        words="Crafting responsive websites and applications with purpose."
                         className="!text-base md:!text-lg !mb-4 !font-normal !leading-normal"
                         filter={true}
                         duration={0.5}
@@ -39,11 +38,19 @@ export default function Home() {
                     />
 
                     <TextGenerateEffect
-                        words="Always learning, occasionally debugging, usually caffeinated."
-                        className="!text-base md:!text-lg !mb-6 !font-normal !leading-normal"
+                        words="Turning ideas into elegant, functional solutions."
+                        className="!text-base md:!text-lg !mb-4 !font-normal !leading-normal"
                         filter={true}
                         duration={0.5}
                         delay={1}
+                    />
+
+                    <TextGenerateEffect
+                        words="Browse my work and drop me a message to discuss your next project."
+                        className="!text-base md:!text-lg !mb-6 !font-normal !leading-normal"
+                        filter={true}
+                        duration={0.5}
+                        delay={1.5}
                     />
                 </div>
 
