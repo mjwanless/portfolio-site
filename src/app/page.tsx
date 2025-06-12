@@ -1,18 +1,17 @@
 "use client";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
-import Image from "next/image";
 
-const colors = {
-    navy: "#3d405b",
-    coral: "#e07a5f",
-    cream: "#f4f1de",
-    peach: "#eab69f",
-    brick: "#8f5d5d",
-    teal: "#5f797b",
-    seafoam: "#81b29a",
-    sage: "#babf95",
-    gold: "#f2cc8f",
-};
+// const colors = {
+//     navy: "#3d405b",
+//     coral: "#e07a5f",
+//     cream: "#f4f1de",
+//     peach: "#eab69f",
+//     brick: "#8f5d5d",
+//     teal: "#5f797b",
+//     seafoam: "#81b29a",
+//     sage: "#babf95",
+//     gold: "#f2cc8f",
+// };
 
 export default function Home() {
     return (
