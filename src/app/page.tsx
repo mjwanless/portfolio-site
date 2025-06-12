@@ -19,7 +19,7 @@ export default function Home() {
         <section className="min-h-screen flex items-center justify-center p-8 md:p-16">
             <div className="flex flex-col md:flex-row items-center md:items-start gap-10 max-w-6xl">
                 {/* Left side: Text content */}
-                <div className="text-left w-full md:w-3/5">
+                <div className="w-full md:w-3/5">
                     {/* Update text colors to use navy from the style guide */}
                     <TextGenerateEffect
                         words="Hey, I'm Malcolm."
@@ -51,22 +51,6 @@ export default function Home() {
                         filter={true}
                         duration={0.5}
                         delay={1.5}
-                    />
-                </div>
-
-                {/* Middle: Vertical divider (hidden on mobile) */}
-                <div className="hidden md:block h-[500px] border-l-4" style={{ borderColor: colors.coral }}></div>
-
-                {/* Right side: Image */}
-                <div className="flex justify-center w-full md:w-1/3">
-                    <Image
-                        src="/images/profile_pics/malcolm-profile-transparent.png"
-                        alt="Malcolm cartoon avatar"
-                        width={320}
-                        height={320}
-                        className="object-contain rounded-full border-4"
-                        style={{ borderColor: colors.coral }}
-                        priority
                     />
                 </div>
             </div>
